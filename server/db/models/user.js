@@ -58,3 +58,6 @@ schema.method('correctPassword', function (candidatePassword) {
 });
 
 mongoose.model('User', schema);
+
+
+

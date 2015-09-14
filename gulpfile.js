@@ -101,6 +101,7 @@ gulp.task('seedDB', function () {
 
     return dbConnected.then(function () {
         var User = require('mongoose').model('User');
+        var TinyHome = require('mongoose').model('Product');
         return User.create(users);
     }).then(function () {
         process.kill(0);
