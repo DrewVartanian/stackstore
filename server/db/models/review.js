@@ -3,8 +3,8 @@
 var mongoose = require('mongoose');
 
 var reviewSchema = new mongoose.Schema({
-    product:  {type: Schema.Types.ObjectId, ref: 'Product'},
-    user:  {type: Schema.Types.ObjectId, ref: 'User'},
+    product:  {type: mongoose.Schema.Types.ObjectId, ref: 'Product'},
+    user:  {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
     review: {type: String, required: true, min: 4}
 });
 

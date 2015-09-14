@@ -13,16 +13,17 @@ var mongoose = require('mongoose');
 var guest = 'guest';
 
 var orderSchema = new mongoose.Schema({
-    user:  {type: Schema.Types.ObjectId, ref: 'User', default: guest},
-    lineItem: {type: Schema.Types.ObjectId, ref: 'Product'},
+    user:  {type: mongoose.Schema.Types.ObjectId, ref: 'User', default: guest},
+    lineItem: {type: mongoose.Schema.Types.ObjectId, ref: 'Product'},
     linePrice: {type: Number},
     quantity: {type: Number}
-    total: {type: Number, required: true} //make it a virtual
+    // total: {type: Number, required: true} //make it a virtual
 });
 
 orderSchema.pre("save", function(next){
     this.linePrice = this.lineItem.price;
-    this.total = this.quantity * this.linePrice
+    this.total = this.quantity * this.linePrice;
+    next();
 });
 
 mongoose.model('Order', orderSchema);

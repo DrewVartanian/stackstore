@@ -5,7 +5,7 @@ var mongoose = require('mongoose');
 var userSchema = new mongoose.userSchema({
     email: {
         type: String,
-        required: true, 
+        required: true,
         unique: true
     },
     password: {
@@ -16,7 +16,7 @@ var userSchema = new mongoose.userSchema({
         type: String
     },
     isAdmin: {
-        type: boolean, default: false
+        type: Boolean, default: false
     },
     twitter: {
         id: String,
@@ -48,8 +48,9 @@ var encryptPassword = function (plainText, salt) {
 //validate email
 userSchema.pre('validate', function(next) {
   var validateResult = (/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i).test(this.email);
-  if(validateResult){next();}
-  else {
+  if(validateResult){
+    next();
+  }else {
         var err = new Error("email is invalid.");
         next(err);
     }
