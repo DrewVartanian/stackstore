@@ -2,21 +2,15 @@
 var crypto = require('crypto');
 var mongoose = require('mongoose');
 
-var userSchema = new mongoose.userSchema({
+var schema = new mongoose.Schema({
     email: {
-        type: String,
-        required: true, 
-        unique: true
+        type: String
     },
     password: {
-        type: String,
-        required: true
+        type: String
     },
     salt: {
         type: String
-    },
-    isAdmin: {
-        type: boolean, default: false
     },
     twitter: {
         id: String,
@@ -45,18 +39,7 @@ var encryptPassword = function (plainText, salt) {
     return hash.digest('hex');
 };
 
-//validate email
-userSchema.pre('validate', function(next) {
-  var validateResult = (/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i).test(this.email);
-  if(validateResult){next();}
-  else {
-        var err = new Error("email is invalid.");
-        next(err);
-    }
-});
-
-//generate salt and encrypt password
-userSchema.pre('save', function (next) {
+schema.pre('save', function (next) {
 
     if (this.isModified('password')) {
         this.salt = this.constructor.generateSalt();
@@ -67,14 +50,14 @@ userSchema.pre('save', function (next) {
 
 });
 
+schema.statics.generateSalt = generateSalt;
+schema.statics.encryptPassword = encryptPassword;
 
-userSchema.statics.generateSalt = generateSalt;
-userSchema.statics.encryptPassword = encryptPassword;
-
-userSchema.method('correctPassword', function (candidatePassword) {
+schema.method('correctPassword', function (candidatePassword) {
     return encryptPassword(candidatePassword, this.salt) === this.password;
 });
 
-var User = mongoose.model('User', userSchema);
+mongoose.model('User', schema);
 
-module.exports = {User: User};
+
+

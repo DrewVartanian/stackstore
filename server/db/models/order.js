@@ -25,6 +25,4 @@ orderSchema.pre("save", function(next){
     this.total = this.quantity * this.linePrice
 });
 
-var Order = mongoose.model('Order', orderSchema);
-
-module.exports = {Order: Order};
+mongoose.model('Order', orderSchema);
