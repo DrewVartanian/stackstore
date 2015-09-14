@@ -2,7 +2,7 @@
 var crypto = require('crypto');
 var mongoose = require('mongoose');
 
-function emailValidator(email){
+function emailValidator(email) {
     return (/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i).test(email);
 }
 
@@ -11,7 +11,7 @@ var userSchema = new mongoose.userSchema({
         type: String,
         required: true,
         unique: true,
-        validate: [emailValidator,"Email is invalid."]
+        validate: [emailValidator, "Email is invalid."]
     },
     password: {
         type: String,

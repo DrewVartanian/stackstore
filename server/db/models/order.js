@@ -47,19 +47,19 @@ var orderSchema = new mongoose.Schema({
 
 orderSchema.pre('save', function(next) {
     var Product = mongoose.model('Product');
-    var promises=[];
+    var promises = [];
     this.items.forEach(function(item) {
         promises.push(Product.findById(item.id).then(function(product) {
             item.price = product.price;
         }));
     });
-    Promise.all(promises).then(next,next);
+    Promise.all(promises).then(next, next);
 });
 
-orderSchema.virtual('totalPrice').get(function(){
-  return this.items.reduce(function(sum,item){
-    return sum+(item.price*item.quantity);
-  },0);
+orderSchema.virtual('totalPrice').get(function() {
+    return this.items.reduce(function(sum, item) {
+        return sum + (item.price * item.quantity);
+    }, 0);
 });
 
 mongoose.model('Order', orderSchema);
