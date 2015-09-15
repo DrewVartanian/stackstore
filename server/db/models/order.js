@@ -2,6 +2,7 @@
 
 var mongoose = require('mongoose');
 var Promise = require('bluebird');
+mongoose.Promise = Promise;
 
 /**Requirement
 - Orders must belong to a user OR guest session
@@ -23,15 +24,13 @@ var orderSchema = new mongoose.Schema({
         ref: 'User'
     },
     items: [{
-        item: {
-            id: {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: 'Product',
-                required: true
-            },
-            price: {
-                type: Number
-            }
+        productId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Product',
+            required: true
+        },
+        price: {
+            type: Number
         },
         quantity: {
             type: Number,
@@ -48,12 +47,16 @@ var orderSchema = new mongoose.Schema({
 orderSchema.pre('save', function(next) {
     var Product = mongoose.model('Product');
     var promises = [];
+    // console.log('this is the this!', this);
     this.items.forEach(function(item) {
-        promises.push(Product.findById(item.id).then(function(product) {
+        // console.log('item', item);
+        promises.push(Product.findById(item.productId).then(function(product) {
+            // console.log('product', product);
             item.price = product.price;
         }));
     });
-    Promise.all(promises).then(next, next);
+    // console.log('AT THE PROMISE.ALL');
+    Promise.all(promises).then(next,next);
 });
 
 orderSchema.virtual('totalPrice').get(function() {
