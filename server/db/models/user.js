@@ -6,7 +6,7 @@ function emailValidator(email) {
     return (/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i).test(email);
 }
 
-var userSchema = new mongoose.userSchema({
+var userSchema = new mongoose.Schema({
     email: {
         type: String,
         required: true,
