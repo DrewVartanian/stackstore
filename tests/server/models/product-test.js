@@ -1,3 +1,4 @@
+
 var dbURI = 'mongodb://localhost:27017/testingDB';
 var clearDB = require('mocha-mongoose')(dbURI);
 
@@ -31,7 +32,7 @@ describe('Product model', function () {
                 expect(Product.categoriesValidator).to.be.a('function');
             });
             it('should return true', function () {
-                expect(Product.categoriesValidator(/**value?*/))).to.be.a('boolean');
+                expect(Product.categoriesValidator(/**value?*/)).to.be.a('boolean');
             });
 
         });
@@ -43,10 +44,10 @@ describe('Product model', function () {
                 expect(Product.title).to.be.a('String');
             });
             it('should satisfy minimum length', function () {
-                expect(Product.title.length >= 5)).to.be.true;
+                expect(Product.title.length >= 5).to.be.true;
             });
             it('should not overcede maximum length', function () {
-                expect(Product.title.length <= 25)).to.be.true;
+                expect(Product.title.length <= 25).to.be.true;
             });
 
         });
@@ -58,10 +59,10 @@ describe('Product model', function () {
                 expect(Product.description).to.be.a('String');
             });
             it('should satisfy minimum length', function () {
-                expect(Product.description.length >= 10)).to.be.true;
+                expect(Product.description.length >= 10).to.be.true;
             });
             it('should not overcede maximum length', function () {
-                expect(Product.description.length <= 500)).to.be.true;
+                expect(Product.description.length <= 500).to.be.true;
             });
 
         });
