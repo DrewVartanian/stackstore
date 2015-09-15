@@ -10,6 +10,6 @@ app.factory('Product', function ($http) {
 	};
 
 	return {
-		fetchAll: fetchAll;
-	}
-}
+		fetchAll: fetchAll
+	};
+});
