@@ -77,6 +77,7 @@ userSchema.pre('save', function(next) {
 
 userSchema.statics.generateSalt = generateSalt;
 userSchema.statics.encryptPassword = encryptPassword;
+userSchema.statics.emailValidator = emailValidator;
 
 userSchema.method('correctPassword', function(candidatePassword) {
     return encryptPassword(candidatePassword, this.salt) === this.password;

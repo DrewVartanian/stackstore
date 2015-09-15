@@ -107,8 +107,16 @@ describe('User model', function () {
             };
 
             var createInvalidUser = function () {
-                return User.create({ email: 'obama', password: 'potus'});
+                return User.create({ email: 'obama', password: 'pres' });
             };
+
+            var createUserWithSameEmail = function () {
+                return User.create({ email: 'obama@gmail.com', password: 'pres' })
+            };
+
+            // var createInvalidUser = function () {
+            //     return User.create({ email: 'obama', password: 'potus'});
+            // };
 
             beforeEach(function () {
                 encryptSpy = sinon.spy(User, 'encryptPassword');
@@ -152,19 +160,35 @@ describe('User model', function () {
             });
 
             it('should not allow a user to be created with an existing users email address', function (done) {
-                createUser();
-                createUser().then(function (user) {
-                    expect(user).to.be.equal(null);
-                    done();
+                createUser().then(function (user){
+                    createUserWithSameEmail()
+                    .then(null, function (err) {
+                        User.find({}).then(function (users){
+                            expect(users.length).to.be.equal(1);
+                            done();
+                        });
+                    });
                 });
             });
 
-            it('should require the email to be in a valid format', function (done) {
-                createInvalidUser().then(function (user) {
-                    expect(user).to.be.equal(null);
-                    done();
+
+            it("emailValidator function should return false on an invalid email", function () {
+                expect(User.emailValidator("obama")).to.be.equal(false);
+            });
+
+            it("emailvalidator function should return true on a valid email", function () {
+                expect(User.emailValidator("obama@gmail.com")).to.be.equal(true);
+            });
+
+            it("should not allow creation of a user in the database with an invalid email", function (done) {
+                createInvalidUser().then(null, function (err){
+                    User.find({}).then(function (users){
+                        expect(users.length).to.be.equal(0);
+                        done();
+                    });
                 });
             });
+
 
         });
 
