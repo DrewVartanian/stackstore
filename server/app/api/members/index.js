@@ -2,6 +2,8 @@
 var router = require('express').Router();
 module.exports = router;
 var _ = require('lodash');
+var mongoose = require('mongoose');
+var User = mongoose.model('User');
 
 var ensureAuthenticated = function (req, res, next) {
     if (req.isAuthenticated()) {
@@ -29,4 +31,13 @@ router.get('/secret-stash', ensureAuthenticated, function (req, res) {
 
     res.send(_.shuffle(theStash));
 
+});
+
+router.post('/',function(req,res,next){
+    console.log('Creating User');
+    User.create(req.body).then(function(user){
+        console.log('User created: '+user);
+        if(!user) throw new Error('user not created');
+        res.status(201).json({id:user._id});
+    }).then(null,next);
 });
