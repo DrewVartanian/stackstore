@@ -58,4 +58,6 @@ var productSchema = new mongoose.Schema({
 
 });
 
+productSchema.statics.categoriesValidator = categoriesValidator;
+
 mongoose.model('Product', productSchema);
