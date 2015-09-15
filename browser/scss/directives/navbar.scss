@@ -11,7 +11,7 @@ navbar {
     padding-top: 20px;
   }
 
-  fullstack-logo {
+  tinyhome-logo {
     margin-top: 5px;
     margin-right: 20px;
     width: 40px;
@@ -39,10 +39,17 @@ navbar {
 
   .login-button {
     float: right;
-    border: 1px solid black;
-    margin-top: 10px;
+    //border: 1px solid black;
+    margin-top: 15px;
+    padding-left: 15px;
+    margin-right: 15px;
     background: none;
     outline: none !important;
+  }
+
+  i {
+    float: right;
+    padding: 15px;
   }
 
   .welcome {
