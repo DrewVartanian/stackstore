@@ -106,6 +106,10 @@ describe('User model', function () {
                 return User.create({ email: 'obama@gmail.com', password: 'potus' });
             };
 
+            var createInvalidUser = function () {
+                return User.create({ email: 'obama', password: 'potus'});
+            };
+
             beforeEach(function () {
                 encryptSpy = sinon.spy(User, 'encryptPassword');
                 saltSpy = sinon.spy(User, 'generateSalt');
@@ -136,6 +140,28 @@ describe('User model', function () {
                 createUser().then(function (user) {
                     var createdPassword = encryptSpy.getCall(0).returnValue;
                     expect(user.password).to.be.equal(createdPassword);
+                    done();
+                });
+            });
+
+            it('should set isAdmin to false by default', function (done) {
+                createUser().then(function (user) {
+                    expect(user.isAdmin).to.be.equal(false);
+                    done();
+                });
+            });
+
+            it('should not allow a user to be created with an existing users email address', function (done) {
+                createUser();
+                createUser().then(function (user) {
+                    expect(user).to.be.equal(null);
+                    done();
+                });
+            });
+
+            it('should require the email to be in a valid format', function (done) {
+                createInvalidUser().then(function (user) {
+                    expect(user).to.be.equal(null);
                     done();
                 });
             });
