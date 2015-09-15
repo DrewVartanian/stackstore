@@ -56,10 +56,8 @@ describe('Review model', function () {
         var testReview={
           product:product._id,
           user:user._id,
-          review:{
-            text:'Home is where the heart is',
-            rating: 4
-          }
+          text:'Home is where the heart is',
+          rating: 4
         };
         return Review.create(testReview).then(function(review){
           return Review.findById(review._id);
@@ -73,10 +71,8 @@ describe('Review model', function () {
         it('should require product ', function () {
             var testReview={
               user:user._id,
-              review:{
-                text:'Home is where the heart is',
-                rating: 4
-              }
+              text:'Home is where the heart is',
+              rating: 4
             };
             return Review.create(testReview).then(function(){
               throw new Error();
@@ -87,10 +83,8 @@ describe('Review model', function () {
         it('should require user ', function () {
             var testReview={
               product:product._id,
-              review:{
-                text:'Home is where the heart is',
-                rating: 4
-              }
+              text:'Home is where the heart is',
+              rating: 4
             };
             return Review.create(testReview).then(function(){
               throw new Error();
@@ -102,9 +96,7 @@ describe('Review model', function () {
             var testReview={
               user:user._id,
               product:product._id,
-              review:{
-                rating: 4
-              }
+              rating: 4
             };
             return Review.create(testReview).then(function(){
               throw new Error();
@@ -116,10 +108,8 @@ describe('Review model', function () {
             var testReview={
               user:user._id,
               product:product._id,
-              review:{
-                text:'No',
-                rating: 1
-              }
+              text:'No',
+              rating: 1
             };
             return Review.create(testReview).then(function(){
               throw new Error();
@@ -131,9 +121,7 @@ describe('Review model', function () {
             var testReview={
               user:user._id,
               product:product._id,
-              review:{
-                text:'Home is where the heart is'
-              }
+              text:'Home is where the heart is'
             };
             return Review.create(testReview).then(function(){
               throw new Error();
@@ -145,10 +133,8 @@ describe('Review model', function () {
             var testReview={
               user:user._id,
               product:product._id,
-              review:{
-                text:'Home is where the heart is',
-                rating: 0
-              }
+              text:'Home is where the heart is',
+              rating: 0
             };
             return Review.create(testReview).then(function(){
               throw new Error();
@@ -160,10 +146,8 @@ describe('Review model', function () {
             var testReview={
               user:user._id,
               product:product._id,
-              review:{
-                text:'Home is where the heart is',
-                rating: 6
-              }
+              text:'Home is where the heart is',
+              rating: 6
             };
             return Review.create(testReview).then(function(){
               throw new Error();

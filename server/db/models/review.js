@@ -13,20 +13,18 @@ var reviewSchema = new mongoose.Schema({
         ref: 'User',
         required:true
     },
-    review: {
-        text: {
-            type: String,
-            required: true,
-            minlength: 4
-        },
-        rating: {
-            type: Number,
-            required: true,
-            min: 1,
-            max: 5,
-            set: function(val) {
-                return (Math.round(val));
-            }
+    text: {
+        type: String,
+        required: true,
+        minlength: 4
+    },
+    rating: {
+        type: Number,
+        required: true,
+        min: 1,
+        max: 5,
+        set: function(val) {
+            return (Math.round(val));
         }
     }
 });

@@ -72,10 +72,8 @@ var seedReviews = function(users,products) {
             reviews.push({
                 user:users[i]._id,
                 product:products[i]._id,
-                review: {
-                    text: i+" I like "+i,
-                    rating: i*2+j+1
-                }
+                text: i+" I like "+i,
+                rating: i*2+j+1
             });
         }
     }
