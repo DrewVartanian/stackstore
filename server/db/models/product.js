@@ -34,7 +34,6 @@ var productSchema = new mongoose.Schema({
     },
     inventoryQuantity: {
         type: Number,
-        //add validatory to make sure is int
         required: true,
         set: function(val) {
             val = Math.trunc(val);
