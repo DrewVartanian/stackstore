@@ -9,15 +9,24 @@ app.factory('ProductFactory', function($http) {
             });
     };
 
-     var fetch = function() {
-        return $http.get('/api/products/:id')
+    var fetch = function(id) {
+        return $http.get('/api/products/' + id)
             .then(function(res) {
                 return res.data;
             });
     };
 
+    var fetchReviews = function(id) {
+        return $http.get('/api/reviews/products/' + id)
+            .then(function(res) {
+                return res.data;
+            });
+    };
+
+
     return {
         fetchAll: fetchAll,
-        fetch: fetch
+        fetch: fetch,
+        fetchReviews: fetchReviews
     };
 });
