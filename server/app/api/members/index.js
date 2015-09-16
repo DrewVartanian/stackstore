@@ -55,19 +55,13 @@ router.post('/',function(req,res,next){
 
 router.delete('/:userId',function(req,res,next){
     req.userParam.remove().then(function(){
-        res.sendStatus(200);
+        //check status code
+        res.sendStatus(204);
     }).then(null,next);
 });
 
 router.put('/:userId',function(req,res,next){
-    // for(var key in req.body){
-    //     if(req.userParam.hasOwnProperty(key)){
-    //         req.userParam[key]=req.body[key];
-    //     }
-    // }
-    console.log(req.body);
-    // req.userParam.email=req.body.email;
-    console.log(req.userParam);
+    //check req.body keys
     for(var key in req.body){
         req.userParam[key]=req.body[key];
     }
