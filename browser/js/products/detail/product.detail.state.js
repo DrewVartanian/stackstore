@@ -33,6 +33,11 @@ app.controller('ProductDetailCtrl', function($scope, product, reviews) {
     generateUsernames();
 
     $scope.getNumber = function(num) {
-        return new Array(num);
+        var array = [];
+        for (var i = 0; i < num; i++) {
+            array.push(i);
+        }
+        console.log("generatArray", array);
+        return array;
     };
 });
