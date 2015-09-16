@@ -69,3 +69,7 @@ router.put('/:userId',function(req,res,next){
         res.status(200).json({id:user._id});
     }).then(null,next);
 });
+
+router.get('/:userId',function(req,res){
+    res.json({email:req.userParam.email});
+});
