@@ -2,6 +2,8 @@
 var router = require('express').Router();
 module.exports = router;
 var _ = require('lodash');
+var mongoose = require('mongoose');
+var User = mongoose.model('User');
 
 var ensureAuthenticated = function (req, res, next) {
     if (req.isAuthenticated()) {
@@ -10,6 +12,17 @@ var ensureAuthenticated = function (req, res, next) {
         res.status(401).end();
     }
 };
+
+router.param('userId',function (req,res,next,userId){
+  User.findById(userId).then(function(user){
+    req.userParam=user;
+    next();
+  }).then(null,function(err){
+    err.status=404;
+    throw err;
+    })
+    .then(null, next);
+});
 
 router.get('/secret-stash', ensureAuthenticated, function (req, res) {
 
@@ -29,4 +42,36 @@ router.get('/secret-stash', ensureAuthenticated, function (req, res) {
 
     res.send(_.shuffle(theStash));
 
+});
+
+router.post('/',function(req,res,next){
+    console.log('Creating User');
+    User.create(req.body).then(function(user){
+        console.log('User created: '+user);
+        if(!user) throw new Error('user not created');
+        res.status(201).json({id:user._id});
+    }).then(null,next);
+});
+
+router.delete('/:userId',function(req,res,next){
+    req.userParam.remove().then(function(){
+        res.sendStatus(200);
+    }).then(null,next);
+});
+
+router.put('/:userId',function(req,res,next){
+    // for(var key in req.body){
+    //     if(req.userParam.hasOwnProperty(key)){
+    //         req.userParam[key]=req.body[key];
+    //     }
+    // }
+    console.log(req.body);
+    // req.userParam.email=req.body.email;
+    console.log(req.userParam);
+    for(var key in req.body){
+        req.userParam[key]=req.body[key];
+    }
+    req.userParam.save().then(function(user){
+        res.status(200).json({id:user._id});
+    }).then(null,next);
 });
