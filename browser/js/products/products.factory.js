@@ -1,6 +1,6 @@
 'use strict';
 
-app.factory('Product', function ($http) {
+app.factory('ProductFactory', function ($http) {
 
 	var fetchAll = function () {
 		return $http.get('/api/products/')

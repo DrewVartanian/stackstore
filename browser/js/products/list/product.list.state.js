@@ -4,11 +4,15 @@ app.config(function ($stateProvider) {
     $stateProvider.state('products', {
         url: '/products',
         templateUrl: 'js/products/list/product.list.html',
-        controllers: 'ProductListCtrl',
+        controller: 'ProductListCtrl',
         resolve: {
-        	products: function(Product){
-        		return Product.fetchAll();
+        	products: function(ProductFactory){
+        		return ProductFactory.fetchAll();
         	}
         }
     });
+});
+
+app.controller('ProductListCtrl', function ($scope, products) {
+    $scope.products = products;
 });
