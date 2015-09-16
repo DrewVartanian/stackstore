@@ -3,3 +3,18 @@
 <div>
   <button class="btn" ui-sref='membersOnly.edit()'>Edit</button>
 </div>
+
+
+<br>
+<br>
+
+<h1>Order History</h1>
+<ul>
+	<li ng-repeat="order in orders">Date: {{order.date}}
+		<ul>
+			<li ng-repeat="item in order.items">
+				{{item.productId.title}} {{item.price}} {{item.quantity}}
+			</li>
+		</ul>
+	</li>
+</ul>

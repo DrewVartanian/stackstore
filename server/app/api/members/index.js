@@ -73,3 +73,5 @@ router.put('/:userId',function(req,res,next){
 router.get('/:userId',function(req,res){
     res.json({email:req.userParam.email});
 });
+
+router.use('/:userId/orders/', require('./orders'));
