@@ -48,16 +48,23 @@ app.factory('MemberFactory',function ($http){
     };
 
     var getOrders = function(user){
-        console.log("Within getOrders function")
         return $http.get('/api/members/'+user._id+'/orders')
         .then(function(res){
             console.log("Within getOrders result of get request")
             return res.data;
         });
-    }
+    };
+
+    var getCart = function(user){
+        return $http.get('/api/members/'+user._id+'/orders/cart')
+        .then(function(res){
+            return res.data;
+        });
+    };
 
     return {
         editUser:editUser,
-        getOrders:getOrders
+        getOrders:getOrders,
+        getCart:getCart
     };
 });

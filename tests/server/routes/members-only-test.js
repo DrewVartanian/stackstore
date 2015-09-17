@@ -130,7 +130,8 @@ describe('Members Route', function () {
 							productId: product._id,
 							price:5.50,
 							quantity:1
-						}]
+						}],
+						date:new Date()
 					};
 					return Order.create(orderInfo);
 				}).then(function(order){

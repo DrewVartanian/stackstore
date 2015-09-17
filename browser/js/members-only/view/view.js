@@ -6,11 +6,15 @@ app.config(function ($stateProvider) {
         controller: 'MemberViewController',
         resolve: {
             orders: function(MemberFactory, AuthService) {
-                console.log("Is this running?");
                 // If time permits find a way to do this with one query
                 return AuthService.getLoggedInUser().then(function (user){
                     return MemberFactory.getOrders(user);
-                    
+                });
+            },
+            cart: function(MemberFactory, AuthService) {
+                // If time permits find a way to do this with one query
+                return AuthService.getLoggedInUser().then(function (user){
+                    return MemberFactory.getCart(user);
                 });
             }
         },
@@ -24,8 +28,9 @@ app.config(function ($stateProvider) {
 
 });
 
-app.controller('MemberViewController',function ($scope, orders) {
+app.controller('MemberViewController',function ($scope, orders,cart) {
     $scope.orders = orders;
+    $scope.cart=cart;
     // AuthService.getLoggedInUser().then(function (user){
     //     $scope.user = user;
     // });
