@@ -4,11 +4,11 @@ app.config(function ($stateProvider) {
         url: '/products',
         templateUrl:  'js/admin/products/products.html',
         controller: 'AdminProductsController',
-        // resolve:{
-        //     user: function(AuthService){
-        //         return AuthService.getLoggedInUser();
-        //     }
-        // },
+        resolve:{
+            products: function(ProductFactory){
+                return ProductFactory.fetchAll();
+            }
+        },
         // The following data.authenticate is read by an event listener
         // that controls access to this state. Refer to app.js.
         data: {
@@ -18,8 +18,7 @@ app.config(function ($stateProvider) {
 
 });
 
-app.controller('AdminProductsController',function ($scope) {
-    // SecretStash.getStash().then(function (stash) {
-    //     $scope.stash = stash;
-    // });
+app.controller('AdminProductsController',function ($scope, products) {
+   $scope.products = products;
 });
+
