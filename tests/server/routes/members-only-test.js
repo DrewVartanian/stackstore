@@ -120,9 +120,12 @@ describe('Members Route', function () {
 			};
 
 			var mongoOrder;
+			var mongoCart;
+			var mongoProduct;
 
 			beforeEach('Create a user', function (done) {
 				Product.create(productInfo).then(function(product){
+					mongoProduct = product;
 					var orderInfo = {
 						session:"123",
 						user:mongoUser._id,
@@ -130,11 +133,26 @@ describe('Members Route', function () {
 							productId: product._id,
 							price:5.50,
 							quantity:1
-						}]
+						}],
+						date:new Date()
 					};
+
 					return Order.create(orderInfo);
 				}).then(function(order){
 					mongoOrder=order;
+				}).then(function(){
+					var cartInfo = {
+						session:"321",
+						user:mongoUser._id,
+						items:[{
+							productId: mongoProduct._id,
+							price:3.50,
+							quantity:3
+						}]
+					};
+					return Order.create(cartInfo);
+				}).then(function(cart){
+					mongoCart=cart;
 					done();
 				}).then(null,done);
 			});
@@ -143,6 +161,22 @@ describe('Members Route', function () {
 				loggedInAgent.get('/api/members/'+mongoUser._id+'/orders').expect(200).end(function (err, response) {
 					if (err) return done(err);
 					expect(response.body[0]._id).to.equal(mongoOrder._id.toString());
+					done();
+				});
+			});
+
+			it('should get cart',function(done){
+				loggedInAgent.get('/api/members/'+mongoUser._id+'/orders/cart').expect(200).end(function (err, response) {
+					if (err) return done(err);
+					expect(response.body._id).to.equal(mongoCart._id.toString());
+					done();
+				});
+			});
+
+			it('should get add date to cart',function(done){
+				loggedInAgent.put('/api/members/'+mongoUser._id+'/orders/checkout').expect(200).end(function (err, response) {
+					if (err) return done(err);
+					expect(response.body.date).to.be.an('string');
 					done();
 				});
 			});

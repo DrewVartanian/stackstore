@@ -15,13 +15,28 @@ var Order = mongoose.model('Order');
 // };
 
 router.get('/', function (req,res,next){
-    console.log("this is going to show orders when its done");
     //res.json({orderId: 123456});
 
-    Order.find({user: req.userParam._id}).populate('items.productId').exec().then(function(orders){
-        console.log("Orders: ",orders);
+    Order.find({user: req.userParam._id,date:{$ne:null}}).populate('items.productId').exec().then(function(orders){
         res.status(200).json(orders);
     }).then(null, next);
 
 });
 
+router.get('/cart', function (req,res,next){
+
+    Order.findOne({user: req.userParam._id,date:null}).populate('items.productId').exec().then(function(cart){
+        res.status(200).json(cart);
+    }).then(null, next);
+
+});
+
+router.put('/checkout', function (req,res,next){
+    Order.findOne({user: req.userParam._id,date:null}).populate('items.productId').exec().then(function(cart){
+        cart.date = new Date();
+        return cart.save();
+    }).then(function(order){
+        res.status(200).json(order);
+    }).then(null, next);
+
+});
