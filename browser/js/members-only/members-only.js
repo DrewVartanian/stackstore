@@ -48,7 +48,7 @@ app.factory('MemberFactory',function ($http){
     };
 
     var getOrders = function(user){
-        return $http.get('/api/members/'+user._id+'/orders')
+        return $http.get('/api/orders/members/'+user._id+'/history')
         .then(function(res){
             console.log("Within getOrders result of get request")
             return res.data;
@@ -56,7 +56,7 @@ app.factory('MemberFactory',function ($http){
     };
 
     var getCart = function(user){
-        return $http.get('/api/members/'+user._id+'/orders/cart')
+        return $http.get('/api/orders/members/'+user._id+'/cart')
         .then(function(res){
             return res.data;
         });
