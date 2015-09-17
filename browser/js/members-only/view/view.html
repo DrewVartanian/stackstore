@@ -9,10 +9,10 @@
 <br>
 
 <h1>Order History</h1>
-<ul>
-	<li ng-repeat="order in orders">Date: {{order.date}}
-		<ul>
-			<li ng-repeat="item in order.items">
+<ul class="list-group">
+	<li class="list-group-item" ng-repeat="order in orders">Date: {{order.date | date:'mediumDate'}}
+		<ul class="list-group">
+			<li class="list-group-item" ng-repeat="item in order.items">
 				{{item.productId.title}} {{item.price}} {{item.quantity}}
 			</li>
 		</ul>
