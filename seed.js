@@ -93,7 +93,8 @@ var seedOrders= function(users,products) {
                 },{
                     productId:products[i+(j+1)*3+1]._id,
                     quantity: i+j+3
-                }]
+                }],
+                date: new Date()
             });
         }
     }
