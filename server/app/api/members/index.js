@@ -5,7 +5,7 @@ var _ = require('lodash');
 var mongoose = require('mongoose');
 var User = mongoose.model('User');
 
-var ensureAuthenticated = function (req, res, next) {
+var ensureAuthenticated = function(req, res, next) {
     if (req.isAuthenticated()) {
         next();
     } else {
@@ -13,23 +13,23 @@ var ensureAuthenticated = function (req, res, next) {
     }
 };
 
-router.param('userId',function (req,res,next,userId){
-    if(!req.user||userId!==req.user._id.toString()){
+router.param('userId', function(req, res, next, userId) {
+    if (!req.user || userId !== req.user._id.toString()) {
         var err = new Error('Wrong user');
-        err.status=403;
+        err.status = 403;
         next(err);
     }
-  User.findById(userId).then(function(user){
-    req.userParam=user;
-    next();
-  }).then(null,function(err){
-    err.status=404;
-    throw err;
-    })
-    .then(null, next);
+    User.findById(userId).then(function(user) {
+            req.userParam = user;
+            next();
+        }).then(null, function(err) {
+            err.status = 404;
+            throw err;
+        })
+        .then(null, next);
 });
 
-router.get('/secret-stash', ensureAuthenticated, function (req, res) {
+router.get('/secret-stash', ensureAuthenticated, function(req, res) {
 
     var theStash = [
         'http://ep.yimg.com/ay/candy-crate/bulk-candy-store-2.gif',
@@ -49,34 +49,38 @@ router.get('/secret-stash', ensureAuthenticated, function (req, res) {
 
 });
 
-router.post('/',function(req,res,next){
+router.post('/', function(req, res, next) {
     console.log('Creating User');
-    User.create(req.body).then(function(user){
-        console.log('User created: '+user);
-        if(!user) throw new Error('user not created');
-        res.status(201).json({id:user._id});
-    }).then(null,next);
+    User.create(req.body).then(function(user) {
+        console.log('User created: ' + user);
+        if (!user) throw new Error('user not created');
+        res.status(201).json({
+            id: user._id
+        });
+    }).then(null, next);
 });
 
-router.delete('/:userId',function(req,res,next){
-    req.userParam.remove().then(function(){
+router.delete('/:userId', function(req, res, next) {
+    req.userParam.remove().then(function() {
         //check status code
         res.sendStatus(204);
-    }).then(null,next);
+    }).then(null, next);
 });
 
-router.put('/:userId',function(req,res,next){
+router.put('/:userId', function(req, res, next) {
     //check req.body keys
-    for(var key in req.body){
-        req.userParam[key]=req.body[key];
+    for (var key in req.body) {
+        req.userParam[key] = req.body[key];
     }
-    req.userParam.save().then(function(user){
-        res.status(200).json({id:user._id});
-    }).then(null,next);
+    req.userParam.save().then(function(user) {
+        res.status(200).json({
+            id: user._id
+        });
+    }).then(null, next);
 });
 
-router.get('/:userId',function(req,res){
-    res.json({email:req.userParam.email});
+router.get('/:userId', function(req, res) {
+    res.json({
+        email: req.userParam.email
+    });
 });
-
-router.use('/:userId/orders/', require('./orders'));
