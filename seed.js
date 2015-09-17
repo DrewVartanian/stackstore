@@ -101,6 +101,27 @@ var seedOrders= function(users,products) {
     return Order.createAsync(orders);
 };
 
+var seedCart= function(users,products) {
+    var orders =[];
+    for(var i=0;(i<users.length)&&(i<2);i++){
+
+        orders.push({
+            session: '1'+i.toString(),
+            user:users[i]._id,
+            items:[{
+                productId:products[i*3]._id,
+                quantity: i+2
+            },{
+                productId:products[i*3+1]._id,
+                quantity: i+3
+            }]
+        });
+        
+    }
+    return Order.createAsync(orders);
+};
+
+
 connectToDb.then(function () {
     var mongoUsers;
     var mongoProducts;
@@ -137,7 +158,9 @@ connectToDb.then(function () {
         return Order.findAsync({});
     }).then(function (orders){
         if (orders.length === 0) {
-            return seedOrders(mongoUsers,mongoProducts);
+            return seedOrders(mongoUsers,mongoProducts).then(function (){
+                return seedCart(mongoUsers,mongoProducts);
+            });
         } else {
             console.log(chalk.magenta('Seems to already be order data, exiting!'));
             return orders;
