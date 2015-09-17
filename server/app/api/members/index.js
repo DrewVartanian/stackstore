@@ -49,6 +49,15 @@ router.get('/secret-stash', ensureAuthenticated, function(req, res) {
 
 });
 
+router.get('/',function (req,res,next){
+    User.find().then(function(users){
+        users=users.map(function(user){
+            return {_id:user._id,email:user.email};
+        });
+        res.json(users);
+    }).then(null,next);
+});
+
 router.post('/', function(req, res, next) {
     console.log('Creating User');
     User.create(req.body).then(function(user) {
