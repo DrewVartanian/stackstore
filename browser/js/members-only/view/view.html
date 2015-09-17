@@ -18,3 +18,9 @@
 		</ul>
 	</li>
 </ul>
+<h1>Cart</h1>
+<ul>
+  <li ng-repeat="item in cart.items">
+    {{item.productId.title}} {{item.price}} {{item.quantity}}
+  </li>
+</ul>
