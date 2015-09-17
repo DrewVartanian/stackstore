@@ -2,6 +2,8 @@
 var mongoose = require('mongoose');
 require('../../../server/db/models');
 var User = mongoose.model('User');
+var Product = mongoose.model('Product');
+var Order = mongoose.model('Order');
 
 var expect = require('chai').expect;
 
@@ -47,8 +49,13 @@ describe('Members Route', function () {
 			password: 'shoopdawoop'
 		};
 
+		var mongoUser;
+
 		beforeEach('Create a user', function (done) {
-			User.create(userInfo, done);
+			User.create(userInfo).then(function(user){
+				mongoUser=user;
+				done();
+			});
 		});
 
 		beforeEach('Create loggedIn user agent and authenticate', function (done) {
@@ -61,6 +68,83 @@ describe('Members Route', function () {
 				if (err) return done(err);
 				expect(response.body).to.be.an('array');
 				done();
+			});
+		});
+
+		it('should get user from id',function(done){
+			loggedInAgent.get('/api/members/'+mongoUser._id).expect(200).end(function (err, response) {
+				if (err) return done(err);
+				expect(response.body.email).to.equal(mongoUser.email);
+				done();
+			});
+		});
+
+		it('should create a user',function(done){
+			loggedInAgent.post('/api/members/').send({email:'second@email.com'}).expect(201).end(function (err, response) {
+				if (err) return done(err);
+				User.find({}).then(function(users){
+					expect(users.length).to.equal(2);
+					done();
+				}).then(null,done);
+			});
+		});
+
+		it('should delete a user',function(done){
+			loggedInAgent.delete('/api/members/'+mongoUser._id).expect(204).end(function (err, response) {
+				if (err) return done(err);
+				User.find({}).then(function(users){
+					expect(users.length).to.equal(0);
+					done();
+				}).then(null,done);
+			});
+		});
+
+		it('should edit a user',function(done){
+			loggedInAgent.put('/api/members/'+mongoUser._id).send({email:'new@email.com'}).expect(200).end(function (err, response) {
+				if (err) return done(err);
+				User.findById(mongoUser._id).then(function(user){
+					expect(user.email).to.equal('new@email.com');
+					done();
+				}).then(null,done);
+			});
+		});
+
+		describe('Orders', function () {
+
+			var productInfo = {
+				title: 'product A',
+				description: 'This is the product description',
+				price: 5.50,
+				inventoryQuantity: 2,
+				categories: ['cat1']
+			};
+
+			var mongoOrder;
+
+			beforeEach('Create a user', function (done) {
+				Product.create(productInfo).then(function(product){
+					var orderInfo = {
+						session:"123",
+						user:mongoUser._id,
+						items:[{
+							productId: product._id,
+							price:5.50,
+							quantity:1
+						}]
+					};
+					return Order.create(orderInfo);
+				}).then(function(order){
+					mongoOrder=order;
+					done();
+				}).then(null,done);
+			});
+
+			it('should get orders',function(done){
+				loggedInAgent.get('/api/members/'+mongoUser._id+'/orders').expect(200).end(function (err, response) {
+					if (err) return done(err);
+					expect(response.body[0]._id).to.equal(mongoOrder._id.toString());
+					done();
+				});
 			});
 		});
 
