@@ -31,3 +31,12 @@ router.get('/cart', function (req,res,next){
 
 });
 
+router.put('/checkout', function (req,res,next){
+    Order.findOne({user: req.userParam._id,date:null}).populate('items.productId').exec().then(function(cart){
+        cart.date = new Date();
+        return cart.save();
+    }).then(function(order){
+        res.status(200).json(order);
+    }).then(null, next);
+
+});
