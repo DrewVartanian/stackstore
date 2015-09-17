@@ -9,13 +9,13 @@
     <h2>Reviews</h2>
     <div ng-repeat="review in reviews">
         <h3>Review by: {{review.user.email}}</h3>
-        <p>{{review.review.rating}} stars!
-            <span ng-repeat="i in getNumber(review.review.rating)">
+        <p>{{review.rating}} stars!
+            <span ng-repeat="i in getNumber(review.rating)">
           <i class="fa fa-star"></i>
         </span>
         </p>
         <p>
-            <strong>{{review.review.text}}</strong>
+            <strong>{{review.text}}</strong>
         </p>
     </div>
 </div>
