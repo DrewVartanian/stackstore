@@ -58,6 +58,17 @@ app.factory('MemberFactory',function ($http){
     var getCart = function(user){
         return $http.get('/api/orders/members/'+user._id+'/cart')
         .then(function(res){
+            console.log(res.data);
+            return res.data;
+        });
+    };
+
+    var removeOrderItem = function(cart, item){
+        console.log(cart);
+        console.log(item);
+
+        return $http.put('/api/orders/cart/'+cart._id+'/'+item._id)
+        .then(function(res){
             return res.data;
         });
     };
@@ -65,6 +76,7 @@ app.factory('MemberFactory',function ($http){
     return {
         editUser:editUser,
         getOrders:getOrders,
-        getCart:getCart
+        getCart:getCart,
+        removeOrderItem: removeOrderItem
     };
 });

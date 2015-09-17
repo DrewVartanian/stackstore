@@ -1,1 +1,6 @@
-<h1>Hi I'm the cart!</h1>
+<h1>Cart</h1>
+<ul>
+  <li ng-repeat="item in cart.items">
+    {{item.productId.title}} {{item.price}} <input type="text" ng-model="item.quantity"></input><button class="btn btn-danger" ng-click="removeItemFromOrder(item)">X</button>
+  </li>
+</ul>
