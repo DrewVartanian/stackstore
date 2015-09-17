@@ -2,6 +2,8 @@
 var mongoose = require('mongoose');
 require('../../../server/db/models');
 var Product = mongoose.model('Product');
+var User = mongoose.model('User');
+var Review = mongoose.model('Review');
 
 var expect = require('chai').expect;
 
@@ -11,7 +13,7 @@ var clearDB = require('mocha-mongoose')(dbURI);
 var supertest = require('supertest');
 var app = require('../../../server/app');
 
-describe('Products Route', function () {
+describe('Review Route', function () {
   beforeEach('Establish DB connection', function (done) {
     if (mongoose.connection.db) return done();
     mongoose.connect(dbURI, done);
@@ -31,11 +33,30 @@ describe('Products Route', function () {
         categories: ['cat1']
     };
 
-    var mongoProduct;
+    var userInfo = {
+      email: 'joe@gmail.com',
+      password: 'shoopdawoop'
+    };
 
-    beforeEach('Create a product', function (done) {
+    var mongoProduct;
+    var mongoUser;
+    var mongoReview;
+
+    beforeEach('Create a review', function (done) {
       Product.create(productInfo).then(function(product){
         mongoProduct=product;
+        return User.create(userInfo);
+      }).then(function(user){
+        mongoUser=user;
+        var review={
+          product:mongoProduct._id,
+          user:mongoUser._id,
+          text:'This is the review',
+          rating:4
+        };
+        return Review.create(review);
+      }).then(function(review){
+        mongoReview=review;
         done();
       }).then(null,done);
     });
@@ -47,17 +68,9 @@ describe('Products Route', function () {
     });
 
     it('should get with 200 response and with an array as the body', function (done) {
-      guestAgent.get('/api/products/').expect(200).end(function (err, response) {
+      guestAgent.get('/api/reviews/products/'+mongoProduct._id).expect(200).end(function (err, response) {
         if (err) return done(err);
         expect(response.body.length).to.equal(1);
-        done();
-      });
-    });
-
-    it('should get with 200 response and with the product as the body', function (done) {
-      guestAgent.get('/api/products/'+mongoProduct._id).expect(200).end(function (err, response) {
-        if (err) return done(err);
-        expect(response.body._id).to.equal(mongoProduct._id.toString());
         done();
       });
     });

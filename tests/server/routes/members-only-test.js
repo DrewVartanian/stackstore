@@ -55,7 +55,7 @@ describe('Members Route', function () {
 			User.create(userInfo).then(function(user){
 				mongoUser=user;
 				done();
-			});
+			}).then(null,done);
 		});
 
 		beforeEach('Create loggedIn user agent and authenticate', function (done) {
