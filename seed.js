@@ -54,7 +54,7 @@ var seedProducts = function () {
             title: letter+' tiny house '+letter,
             description: letter+':  This is tiny house '+letter+'!',
             price:(i*7127/100),
-            inventoryQuantity:i,
+            inventoryQuantity: 5,
             categories:[letter],
             sqFootage:(i+10)*(i+10)
         });
@@ -93,7 +93,8 @@ var seedOrders= function(users,products) {
                 },{
                     productId:products[i+(j+1)*3+1]._id,
                     quantity: i+j+3
-                }]
+                }],
+                date: new Date()
             });
         }
     }

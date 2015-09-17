@@ -1,0 +1,21 @@
+<div class="container product-container">
+    <h1>{{product.title}}</h1>
+    <img src="{{product.photo}}">
+    <h3>Quantity: {{product.inventoryQuantity}} </h3>
+    <!--gray out the add to cart button when quantity is 0-->
+    <h3>Price: ${{product.price}}</h3>
+    <button type='button' class="btn btn-success"><i class="fa fa-opencart"></i> Add to cart</button>
+    <!--adds product to cart-->
+    <h2>Reviews</h2>
+    <div ng-repeat="review in reviews">
+        <h3>Review by: {{review.user.email}}</h3>
+        <p>{{review.rating}} stars!
+            <span ng-repeat="i in getNumber(review.rating)">
+          <i class="fa fa-star"></i>
+        </span>
+        </p>
+        <p>
+            <strong>{{review.text}}</strong>
+        </p>
+    </div>
+</div>
