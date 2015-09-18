@@ -18,7 +18,8 @@ app.config(function ($stateProvider) {
 
 });
 
-app.controller('AdminMembersController',function ($scope,users,AdminMembers) {
+app.controller('AdminMembersController',function ($scope,users) {
+    console.log(users);
     $scope.userSearch='';
     $scope.filteredUsers=users;
     $scope.searchUsers=function(){
