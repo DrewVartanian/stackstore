@@ -6,7 +6,6 @@ app.config(function ($stateProvider) {
         controller: 'CartController',
         resolve: {
             cart: function(MemberFactory, AuthService) {
-            	console.log("attempting to re-resolve")
                 // If time permits find a way to do this with one query
                 return AuthService.getLoggedInUser().then(function (user){
                     return MemberFactory.getCart(user);
@@ -24,7 +23,6 @@ app.config(function ($stateProvider) {
 });
 
 app.controller('CartController',function ($scope, cart, MemberFactory, $state) {
-
     $scope.cart=cart;
     // AuthService.getLoggedInUser().then(function (user){
     //     $scope.user = user;
@@ -38,4 +36,21 @@ app.controller('CartController',function ($scope, cart, MemberFactory, $state) {
 			
 		});
 	};
+
+    $scope.updateOrderItem = function(item) {
+        MemberFactory.updateOrderItem(cart, item).then(function() {
+            $state.reload();
+            //do we want to say 'successfully updated' on the page?
+        });
+    };
+
+    $scope.getTotal = function() {
+        return cart.items.map(function(item) {
+            return item.quantity*item.price;
+        }).reduce(function(a,b) {
+            return a+b;
+        });
+    };
+
+
 });

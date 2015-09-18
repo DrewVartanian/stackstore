@@ -50,7 +50,6 @@ app.factory('MemberFactory',function ($http){
     var getOrders = function(user){
         return $http.get('/api/orders/members/'+user._id+'/history')
         .then(function(res){
-            console.log("Within getOrders result of get request")
             return res.data;
         });
     };
@@ -58,16 +57,21 @@ app.factory('MemberFactory',function ($http){
     var getCart = function(user){
         return $http.get('/api/orders/members/'+user._id+'/cart')
         .then(function(res){
-            console.log(res.data);
             return res.data;
         });
     };
 
     var removeOrderItem = function(cart, item){
-        console.log(cart);
-        console.log(item);
 
-        return $http.put('/api/orders/cart/'+cart._id+'/'+item._id)
+        return $http.put('/api/orders/cart/remove/'+cart._id+'/'+item._id)
+        .then(function(res){
+            return res.data;
+        });
+    };
+
+    var updateOrderItem = function(cart, item){
+
+        return $http.put('/api/orders/cart/update/'+cart._id+'/'+item._id, {quantity: item.quantity})
         .then(function(res){
             return res.data;
         });
@@ -77,6 +81,7 @@ app.factory('MemberFactory',function ($http){
         editUser:editUser,
         getOrders:getOrders,
         getCart:getCart,
-        removeOrderItem: removeOrderItem
+        removeOrderItem: removeOrderItem,
+        updateOrderItem: updateOrderItem
     };
 });
