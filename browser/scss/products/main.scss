@@ -103,13 +103,13 @@ Main Components
 
 		@include MQ(M) {
 			.cd-gallery {
-				padding-top: 40px+$tab-filter-height;
+				// padding-top: 40px+$tab-filter-height;
 			}
 		}
 
 		@include MQ(L) {
 			.cd-gallery {
-				padding-top: 50px+$tab-filter-height;
+				// padding-top: 50px+$tab-filter-height;
 			}
 		}
 	}
@@ -476,7 +476,7 @@ xcustom form elements
 
 	h4 {
 		/* filter block title */
-		position: absolute; /*was relative*/
+		position: relative; /*was relative*/
 		margin-bottom: .2em;
 		padding: 10px 0 10px 20px;
 

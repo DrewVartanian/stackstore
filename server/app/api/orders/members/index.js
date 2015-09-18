@@ -10,7 +10,6 @@ router.param('userId', function(req, res, next, userId) {
     if (!req.user || userId !== req.user._id.toString()) {
         var err = new Error('Wrong user');
         err.status = 403;
-        coneole.log("ERROR");
         next(err);
     }
     req.userId = userId;
