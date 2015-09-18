@@ -52,5 +52,9 @@ app.controller('CartController',function ($scope, cart, MemberFactory, $state) {
         });
     };
 
+    //Go to Check Out page
+     $scope.checkout = function() {
+        $state.go('checkout');
+     };
 
 });
