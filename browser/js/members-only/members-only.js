@@ -50,7 +50,6 @@ app.factory('MemberFactory',function ($http){
     var getOrders = function(user){
         return $http.get('/api/orders/members/'+user._id+'/history')
         .then(function(res){
-            console.log("Within getOrders result of get request")
             return res.data;
         });
     };
@@ -62,9 +61,27 @@ app.factory('MemberFactory',function ($http){
         });
     };
 
+    var removeOrderItem = function(cart, item){
+
+        return $http.put('/api/orders/cart/remove/'+cart._id+'/'+item._id)
+        .then(function(res){
+            return res.data;
+        });
+    };
+
+    var updateOrderItem = function(cart, item){
+
+        return $http.put('/api/orders/cart/update/'+cart._id+'/'+item._id, {quantity: item.quantity})
+        .then(function(res){
+            return res.data;
+        });
+    };
+
     return {
         editUser:editUser,
         getOrders:getOrders,
-        getCart:getCart
+        getCart:getCart,
+        removeOrderItem: removeOrderItem,
+        updateOrderItem: updateOrderItem
     };
 });
