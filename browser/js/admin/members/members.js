@@ -5,8 +5,8 @@ app.config(function ($stateProvider) {
         templateUrl:  'js/admin/members/members.html',
         controller: 'AdminMembersController',
         resolve:{
-            users: function(AdminMembers){
-                return AdminMembers.getUsers();
+            users: function(AdminMembersFactory){
+                return AdminMembersFactory.getUsers();
             }
         },
         // The following data.authenticate is read by an event listener
@@ -36,7 +36,7 @@ app.controller('AdminMembersController',function ($scope,users,AdminMembers) {
     // });
 });
 
-app.factory('AdminMembers',function ($http){
+app.factory('AdminMembersFactory',function ($http){
     var getUsers = function(user,changes){
         return $http.get('/api/members/')
         .then(function(res){
