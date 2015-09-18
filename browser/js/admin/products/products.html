@@ -1,2 +1,7 @@
 <h2>Products</h2>
-{{products}}
+Search: <input type="text" ng-model="productSearch" ng-change="searchProducts()">
+<ul class="list-group">
+  <li class="list-group-item" ng-repeat="product in filteredProducts">
+    <h4>{{product.title}}: </h4> {{product.description}}
+  </li>
+</ul>

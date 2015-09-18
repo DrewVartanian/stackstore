@@ -20,5 +20,17 @@ app.config(function ($stateProvider) {
 
 app.controller('AdminProductsController',function ($scope, products) {
    $scope.products = products;
+   $scope.productSearch='';
+   $scope.filteredProducts=products;
+   $scope.searchProducts = function() {
+        if (!$scope.productSearch) {
+            $scope.filteredProducts = products;
+        } else {
+            var re = new RegExp($scope.productSearch,"i");
+            $scope.filteredProducts = products.filter(function(product) {
+                return re.test(product.title)||re.test(product.description);
+            });
+        }
+    };
 });
 
