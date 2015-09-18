@@ -14,10 +14,10 @@ var ensureAuthenticated = function(req, res, next) {
 };
 
 router.param('userId', function(req, res, next, userId) {
-    if (!req.user || userId !== req.user._id.toString()) {
+    if (!req.user || (userId !== req.user._id.toString() && !req.user.isAdmin)) {
         var err = new Error('Wrong user');
         err.status = 403;
-        next(err);
+        return next(err);
     }
     User.findById(userId).then(function(user) {
             req.userParam = user;

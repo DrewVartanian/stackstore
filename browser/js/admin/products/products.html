@@ -1,7 +1,7 @@
 <h2>Products</h2>
 Search: <input type="text" ng-model="productSearch" ng-change="searchProducts()">
 <ul class="list-group">
-  <li class="list-group-item" ng-repeat="product in filteredProducts">
+  <li class="list-group-item" ng-repeat="product in filteredProducts" ui-sref="admin.product({productId:product._id})">
     <h4>{{product.title}}: </h4> {{product.description}}
   </li>
 </ul>

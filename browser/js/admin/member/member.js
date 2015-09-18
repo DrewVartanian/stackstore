@@ -5,7 +5,7 @@ app.config(function($stateProvider) {
         templateUrl: 'js/admin/member/member.html',
         controller: 'AdminMemberController',
         resolve: {
-            user: function(AdminMemberFactory,$stateParams) {
+            user: function(AdminMemberFactory, $stateParams) {
                 return AdminMemberFactory.getUser($stateParams.memberId);
             }
         },
@@ -18,15 +18,25 @@ app.config(function($stateProvider) {
 
 });
 
-app.controller('AdminMemberController', function($scope, user) {
-    
+app.controller('AdminMemberController', function($scope, user, MemberFactory, $stateParams, $state) {
+    $scope.email = user.email;
+    $scope.editUser = function() {
+        console.log("edit time");
+        MemberFactory.editUser({
+                _id: $stateParams.memberId
+            }, {
+                email: $scope.email
+            })
+            .then(function() {
+                $state.go('admin.members');
+            });
+    };
 });
 
 app.factory('AdminMemberFactory', function($http) {
     var getUser = function(userId) {
-        return $http.get('/api/members/'+userId)
+        return $http.get('/api/members/' + userId)
             .then(function(res) {
-                console.log(res.data);
                 return res.data;
             });
     };
