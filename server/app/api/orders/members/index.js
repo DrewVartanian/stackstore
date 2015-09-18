@@ -3,14 +3,12 @@ var router = require('express').Router();
 module.exports = router;
 var _ = require('lodash');
 var mongoose = require('mongoose');
-var User = mongoose.model('User');
 var Order = mongoose.model('Order');
 
 router.param('userId', function(req, res, next, userId) {
     if (!req.user || userId !== req.user._id.toString()) {
         var err = new Error('Wrong user');
         err.status = 403;
-        coneole.log("ERROR");
         next(err);
     }
     req.userId = userId;

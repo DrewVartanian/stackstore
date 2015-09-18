@@ -1,0 +1,7 @@
+<h2>Members</h2>
+Search: <input type="text" ng-model="userSearch" ng-change="searchUsers()">
+<ul class="list-group">
+  <li class="list-group-item" ng-repeat="user in filteredUsers" ui-sref="admin.member({memberId:user._id})">
+    {{user.email}} {{user._id}}
+  </li>
+</ul>
