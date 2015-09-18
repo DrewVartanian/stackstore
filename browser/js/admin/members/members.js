@@ -18,8 +18,19 @@ app.config(function ($stateProvider) {
 
 });
 
-app.controller('AdminMembersController',function ($scope,users) {
-    $scope.users=users;
+app.controller('AdminMembersController',function ($scope,users,AdminMembers) {
+    $scope.userSearch='';
+    $scope.filteredUsers=users;
+    $scope.searchUsers=function(){
+        if(!$scope.userSearch){
+            $scope.filteredUsers=users;
+        }else{
+            var re = new RegExp($scope.userSearch);
+            $scope.filteredUsers=users.filter(function(user){
+                return re.test(user.email);
+            })
+;        }
+    };
     // SecretStash.getStash().then(function (stash) {
     //     $scope.stash = stash;
     // });

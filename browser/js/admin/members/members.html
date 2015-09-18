@@ -1,2 +1,7 @@
 <h2>Members</h2>
-{{users}}
+Search: <input type="text" ng-model="userSearch" ng-change="searchUsers()">
+<ul class="list-group">
+  <li class="list-group-item" ng-repeat="user in filteredUsers">
+    {{user.email}}
+  </li>
+</ul>
