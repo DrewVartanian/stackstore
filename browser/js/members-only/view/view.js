@@ -11,12 +11,6 @@ app.config(function ($stateProvider) {
                     return MemberFactory.getOrders(user);
                 });
             },
-            cart: function(MemberFactory, AuthService) {
-                // If time permits find a way to do this with one query
-                return AuthService.getLoggedInUser().then(function (user){
-                    return MemberFactory.getCart(user);
-                });
-            }
         },
         // The following data.authenticate is read by an event listener
         // that controls access to this state. Refer to app.js.
@@ -28,9 +22,9 @@ app.config(function ($stateProvider) {
 
 });
 
-app.controller('MemberViewController',function ($scope, orders,cart) {
+app.controller('MemberViewController',function ($scope, orders) {
     $scope.orders = orders;
-    $scope.cart=cart;
+
     // AuthService.getLoggedInUser().then(function (user){
     //     $scope.user = user;
     // });
