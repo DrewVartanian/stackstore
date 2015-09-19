@@ -1,8 +1,11 @@
 <h1>Edit User:</h1>
 <form name='editMember' ng-submit="editMember.$valid && editUser()">
   <h2>Email: <input type="text" ng-model="email"/></h2>
+  <h2>Password: <input type="text" ng-model="password"/></h2>
+  <h3>Is Admin?: <input type="checkbox" ng-model="isAdmin"/></h3>
   <div>
     <button class="btn" type='submit'>Save</button>
-    <button class="btn" ui-sref='admin.members()'>Cancel</button>
+    <button class="btn" type='button' ui-sref='admin.members()'>Cancel</button>
+    <button class="btn btn-danger" type='button' ng-click='deleteUser()'>Delete</button>
   </div>
 </form>
