@@ -19,6 +19,7 @@ app.config(function ($stateProvider) {
 });
 
 app.controller('AdminProductsController',function ($scope, products) {
+    console.log(products);
    $scope.products = products;
    $scope.productSearch='';
    $scope.filteredProducts=products;
