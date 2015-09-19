@@ -66,18 +66,6 @@ describe('Order model', function () {
                 }]
             });
         };
-            
-        
-
-        it('should successfully create an order', function(done) {
-            return createProduct().then(function(product) {
-                createOrder(product).then(function(order) {
-                    expect(order.session).to.be.equal('123');
-                    expect(order.items).to.be.a('array');
-                    done();
-                });
-            });
-        });
 
 
         describe('items array', function () {
