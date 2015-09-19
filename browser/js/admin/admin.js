@@ -4,11 +4,13 @@ app.config(function ($stateProvider) {
         url: '/admin',
         templateUrl:  'js/admin/admin.html',
         controller: 'AdminController',
-        // resolve:{
-        //     user: function(AuthService){
-        //         return AuthService.getLoggedInUser();
-        //     }
-        // },
+        resolve:{
+            isAdmin: function(AuthService){
+                return AuthService.getLoggedInUser().then(function(user){
+                    return user.isAdmin;
+                });
+            }
+        },
         // The following data.authenticate is read by an event listener
         // that controls access to this state. Refer to app.js.
         data: {
@@ -18,7 +20,10 @@ app.config(function ($stateProvider) {
 
 });
 
-app.controller('AdminController',function ($scope) {
+app.controller('AdminController',function ($scope,$state,isAdmin) {
+    if(!isAdmin){
+        $state.go('login');
+    }
     // SecretStash.getStash().then(function (stash) {
     //     $scope.stash = stash;
     // });
