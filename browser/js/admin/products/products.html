@@ -1,7 +1,17 @@
 <h2>Products</h2>
 Search: <input type="text" ng-model="productSearch" ng-change="searchProducts()">
-<ul class="list-group">
-  <li class="list-group-item" ng-repeat="product in filteredProducts" ui-sref="admin.product({productId:product._id})">
-    <h4>{{product.title}}: </h4> {{product.description}}
+<button type="button" class="btn btn-info" ui-sref="admin.product({productId:'new'})">+ New Product</button>
+<ul class="list-group top-buff">
+  <li class="list-group-item clickable crop" ng-repeat="product in filteredProducts" ui-sref="admin.product({productId:product._id})">
+    <div class="col-xs-1">
+      <img src="{{product.photo}}" alt="{{product.title}}"/>
+    </div>
+    <div class="col-xs-9">
+      <h4>{{product.title}}</h4> {{product.description}}
+    </div>
+    <div class="col-xs-2">
+      <h5>Price: {{product.price | currency}}</h5>
+      Inventory: {{product.inventoryQuantity}}
+    </div>
   </li>
 </ul>

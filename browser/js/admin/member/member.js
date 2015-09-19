@@ -18,15 +18,28 @@ app.config(function($stateProvider) {
 
 });
 
-app.controller('AdminMemberController', function($scope, user, MemberFactory, $stateParams, $state) {
+app.controller('AdminMemberController', function($scope, user, MemberFactory, $stateParams, $state, AdminMemberFactory) {
     $scope.email = user.email;
+    $scope.isAdmin = user.isAdmin;
+    $scope.password = '';
+
+    $scope.deleteUser = function() {
+        AdminMemberFactory.deleteUser($stateParams.memberId).then(function() {
+            $state.go('admin.members');
+        });
+    };
+
     $scope.editUser = function() {
-        console.log("edit time");
+        var userInfo = {
+            email: $scope.email,
+            isAdmin: $scope.isAdmin
+        };
+        if ($scope.password) {
+            userInfo.password = $scope.password;
+        }
         MemberFactory.editUser({
                 _id: $stateParams.memberId
-            }, {
-                email: $scope.email
-            })
+            }, userInfo)
             .then(function() {
                 $state.go('admin.members');
             });
@@ -41,7 +54,15 @@ app.factory('AdminMemberFactory', function($http) {
             });
     };
 
+    var deleteUser = function(userId) {
+        return $http.delete('/api/members/' + userId)
+            .then(function(res) {
+                return res.data;
+            });
+    };
+
     return {
-        getUser: getUser
+        getUser: getUser,
+        deleteUser: deleteUser
     };
 });

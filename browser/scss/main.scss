@@ -14,6 +14,28 @@ body {
   }
 }
 
+.top-buff {
+  margin-top: 10px;
+}
+
+.clickable:hover {
+  cursor: pointer;
+}
+
+.crop {
+  height: 150px;
+  // width: 400px;
+  overflow: hidden;
+  img {
+    height: 128px;
+    width: auto;
+  }
+}
+
+.btn.no-focus:focus {
+  outline:0;
+}
+
 #main {
   padding-top: 60px;
   width: 1200px;
