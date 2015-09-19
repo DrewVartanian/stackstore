@@ -14,8 +14,22 @@ body {
   }
 }
 
+.top-buff {
+  margin-top: 10px;
+}
+
 .clickable:hover {
   cursor: pointer;
+}
+
+.crop {
+  height: 150px;
+  // width: 400px;
+  overflow: hidden;
+  img {
+    height: 128px;
+    width: auto;
+  }
 }
 
 #main {
