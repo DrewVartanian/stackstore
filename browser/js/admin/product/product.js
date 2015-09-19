@@ -6,6 +6,7 @@ app.config(function($stateProvider) {
         controller: 'AdminProductController',
         resolve: {
             product: function(ProductFactory,$stateParams) {
+                if($stateParams.productId==='new') return {};
                 return ProductFactory.fetch($stateParams.productId);
             }
         },
