@@ -1,5 +1,6 @@
 <h2>Products</h2>
 Search: <input type="text" ng-model="productSearch" ng-change="searchProducts()">
+<button type="button" class="btn btn-info" ui-sref="admin.product({productId:'new'})">+ New Product</button>
 <ul class="list-group top-buff">
   <li class="list-group-item clickable crop" ng-repeat="product in filteredProducts" ui-sref="admin.product({productId:product._id})">
     <div class="col-xs-1">
@@ -10,6 +11,7 @@ Search: <input type="text" ng-model="productSearch" ng-change="searchProducts()"
     </div>
     <div class="col-xs-2">
       <h5>Price: {{product.price | currency}}</h5>
+      Inventory: {{product.inventoryQuantity}}
     </div>
   </li>
 </ul>
