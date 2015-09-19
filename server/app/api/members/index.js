@@ -90,6 +90,7 @@ router.put('/:userId', function(req, res, next) {
 
 router.get('/:userId', function(req, res) {
     res.json({
-        email: req.userParam.email
+        email: req.userParam.email,
+        isAdmin: req.userParam.isAdmin
     });
 });
