@@ -24,6 +24,7 @@ app.config(function ($stateProvider) {
 
 app.controller('CartController',function ($scope, cart, MemberFactory, $state) {
     $scope.cart=cart;
+    
     // AuthService.getLoggedInUser().then(function (user){
     //     $scope.user = user;
     // });
@@ -52,5 +53,10 @@ app.controller('CartController',function ($scope, cart, MemberFactory, $state) {
         });
     };
 
+    //Go to Check Out page
+     $scope.checkout = function() {
+        console.log("it's clicked");
+        $state.go('checkout');
+     };
 
 });

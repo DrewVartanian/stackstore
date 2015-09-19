@@ -77,11 +77,19 @@ app.factory('MemberFactory',function ($http){
         });
     };
 
+    var editOrder = function(cart){
+        return $http.put('/api/orders/cart/update/'+cart._id, {date: Date.now()})
+        .then(function(res){
+            return res.data;
+        });
+    };
+
     return {
         editUser:editUser,
         getOrders:getOrders,
         getCart:getCart,
         removeOrderItem: removeOrderItem,
-        updateOrderItem: updateOrderItem
+        updateOrderItem: updateOrderItem,
+        editOrder: editOrder
     };
 });
