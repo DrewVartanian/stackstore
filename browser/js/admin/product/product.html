@@ -1,8 +1,9 @@
 <h2>Edit Product:</h2>
+<form name='editProductForm' ng-submit="editProductForm.$valid && editProduct()">
 <div>
     <button class="btn" type='submit'>Save</button>
     <button class="btn" type='button' ui-sref='admin.products()'>Cancel</button>
-    <button class="btn btn-danger" type='button' ng-click='deleteProduct()'>Delete</button>
+    <button class="btn btn-danger" type='button' ng-click='deleteProduct()' ng-hide='newProduct'>Delete</button>
 </div>
 <div class="col-xs-3">
   <h3>Image Source:</h3>
@@ -23,8 +24,9 @@
     <h3>Sq Footage: <input class="witdth50" type="text" ng-model="product.sqFootage"></h3>
   </div>
   <div class="col-xs-12">
-    <h3>Categories: <input class="width-auto" type="text" ng-model="product.categories"></h3>
+    <h3>Categories: <input type="text" ng-model="product.categories"></h3>
     <h3>Description:</h3>
     <textarea class="field width100" rows="5" ng-model="product.description"></textarea>
   </div>
 </div>
+</form>
