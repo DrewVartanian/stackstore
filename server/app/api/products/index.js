@@ -12,6 +12,14 @@ router.get('/', function(req, res, next) { //next here
 
 });
 
+router.post('/', function(req, res, next) { //next here
+
+    Product.create(req.body).then(function(product) {
+        res.json(product);
+    })
+    .then(null, next);
+});
+
 router.param('id', function (req,res,next,id){
   Product.findById(id).then(function(product) {
       req.productParm=product;

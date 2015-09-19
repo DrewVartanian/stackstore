@@ -28,9 +28,15 @@ app.controller('AdminProductController', function($scope, product, AdminProductF
         });
     };
     $scope.editProduct = function() {
-        AdminProductFactory.editProduct($scope.product).then(function() {
-            $state.go('admin.products');
-        });
+        if($scope.newProduct){
+            AdminProductFactory.createProduct($scope.product).then(function() {
+                $state.go('admin.products');
+            });
+        }else{
+            AdminProductFactory.editProduct($scope.product).then(function() {
+                $state.go('admin.products');
+            });
+        }
     };
 });
 
@@ -38,6 +44,13 @@ app.factory('AdminProductFactory', function($http) {
     var editProduct = function(product) {
         return $http.put('/api/products/' + product._id, product)
             .then(function(res) {
+                return res.data;
+            });
+    };
+
+    var createProduct = function(product){
+        return $http.post('/api/products',product)
+            .then(function(res){
                 return res.data;
             });
     };
@@ -51,6 +64,7 @@ app.factory('AdminProductFactory', function($http) {
 
     return {
         editProduct: editProduct,
+        createProduct: createProduct,
         deleteProduct: deleteProduct
     };
 });
