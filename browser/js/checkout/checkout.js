@@ -28,6 +28,7 @@ app.controller('CheckOutController',function (MemberFactory, $scope, cart) {
 
         
     $scope.paymentSubmit = function(){
+        console.log("i am not validating");
         MemberFactory.editOrder(cart).then(function(cart) {
             return cart;
         });

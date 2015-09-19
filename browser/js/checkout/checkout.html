@@ -1,4 +1,5 @@
 <div class="container" id="checkoutInfo">
+    <form role="form" name="customerForm" ng-submit="customerForm.$valid && paymentSubmit()">
     <div class="row">
         <div class="col-xs-12 col-md-4">
             <div class="panel panel-default">
@@ -8,17 +9,17 @@
                     </h3>
                 </div>
                 <div class="panel-body">
-                    <form role="form">
+                    <!--form was here-->
                         <div class="form-group">
                             <label for="Customer Name">
                                 CUSTOMER NAME</label>
                             <div class="input-group col-xs-12 col-md-12">
-                                <input type="text" class="form-control" id="customerName" placeholder="Your Name" required autofocus />
+                                <input type="text" class="form-control" id="customerName" placeholder="Your Name" required autofocus/>
                             </div>
                             <label for="Email Address">
                                 EMAIL ADDRESS</label>
                             <div class="input-group col-xs-12 col-md-12">
-                                <input type="text" class="form-control" id="Email Address" placeholder="Example@email.com" required autofocus />
+                                <input type="email" class="form-control" id="Email Address" placeholder="Example@email.com" required autofocus />
                             </div>
                         </div>
                         <!--Shipping Address-->
@@ -51,7 +52,7 @@
                             <div class="form-group">
                                 <label for="State">
                                     STATE</label>
-                                    <input type="text" class="form-control" id="state" placeholder="NY" />
+                                    <input type="text" class="form-control" id="state" placeholder="NY" required/>
                             </div>                
                         </div>
                         <div class="col-xs-5 col-md-5 pull-left">
@@ -64,7 +65,7 @@
                     </div>
                     <!--END of State and Zipcode-->
                     <!--END OF BILLING ADDR-->
-                    </form>
+                    <!-- </form> -->
                 </div>
             </div>
         </div>
@@ -83,12 +84,12 @@
                 </div>
             </div>
             <div class="panel-body">
-                <form role="form">
+                <!-- <form role="form"> -->
                     <div class="form-group">
                         <label for="cardNumber">
                             CARD NUMBER</label>
                         <div class="input-group">
-                            <input type="text" class="form-control" id="cardNumber" placeholder="Valid Card Number" required autofocus />
+                            <input  type="number" class="form-control" id="cardNumber" placeholder="Valid Card Number" required autofocus ng-minlength="16" ng-maxlength="16"/>
                             <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
                         </div>
                     </div>
@@ -98,10 +99,10 @@
                                 <label for="expityMonth">
                                     EXPIRE DATE</label>
                                 <div class="col-xs-6 col-lg-6 pl-ziro">
-                                    <input type="text" class="form-control" id="expityMonth" placeholder="MM" required />
+                                    <input type="number" class="form-control" id="expityMonth" placeholder="MM" required ng-minlength="2" ng-maxlength="2"/>
                                 </div>
                                 <div class="col-xs-6 col-lg-6 pl-ziro">
-                                    <input type="text" class="form-control" id="expityYear" placeholder="YY" required />
+                                    <input type="number" class="form-control" id="expityYear" placeholder="YY" required ng-minlength="2" ng-maxlength="2"/>
                                 </div>
                             </div>
                         </div>
@@ -109,7 +110,7 @@
                             <div class="form-group">
                                 <label for="cvCode">
                                     CV CODE</label>
-                                <input type="password" class="form-control" id="cvCode" placeholder="CV" required />
+                                <input type="password" class="form-control" id="cvCode" placeholder="CV" required ng-minlength="3" ng-maxlength="3"/>
                             </div>
                         </div>
                     </div>
@@ -118,7 +119,7 @@
 	                        <label for="shippingAddr">
 	                            SHIPPING ADDRESS</label>
 	                        <div class="input-group col-xs-12 col-md-12">
-	                            <input type="text" class="form-control" id="shippingAddr" placeholder="1043 broadway st." required autofocus />
+	                            <input type="text" class="form-control" id="shippingAddr" placeholder="1043 broadway st." required autofocus ng-maxLength="40"/>
                         	</div>
                     </div>
                     <div class="row">
@@ -143,19 +144,19 @@
                             <div class="form-group">
                                 <label for="State">
                                     STATE</label>
-                                    <input type="text" class="form-control" id="state" placeholder="NY" />
+                                    <input type="text" class="form-control" id="state" placeholder="NY" ng-minlength="2" ng-maxlength="2"required/>
                             </div>                
                         </div>
                         <div class="col-xs-5 col-md-5 pull-left">
                             <div class="form-group">
                                 <label for="zipcode">
                                     ZIP CODE</label>
-                                <input type="zipcode" class="form-control" id="zipcode" placeholder="10001" required />
+                                <input type="number" class="form-control" id="zipcode" placeholder="10001" required ng-minlength="5" ng-maxlength="5"/>
                             </div>
                         </div>
                     </div>
                     <!--END OF BILLING ADDR-->
-                </form>
+                <!-- </form> -->
             </div>
         </div>
         <ul class="nav nav-pills nav-stacked">
@@ -163,7 +164,8 @@
             </li>
         </ul>
         <br/>
-        <a href="#" class="btn btn-success btn-lg btn-block" role="button" ng-click="paymentSubmit()">Pay</a>
+        <button type="submit" class="btn btn-success btn-lg btn-block" role="button">Pay</button>
     </div>
 </div>
+</form>
 </div>
