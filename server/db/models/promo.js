@@ -20,12 +20,13 @@ var promoSchema = new mongoose.Schema({
         type: Date,
         required: true,
     },
-    ValueOff: {
+    valueOff: {
         type: Number,
         required: true
     },
     type: {
         type: String,
+        //can be either 'percent', or 'dollar', should add a validator for that
         required: true
     },
     categories: {
