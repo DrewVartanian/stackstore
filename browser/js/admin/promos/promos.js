@@ -18,6 +18,6 @@ app.config(function ($stateProvider) {
 
 });
 
-app.controller('AdminProductsController',function ($scope) {
+app.controller('AdminPromosController',function ($scope) {
     console.log('promos state');
 });
