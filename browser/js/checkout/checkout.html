@@ -1,0 +1,171 @@
+<div class="container" id="checkoutInfo">
+    <form role="form" name="customerForm" ng-submit="customerForm.$valid && paymentSubmit()">
+    <div class="row">
+        <div class="col-xs-12 col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Customer Information
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <!--form was here-->
+                        <div class="form-group">
+                            <label for="Customer Name">
+                                CUSTOMER NAME</label>
+                            <div class="input-group col-xs-12 col-md-12">
+                                <input type="text" class="form-control" id="customerName" placeholder="Your Name" required autofocus/>
+                            </div>
+                            <label for="Email Address">
+                                EMAIL ADDRESS</label>
+                            <div class="input-group col-xs-12 col-md-12">
+                                <input type="email" class="form-control" id="Email Address" placeholder="Example@email.com" required autofocus />
+                            </div>
+                        </div>
+                        <!--Shipping Address-->
+                    <div class="form-group">
+	                        <label for="shippingAddr">
+	                            SHIPPING ADDRESS</label>
+	                        <div class="input-group col-xs-12 col-md-12">
+	                            <input type="text" class="form-control" id="shippingAddr" placeholder="1043 broadway st." required autofocus />
+                        	</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-7 col-md-7 pull-left">
+                            <div class="form-group">
+                                <label for="Apt/Suite No.">
+                                    APT/SUITE</label>
+                                    <input type="text" class="form-control" id="aptNo" placeholder="5E" />
+                            </div>                
+                        </div>
+                        <div class="col-xs-5 col-md-5 pull-left">
+                            <div class="form-group">
+                                <label for="city">
+                                    CITY</label>
+                                <input type="city" class="form-control" id="city" placeholder="NY City" required />
+                            </div>
+                        </div>
+                    </div>
+                    <!--State and Zipcode-->
+                    <div class="row">
+                        <div class="col-xs-3 col-md-3 pull-left">
+                            <div class="form-group">
+                                <label for="State">
+                                    STATE</label>
+                                    <input type="text" class="form-control" id="state" placeholder="NY" required/>
+                            </div>                
+                        </div>
+                        <div class="col-xs-5 col-md-5 pull-left">
+                            <div class="form-group">
+                                <label for="zipcode">
+                                    ZIP CODE</label>
+                                <input type="zipcode" class="form-control" id="zipcode" placeholder="10001" required />
+                            </div>
+                        </div>
+                    </div>
+                    <!--END of State and Zipcode-->
+                    <!--END OF BILLING ADDR-->
+                    <!-- </form> -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+    <div class="col-xs-12 col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                        Payment Details
+                    </h3>
+                <div class="checkbox pull-right">
+                    <label>
+                        <input type="checkbox" /> Remember
+                    </label>
+                </div>
+            </div>
+            <div class="panel-body">
+                <!-- <form role="form"> -->
+                    <div class="form-group">
+                        <label for="cardNumber">
+                            CARD NUMBER</label>
+                        <div class="input-group">
+                            <input  type="number" class="form-control" id="cardNumber" placeholder="Valid Card Number" required autofocus ng-minlength="16" ng-maxlength="16"/>
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-7 col-md-7">
+                            <div class="form-group">
+                                <label for="expityMonth">
+                                    EXPIRE DATE</label>
+                                <div class="col-xs-6 col-lg-6 pl-ziro">
+                                    <input type="number" class="form-control" id="expityMonth" placeholder="MM" required ng-minlength="2" ng-maxlength="2"/>
+                                </div>
+                                <div class="col-xs-6 col-lg-6 pl-ziro">
+                                    <input type="number" class="form-control" id="expityYear" placeholder="YY" required ng-minlength="2" ng-maxlength="2"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-5 col-md-5 pull-right">
+                            <div class="form-group">
+                                <label for="cvCode">
+                                    CV CODE</label>
+                                <input type="password" class="form-control" id="cvCode" placeholder="CV" required ng-minlength="3" ng-maxlength="3"/>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Billing Address-->
+                    <div class="form-group">
+	                        <label for="shippingAddr">
+	                            SHIPPING ADDRESS</label>
+	                        <div class="input-group col-xs-12 col-md-12">
+	                            <input type="text" class="form-control" id="shippingAddr" placeholder="1043 broadway st." required autofocus ng-maxLength="40"/>
+                        	</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-7 col-md-7 pull-left">
+                            <div class="form-group">
+                                <label for="Apt/Suite No.">
+                                    APT/SUITE</label>
+                                    <input type="text" class="form-control" id="aptNo" placeholder="5E" />
+                            </div>                
+                        </div>
+                        <div class="col-xs-5 col-md-5 pull-left">
+                            <div class="form-group">
+                                <label for="city">
+                                    CITY</label>
+                                <input type="city" class="form-control" id="city" placeholder="NY City" required />
+                            </div>
+                        </div>
+                    </div>
+                    <!--State and Zipcode-->
+                    <div class="row">
+                        <div class="col-xs-3 col-md-3 pull-left">
+                            <div class="form-group">
+                                <label for="State">
+                                    STATE</label>
+                                    <input type="text" class="form-control" id="state" placeholder="NY" ng-minlength="2" ng-maxlength="2"required/>
+                            </div>                
+                        </div>
+                        <div class="col-xs-5 col-md-5 pull-left">
+                            <div class="form-group">
+                                <label for="zipcode">
+                                    ZIP CODE</label>
+                                <input type="number" class="form-control" id="zipcode" placeholder="10001" required ng-minlength="5" ng-maxlength="5"/>
+                            </div>
+                        </div>
+                    </div>
+                    <!--END OF BILLING ADDR-->
+                <!-- </form> -->
+            </div>
+        </div>
+        <ul class="nav nav-pills nav-stacked">
+            <li class="active"><a href="#"><span class="badge pull-right"><span class="glyphicon glyphicon-usd"></span>{{ amount }}</span>Final Payment</a>
+            </li>
+        </ul>
+        <br/>
+        <button type="submit" class="btn btn-success btn-lg btn-block" role="button">Pay</button>
+    </div>
+</div>
+</form>
+</div>

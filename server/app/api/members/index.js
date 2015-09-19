@@ -14,10 +14,10 @@ var ensureAuthenticated = function(req, res, next) {
 };
 
 router.param('userId', function(req, res, next, userId) {
-    if (!req.user || userId !== req.user._id.toString()) {
+    if (!req.user || (userId !== req.user._id.toString() && !req.user.isAdmin)) {
         var err = new Error('Wrong user');
         err.status = 403;
-        next(err);
+        return next(err);
     }
     User.findById(userId).then(function(user) {
             req.userParam = user;
@@ -47,6 +47,15 @@ router.get('/secret-stash', ensureAuthenticated, function(req, res) {
 
     res.send(_.shuffle(theStash));
 
+});
+
+router.get('/',function (req,res,next){
+    User.find().then(function(users){
+        users=users.map(function(user){
+            return {_id:user._id,email:user.email};
+        });
+        res.json(users);
+    }).then(null,next);
 });
 
 router.post('/', function(req, res, next) {
@@ -81,6 +90,7 @@ router.put('/:userId', function(req, res, next) {
 
 router.get('/:userId', function(req, res) {
     res.json({
-        email: req.userParam.email
+        email: req.userParam.email,
+        isAdmin: req.userParam.isAdmin
     });
 });

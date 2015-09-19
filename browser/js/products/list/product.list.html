@@ -18,10 +18,8 @@
 
     <section class="cd-gallery">
         <div ng-repeat="product in products">
-            <ul>
-                <product-item info='product'></product-item>
-                <li class="gap"></li>
-            </ul>
+            <product-item info='product'></product-item>
+                <button type='button' class="btn btn-success" ng-click="addToCart(product)"><i class="fa fa-opencart"></i> Add to cart</button>
         </div>
     </section>
 

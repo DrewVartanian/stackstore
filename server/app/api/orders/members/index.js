@@ -3,7 +3,6 @@ var router = require('express').Router();
 module.exports = router;
 var _ = require('lodash');
 var mongoose = require('mongoose');
-var User = mongoose.model('User');
 var Order = mongoose.model('Order');
 
 router.param('userId', function(req, res, next, userId) {
