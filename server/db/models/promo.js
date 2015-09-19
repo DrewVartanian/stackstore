@@ -9,8 +9,8 @@ var promoSchema = new mongoose.Schema({
         type: String,
         required: true,
         unique: true,
-        maxlength: 10,
-        minlength: 5
+        maxlength: 15,
+        minlength: 4
     },
     creationDate: {
         type: Date,
