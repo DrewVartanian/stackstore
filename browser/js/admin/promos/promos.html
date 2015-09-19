@@ -1,1 +1,19 @@
 <h2>Promos</h2>
+
+<button type="button" class="btn btn-info" ui-sref="admin.product({productId:'new'})">+ New Promo Code</button>
+<ul class="list-group top-buff">
+  <li class="list-group-item clickable crop" ng-repeat="promo in promos">
+    <div class="col-xs-2">
+      <img src="http://freemilestraveler.com/wp-content/uploads/2014/12/free-promo-codes.jpg"/>
+    </div>
+    <div class="col-xs-6">
+      <h4>{{promo.code}}</h4> {{promo.description}}
+    </div>
+    <div class="col-xs-2">
+      <h5>Date created:</h5>
+      {{promo.creationDate | date}}
+      <h5>Expires: </h5>
+      {{promo.expirationDate | date}}
+    </div>
+  </li>
+</ul>
