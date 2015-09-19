@@ -2,4 +2,5 @@
     Product-List</p>
 <div ng-repeat="product in products">
     <product-item info='product'></product-item>
+        <button type='button' class="btn btn-success" ng-click="addToCart(product)"><i class="fa fa-opencart"></i> Add to cart</button>
 </div>
