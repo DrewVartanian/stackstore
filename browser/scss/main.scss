@@ -14,6 +14,10 @@ body {
   }
 }
 
+.clickable:hover {
+  cursor: pointer;
+}
+
 #main {
   padding-top: 60px;
   width: 1200px;
