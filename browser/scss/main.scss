@@ -32,6 +32,10 @@ body {
   }
 }
 
+.btn.no-focus:focus {
+  outline:0;
+}
+
 #main {
   padding-top: 60px;
   width: 1200px;
