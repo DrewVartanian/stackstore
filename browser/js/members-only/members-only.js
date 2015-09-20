@@ -40,6 +40,8 @@ app.factory('SecretStash', function ($http) {
 });
 
 app.factory('MemberFactory',function ($http){
+
+
     var editUser = function(user,changes){
         return $http.put('/api/members/'+user._id,changes)
         .then(function(res){
@@ -77,8 +79,15 @@ app.factory('MemberFactory',function ($http){
         });
     };
 
-    var editOrder = function(cart){
-        return $http.put('/api/orders/cart/update/'+cart._id, {date: Date.now()})
+    var editOrder = function(userId, cart, amount, customer){
+        var info = {
+            name: customer.name,
+            email: customer.email,
+            total: amount,
+            orders: cart.items
+        };
+
+        return $http.put('/api/orders/members/' + userId + '/checkout', info)
         .then(function(res){
             return res.data;
         });
