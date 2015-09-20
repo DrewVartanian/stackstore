@@ -1,13 +1,30 @@
 <h1>Cart</h1>
 
-<ul>
-  <li ng-repeat="item in cart.items">
+<ul class="list-group">
+  <!-- <li class="list-group-item clickable" ng-repeat="item in cart.items">
     {{item.productId.title}} {{item.price}} 
     total price: {{item.price*item.quantity | currency}}
     <input type="text" ng-model="item.quantity"></input>
     <button class="btn btn-primary" ng-click="updateOrderItem(item)">Update Quantity</button>
     <button class="btn btn-danger" ng-click="removeItemFromOrder(item)">X</button>
-  </li>
+  </li> -->
+   <li class="list-group-item clickable crop" ng-repeat="item in cart.items" ui-sref="product({id:item.productId._id})">
+      <div class="col-xs-1">
+        <img src="{{item.productId.photo}}" alt="{{item.productId.title}}"/>
+      </div>
+      <div class="col-xs-8">
+        <h4>{{item.productId.title}}</h4> {{item.productId.description}}
+      </div>
+      <div class="col-xs-3" ng-click="$event.stopPropagation()">
+        <h5>Unit: {{item.productId.price | currency}} | Total: {{item.total | currency}}</h5>
+        <div>Quantity: <input type="text" ng-model="item.quantity"></div>
+        <br>
+        <div>
+          <button class="btn btn-primary" ng-click="updateOrderItem(item)">Update Quantity</button>
+          <button class="btn btn-danger" ng-click="removeItemFromOrder(item)">Remove</button>
+        </div>
+      </div>
+    </li>
 </ul>
 
 <p>Total Price: {{getTotal() | currency}}</p>

@@ -36,21 +36,20 @@ app.controller('CartController',function ($scope, cart, MemberFactory, $state, C
         $scope.cart = CartFactory.convertLocalStorageToCart();
     }
 
+    $scope.cart.items.forEach(function(item){
+        item.total=item.productId.price*item.quantity;
+    });
 
-    // AuthService.getLoggedInUser().then(function (user){
-    //     $scope.user = user;
-    // });
-    // SecretStash.getStash().then(function (stash) {
-    //     $scope.stash = stash;
-    // });
 	$scope.removeItemFromOrder = function (item){
 		MemberFactory.removeOrderItem(cart, item).then(function(){
 			$state.reload();
-			
 		});
 	};
 
     $scope.updateOrderItem = function(item) {
+        if(item.quantity>item.productId.inventoryQuantity){
+            item.quantity=item.productId.inventoryQuantity;
+        }
         MemberFactory.updateOrderItem(cart, item).then(function() {
             $state.reload();
             //do we want to say 'successfully updated' on the page?
@@ -59,7 +58,7 @@ app.controller('CartController',function ($scope, cart, MemberFactory, $state, C
 
     $scope.getTotal = function() {
         return cart.items.map(function(item) {
-            return item.quantity*item.price;
+            return item.total;
         }).reduce(function(a,b) {
             return a+b;
         });
