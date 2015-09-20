@@ -8,23 +8,35 @@ app.config(function ($stateProvider) {
             cart: function(MemberFactory, AuthService) {
                 // If time permits find a way to do this with one query
                 return AuthService.getLoggedInUser().then(function (user){
-                    return MemberFactory.getCart(user);
+                    if (user) {
+                        return MemberFactory.getCart(user);
+                    }
+                    else return;
                 });
             }
-        },
+        }
         // The following data.authenticate is read by an event listener
         // that controls access to this state. Refer to app.js.
-        data: {
-            authenticate: true
-        }
+        // data: {
+        //     authenticate: true
+        // }
 
     });
 
 });
 
-app.controller('CartController',function ($scope, cart, MemberFactory, $state) {
-    $scope.cart=cart;
-    
+app.controller('CartController',function ($scope, cart, MemberFactory, $state, CartFactory) {
+
+    console.log("Showing cart in CartController:", cart)
+    if (cart) {
+        $scope.cart=cart;
+    }
+
+    else {
+        $scope.cart = CartFactory.convertLocalStorageToCart();
+    }
+
+
     // AuthService.getLoggedInUser().then(function (user){
     //     $scope.user = user;
     // });

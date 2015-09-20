@@ -11,12 +11,23 @@ app.config(function($stateProvider) {
             },
             reviews: function(ProductFactory, $stateParams) {
                 return ProductFactory.fetchReviews($stateParams.id);
+            },
+            user: function(AuthService) {
+                return AuthService.getLoggedInUser();
+            },
+            cart: function(MemberFactory, AuthService) {
+                // If time permits find a way to do this with one query
+                return AuthService.getLoggedInUser().then(function (user){
+                    if (user) {
+                        return MemberFactory.getCart(user);
+                    }
+                });
             }
         }
     });
 });
 
-app.controller('ProductDetailCtrl', function($scope, product, reviews) {
+app.controller('ProductDetailCtrl', function($scope, product, reviews, cart, user, CartFactory) {
     $scope.product = product;
     $scope.reviews = reviews;
 
@@ -39,5 +50,14 @@ app.controller('ProductDetailCtrl', function($scope, product, reviews) {
         }
         console.log("generatArray", array);
         return array;
+    };
+
+    $scope.addToCart = function(product) {
+
+        return CartFactory.addToCart(cart, user, product)
+        .then(function () {
+            console.log("Item successfully added");
+        });
+
     };
 });
