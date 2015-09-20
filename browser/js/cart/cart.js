@@ -25,14 +25,15 @@ app.config(function ($stateProvider) {
 
 });
 
-app.controller('CartController',function ($scope, cart, MemberFactory, $state) {
+app.controller('CartController',function ($scope, cart, MemberFactory, $state, CartFactory) {
 
     console.log("Showing cart in CartController:", cart)
     if (cart) {
         $scope.cart=cart;
     }
+
     else {
-        console.log(localStorage.getItem('cart'));
+        $scope.cart = CartFactory.convertLocalStorageToCart();
     }
 
 
