@@ -24,15 +24,18 @@ app.config(function($stateProvider) {
     });
 });
 
-app.controller('ProductListCtrl', function($scope, products, cart, user, CartFactory) {
+app.controller('ProductListCtrl', function($scope, products, cart, user, CartFactory,$state) {
     $scope.products = products;
 
     $scope.addToCart = function(product) {
-     
         CartFactory.addToCart(cart, user, product)
         .then(function () {
             console.log("Item successfully added");
-        })
+            $state.go('cart');
+        });
+    };
 
+    $scope.goToProduct = function(productId) {
+        $state.go('product',{id:productId});
     };
 });
