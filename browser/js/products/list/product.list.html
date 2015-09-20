@@ -29,7 +29,8 @@
             <div class="col-xs-2">
               <h5>Price: {{product.price | currency}}</h5>
               <div>Inventory: {{product.inventoryQuantity}}</div>
-              <button type='button' class="btn btn-success" ng-click="addToCart(product); $event.stopPropagation()"><i class="fa fa-opencart"></i> Add to cart</button>
+              <button type='button' class="btn btn-success" ng-hide="product.inventoryQuantity===0" ng-click="addToCart(product); $event.stopPropagation()"><i class="fa fa-opencart"></i> Add to cart</button>
+              <button type='button' class="btn btn-danger" ng-show="product.inventoryQuantity===0" ng-click="$event.stopPropagation()">Out of Stock</button>
             </div>
           </li>
         </ul>
