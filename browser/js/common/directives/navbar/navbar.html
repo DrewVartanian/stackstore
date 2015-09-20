@@ -11,7 +11,8 @@
                 <a ui-sref-active="active" ng-show="isLoggedIn() && user.isAdmin"ui-sref="admin">Admin</a>
             </li>
         </ul>
-        <i class="fa fa-opencart fa-2x" ui-sref='cart'></i>
+        <i class="fa fa-shopping-cart fa-2x" ui-sref='cart'><p class="cartNum" ng-click="getCartItemNum()">{{cart.items.length}}</p></i>
+
         <button ng-show="!user" ui-sref="login" class="btn login-button">Login</button>
         <button ng-show="!user" ui-sref="signup" class="btn login-button">Sign Up</button>
         <div ng-show="user" class="welcome">

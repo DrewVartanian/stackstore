@@ -1,4 +1,4 @@
-app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state) {
+app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state, cartFactory) {
 
     return {
         restrict: 'E',
@@ -13,6 +13,10 @@ app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state) 
             ];
 
             scope.user = null;
+
+            $scope.getCartItemNum = function(){
+                return cartFactory.convertLocalStorageToCart().items.length;
+            };
 
             scope.isLoggedIn = function () {
                 return AuthService.isAuthenticated();

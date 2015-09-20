@@ -10,3 +10,20 @@
   }
 }
 
+.cartNum {
+   background: #F65A5B ;
+ color: #fff;
+ cursor: pointer;
+ display: inline-block;
+ font-size: 15px;
+   line-height: 20px;
+   min-width: 20px;
+   height: 20px;
+   border-radius: 50%;
+ 	margin: 0 -50px 0 -5px;
+   text-align: center;
+   font-weight: 200;
+   box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+   transition: background 500ms;
+
+}
