@@ -14,9 +14,17 @@ app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state, 
 
             scope.user = null;
 
-            scope.getCartItemNum = function(){
-                return CartFactory.convertLocalStorageToCart().items.length;
+
+            var getCartItemNum = function(){
+                 CartFactory.convertLocalStorageToCart().then(function(cart){
+                    scope.cart = cart;
+                 });
+
+                
             };
+
+            getCartItemNum();
+            //add to cart event will trigger getCartItemNum()
 
             scope.isLoggedIn = function () {
                 return AuthService.isAuthenticated();

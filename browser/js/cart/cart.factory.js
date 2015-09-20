@@ -49,7 +49,7 @@ app.factory('CartFactory', function($http) {
             localStorage.setItem('cart', localCart);
 
             return new Promise(function (resolve, reject){
-                resolve(cart);
+              resolve(cart);
             });
         }
     };
