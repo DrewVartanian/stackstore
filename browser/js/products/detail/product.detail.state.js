@@ -27,7 +27,7 @@ app.config(function($stateProvider) {
     });
 });
 
-app.controller('ProductDetailCtrl', function($scope, product, reviews, cart, user, CartFactory) {
+app.controller('ProductDetailCtrl', function($scope, product, reviews, cart, user, CartFactory,$state) {
     $scope.product = product;
     $scope.reviews = reviews;
 
@@ -57,6 +57,7 @@ app.controller('ProductDetailCtrl', function($scope, product, reviews, cart, use
         return CartFactory.addToCart(cart, user, product)
         .then(function () {
             console.log("Item successfully added");
+            $state.go('cart');
         });
 
     };
