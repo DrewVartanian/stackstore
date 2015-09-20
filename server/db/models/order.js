@@ -41,7 +41,11 @@ var orderSchema = new mongoose.Schema({
             }
         }
     }],
-    date: Date
+    date: Date,
+    promoCode: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Promo'
+    }
 });
 
 orderSchema.pre('save', function(next) {

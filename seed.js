@@ -25,6 +25,7 @@ var User = Promise.promisifyAll(mongoose.model('User'));
 var Product = Promise.promisifyAll(mongoose.model('Product'));
 var Review = Promise.promisifyAll(mongoose.model('Review'));
 var Order = Promise.promisifyAll(mongoose.model('Order'));
+var Promo = Promise.promisifyAll(mongoose.model('Promo'));
 
 var seedUsers = function () {
 
@@ -35,7 +36,8 @@ var seedUsers = function () {
         },
         {
             email: 'obama@gmail.com',
-            password: 'potus'
+            password: 'potus',
+            isAdmin: true
         }
     ];
 
@@ -78,6 +80,49 @@ var seedReviews = function(users,products) {
         }
     }
     return Review.createAsync(reviews);
+};
+
+var seedPromos = function(products) {
+    var promos = [];
+    promos.push({
+        code: '15%OFF',
+        creationDate: new Date(),
+        expirationDate: new Date(2016, 11, 20),
+        valueOff: 15,
+        type: 'percent'
+    });
+    promos.push({
+        code: '20OFF',
+        creationDate: new Date(),
+        expirationDate: new Date(2016, 11, 20),
+        valueOff: 20,
+        type: 'dollar'
+    });
+    promos.push({
+        code: 'cat15%OFF',
+        creationDate: new Date(),
+        expirationDate: new Date(2016, 11, 20),
+        valueOff: 15,
+        type: 'percent',
+        categories: ['B', 'C']
+    });
+    promos.push({
+        code: 'Prod15%OFF',
+        creationDate: new Date(),
+        expirationDate: new Date(2016, 11, 20),
+        valueOff: 15,
+        type: 'percent',
+        products: products[0]._id
+    });
+    promos.push({
+        code: 'Exp15%OFF',
+        creationDate: new Date(2000, 3, 24),
+        expirationDate: new Date(2013, 11, 20),
+        valueOff: 15,
+        type: 'percent'
+    });
+    return Promo.createAsync(promos);
+
 };
 
 var seedOrders= function(users,products) {
@@ -153,6 +198,15 @@ connectToDb.then(function () {
         } else {
             console.log(chalk.magenta('Seems to already be review data, exiting!'));
             return reviews;
+        }
+    }).then(function (){
+        return Promo.findAsync({});
+    }).then(function(promos) {
+        if(promos.length === 0) {
+            return seedPromos(mongoProducts);
+        } else {
+            console.log(chalk.magenta('Seems to already be promos, exiting!'));
+            return promos;
         }
     }).then(function (){
         return Order.findAsync({});
