@@ -33,7 +33,7 @@ var promoSchema = new mongoose.Schema({
         type: [String],
         default: []
     },
-    product: {
+    products: {
         type: [mongoose.Schema.Types.ObjectId],
         ref: 'Product',
         default: []

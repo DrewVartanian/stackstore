@@ -20,19 +20,11 @@ app.config(function ($stateProvider) {
 
 app.controller('AdminPromosController',function ($scope, promos) {
     
-    var mappedPromos = promos.map(function(promo) {
+    $scope.promos = promos.map(function(promo) {
         if(promo.type==='percent') {
             promo.description = 'Take '+promo.valueOff+'% off total price';
         }
         else promo.description = 'Take $'+promo.valueOff+' off total price';
         return promo;
     });
-
-    $scope.promos = mappedPromos;
-    console.log('description', $scope.promos.description);
-
-   
-
-
-
 });

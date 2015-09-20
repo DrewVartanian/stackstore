@@ -112,7 +112,7 @@ var seedPromos = function(products) {
         expirationDate: new Date(2016, 11, 20),
         valueOff: 15,
         type: 'percent',
-        product: products[0]._id
+        products: products[0]._id
     });
     promos.push({
         code: 'Exp15%OFF',
