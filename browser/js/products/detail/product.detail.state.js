@@ -53,24 +53,11 @@ app.controller('ProductDetailCtrl', function($scope, product, reviews, cart, use
     };
 
     $scope.addToCart = function(product) {
-     
-        if(user) {
-            CartFactory.addToCart(cart, user, product)
-            .then(function () {
-                console.log("Item successfully added");
-            })
-        }
 
-        else {
-            if (!localStorage.getItem('cart')) {
-                var localCart = ""
-                localStorage.setItem('cart', localCart);
-                console.log("Current localStorage: ", localStorage.getItem('cart'));
-            }
-            localCart = localStorage.getItem('cart');
-            localCart += product._id+":"+1+",";
-            localStorage.setItem('cart', localCart);
-        }
+        return CartFactory.addToCart(cart, user, product)
+        .then(function () {
+            console.log("Item successfully added");
+        });
 
     };
 });
