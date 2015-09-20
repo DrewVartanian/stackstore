@@ -18,7 +18,12 @@ body {
   margin-top: 10px;
 }
 
+.no-margin {
+  margin: 0px;
+}
+
 .clickable:hover {
+  background: #E6F5E6;
   cursor: pointer;
 }
 
@@ -45,7 +50,7 @@ body {
 }
 
 #main {
-  padding-top: 60px;
+  //padding-top: 60px;
   width: 1200px;
   margin: 0 auto;
 }
@@ -55,4 +60,5 @@ body {
 @import 'about/main';
 @import 'tutorial/main';
 @import 'login/main';
+@import 'products/main';
 @import 'checkout/main';

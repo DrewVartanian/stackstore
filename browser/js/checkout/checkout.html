@@ -14,12 +14,12 @@
                             <label for="Customer Name">
                                 CUSTOMER NAME</label>
                             <div class="input-group col-xs-12 col-md-12">
-                                <input type="text" class="form-control" id="customerName" placeholder="Your Name" required autofocus/>
+                                <input type="text" ng-model="customer.name" class="form-control" id="customerName" placeholder="Your Name" required autofocus/>
                             </div>
                             <label for="Email Address">
                                 EMAIL ADDRESS</label>
                             <div class="input-group col-xs-12 col-md-12">
-                                <input type="email" class="form-control" id="Email Address" placeholder="Example@email.com" required autofocus />
+                                <input type="email" ng-model="customer.email" class="form-control" id="Email Address" placeholder="Example@email.com" required autofocus />
                             </div>
                         </div>
                         <!--Shipping Address-->

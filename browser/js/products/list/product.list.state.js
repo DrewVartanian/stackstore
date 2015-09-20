@@ -29,23 +29,10 @@ app.controller('ProductListCtrl', function($scope, products, cart, user, CartFac
 
     $scope.addToCart = function(product) {
      
-        if(user) {
-            CartFactory.addToCart(cart, user, product)
-            .then(function () {
-                console.log("Item successfully added");
-            })
-        }
-
-        else {
-            if (!localStorage.getItem('cart')) {
-                var localCart = ""
-                localStorage.setItem('cart', localCart);
-                console.log("Current localStorage: ", localStorage.getItem('cart'));
-            }
-            localCart = localStorage.getItem('cart');
-            localCart += product._id+":"+1+",";
-            localStorage.setItem('cart', localCart);
-        }
+        CartFactory.addToCart(cart, user, product)
+        .then(function () {
+            console.log("Item successfully added");
+        })
 
     };
 });
