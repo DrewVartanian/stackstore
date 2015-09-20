@@ -42,21 +42,22 @@ app.controller('AdminPromoController', function($scope, promo, AdminPromoFactory
 
 app.factory('AdminPromoFactory', function($http) {
    var editPromo = function(promo) {
-        return $http.put('/api/promo/' + promo._id, promo)
+        return $http.put('/api/promos/' + promo._id, promo)
             .then(function(res) {
                 return res.data;
             });
     };
 
     var createPromo = function(promo){
-        return $http.post('/api/promo', promo)
+        promo.creationDate = new Date();
+        return $http.post('/api/promos', promo)
             .then(function(res){
                 return res.data;
             });
     };
 
     var deletePromo = function(promoId) {
-        return $http.delete('/api/promo/' + promoId)
+        return $http.delete('/api/promos/' + promoId)
             .then(function() {
                 return;
             });
