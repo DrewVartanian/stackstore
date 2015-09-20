@@ -27,6 +27,7 @@ router.put('/remove/:cartId/:itemId', function(req,res,next){
 
 
 
+
 router.put('/update/:cartId', function(req,res,next){
 	Order.findById(req.params.cartId).then(function(cart){
 		console.log("req.body.time", req.body.date);
@@ -38,6 +39,7 @@ router.put('/update/:cartId', function(req,res,next){
 
 	})
 });
+
 
 
 router.put('/update/:cartId/:itemId', function(req,res,next){
@@ -76,7 +78,7 @@ router.put('/add/:itemId', function (req,res,next){
     .then(null, next);
 });
 
-//This route is for adding a product to an existing cart
+// This route is for adding a product to an existing cart
 router.put('/add/:cartId/:itemId', function (req,res,next){
 
 	Product.findById(req.params.itemId).then(function(product) {
@@ -94,3 +96,24 @@ router.put('/add/:cartId/:itemId', function (req,res,next){
     })
     .then(null, next);
 });
+
+// Clean UP make put/post routes and use the req.user to find the order
+
+// router.put('/add/:cartId/:itemId', function (req,res,next){
+
+// 	Product.findById(req.params.itemId).then(function(product) {
+// 		console.log("Req.user")
+// 		Order.find({user: req.user}).then(function(cart){
+// 			var productToBeAdded = {
+// 				price: product.price,
+// 				productId: product._id,
+// 				quantity: 1
+// 			}
+// 			cart.items.push(productToBeAdded);
+// 			cart.save().then(function(){
+// 				res.status(204).end();
+// 			})
+// 		});
+//     })
+//     .then(null, next);
+// });
