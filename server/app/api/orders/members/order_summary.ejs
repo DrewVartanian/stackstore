@@ -1,0 +1,27 @@
+<html>
+<head><meta charset='utf-8'></head>
+<body>
+  <p>Dear <%= name %>,</p>
+  <br>
+  <p>
+    <strong>We got your order!<strong>
+      Your new home should arrive soon.
+    <table style="width:100%">
+  </p>
+     <ul>
+      <% for(var i=0; i<orders.length; i++) {%>
+         <li> Home <%= i+1 %> :  qty: <%= orders[i].quantity %>, subtotal: $ <%= Math.round(orders[i].quantity * orders[i].price) %></li>
+      <% } %>
+    </ul>
+    <p>Total: $ <%= totalPrice %> </p>
+  <p>
+    Thank you for shopping with us. 
+    Enjoy your new home! (:
+  </p>
+
+  <p>
+    Best,<br>
+    Tiny Homes
+  </p>
+</body>
+</html>
