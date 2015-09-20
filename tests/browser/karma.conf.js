@@ -8,6 +8,10 @@ module.exports = function (config) {
         'node_modules/angular-ui-router/release/angular-ui-router.js',
         'node_modules/angular-bootstrap/dist/ui-bootstrap.js',
         'node_modules/socket.io-client/socket.io.js',
+        'public/modernizr.js',
+        'public/jquery-2.1.1.js',
+        'public/jquery.mixitup.min.js',
+        'public/filter.js',
         'public/main.js',
         'node_modules/sinon/pkg/sinon.js',
         'node_modules/angular-mocks/angular-mocks.js',
@@ -26,6 +30,7 @@ module.exports = function (config) {
         exclude: excludeFiles,
         reporters: ['mocha', 'coverage'],
         preprocessors: {
+            'public/main.js': 'coverage',
             'public/main.js': 'coverage'
         },
         coverageReporter: {

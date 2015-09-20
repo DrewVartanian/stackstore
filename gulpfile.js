@@ -18,16 +18,23 @@ var mocha = require('gulp-mocha');
 var karma = require('karma').server;
 var istanbul = require('gulp-istanbul');
 
+
 // Development tasks
 // --------------------------------------------------------------
 
 // Live reload business.
 gulp.task('reload', function () {
+
     livereload.reload();
 });
 
 gulp.task('reloadCSS', function () {
     return gulp.src('./public/style.css').pipe(livereload());
+
+// Any of these will return an array of Bourbon paths plus your custom path(s) 
+    // bourbon.with('./browser/js/scss/stylesheets')
+    // bourbon.with('path/to/stylesheets1', 'path/to/stylesheets2')
+    // bourbon.with(['path/to/stylesheets1', 'path/to/stylesheets2'])
 });
 
 gulp.task('lintJS', function () {
@@ -83,7 +90,8 @@ gulp.task('testBrowserJS', function (done) {
 gulp.task('buildCSS', function () {
     return gulp.src('./browser/scss/main.scss')
         .pipe(sass({
-            errLogToConsole: true
+            errLogToConsole: true,
+            includePaths: require('node-bourbon').includePaths     //import bourbon here
         }))
         .pipe(rename('style.css'))
         .pipe(gulp.dest('./public'));
