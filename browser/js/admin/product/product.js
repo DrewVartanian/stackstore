@@ -5,8 +5,8 @@ app.config(function($stateProvider) {
         templateUrl: 'js/admin/product/product.html',
         controller: 'AdminProductController',
         resolve: {
-            product: function(ProductFactory,$stateParams) {
-                if($stateParams.productId==='new') return {};
+            product: function(ProductFactory, $stateParams) {
+                if ($stateParams.productId === 'new') return {};
                 return ProductFactory.fetch($stateParams.productId);
             }
         },
@@ -19,6 +19,52 @@ app.config(function($stateProvider) {
 
 });
 
-app.controller('AdminProductController', function($scope, product) {
-    $scope.product=product;
+app.controller('AdminProductController', function($scope, product, AdminProductFactory, $stateParams, $state) {
+    $scope.product = product;
+    $scope.newProduct = ($stateParams.productId === 'new');
+    $scope.deleteProduct = function() {
+        AdminProductFactory.deleteProduct($stateParams.productId).then(function() {
+            $state.go('admin.products');
+        });
+    };
+    $scope.editProduct = function() {
+        if($scope.newProduct){
+            AdminProductFactory.createProduct($scope.product).then(function() {
+                $state.go('admin.products');
+            });
+        }else{
+            AdminProductFactory.editProduct($scope.product).then(function() {
+                $state.go('admin.products');
+            });
+        }
+    };
+});
+
+app.factory('AdminProductFactory', function($http) {
+    var editProduct = function(product) {
+        return $http.put('/api/products/' + product._id, product)
+            .then(function(res) {
+                return res.data;
+            });
+    };
+
+    var createProduct = function(product){
+        return $http.post('/api/products',product)
+            .then(function(res){
+                return res.data;
+            });
+    };
+
+    var deleteProduct = function(productId) {
+        return $http.delete('/api/products/' + productId)
+            .then(function() {
+                return;
+            });
+    };
+
+    return {
+        editProduct: editProduct,
+        createProduct: createProduct,
+        deleteProduct: deleteProduct
+    };
 });
