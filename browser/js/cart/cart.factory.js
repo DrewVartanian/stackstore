@@ -6,14 +6,14 @@ app.factory('CartFactory', function($http) {
 
         if (user) {
             if (cart) {
-                return $http.put('/api/orders/cart/add/'+cart._id+'/'+product._id)
+                return $http.put('/api/orders/cart/add/'+product._id)
                 .then(function (res){
                     return res.data;
                 });
 
             }
             else {
-                return $http.put('/api/orders/cart/add/'+product._id)
+                return $http.post('/api/orders/cart/add/'+product._id)
                 .then(function (res){
                     return res.data;
                 });
