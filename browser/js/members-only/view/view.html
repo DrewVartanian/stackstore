@@ -10,16 +10,39 @@
 
 <h1>Order History</h1>
 <ul style="list-style-type: none">
-	<li ng-repeat="order in orders">
+	<li ng-repeat="order in orders | orderBy: '-date' ">
 		<ul class="list-group">
-      <li class="list-group-item" style="background-color:lightgrey">
-      Date: {{order.date | date:'mediumDate'}}
-      </li>
-			<li class="list-group-item" ng-repeat="item in order.items">
+	      	<li class="list-group-item" style="background-color:lightgrey">
+	     	Date: {{order.date | date:'mediumDate' }}
+	     	</li>
+<!-- 			<li class="list-group-item" ng-repeat="item in order.items">
 				{{item.productId.title}} {{item.price}} {{item.quantity}}
-			</li>
+			</li> -->
+			   	<li class="list-group-item clickable crop" ng-repeat="item in order.items" ui-sref="product({id:item.productId._id})">
+
+			      <div class="col-xs-1">
+			        <img src="{{item.productId.photo}}" alt="{{item.productId.title}}"/>
+			      </div>
+			      <div class="col-xs-8">
+			        <h4>{{item.productId.title}}</h4> {{item.productId.description}}
+			      </div>
+			      <div class="col-xs-3" ng-click="$event.stopPropagation()">
+			        <h5>Unit: {{item.productId.price | currency}} | Total: {{item.total  | currency}}</h5>
+			        <div>Quantity: {{item.quantity}}</div>
+			        <br>
+			        <div>
+
+			        </div>
+			      </div>
+			    </li>
+	      	<li class="list-group-item" style="background-color:lightgrey">
+	      	Total Price: {{order.total | currency}}
+	      	</li>
+
+			
 		</ul>
 	</li>
 </ul>
 
 <button class="btn btn-success" ui-sref='cart'>Go To Cart <i class="fa fa-opencart"></i></button>
+
