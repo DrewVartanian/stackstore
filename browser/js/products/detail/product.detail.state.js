@@ -57,6 +57,7 @@ app.controller('ProductDetailCtrl', function($scope, product, reviews, cart, use
         return CartFactory.addToCart(cart, user, product)
         .then(function () {
             console.log("Item successfully added");
+            CartFactory.getCartItemNum();
             $state.go('cart');
         });
 
