@@ -24,6 +24,8 @@ app.config(function($stateProvider) {
 
 app.controller('CheckOutController', function(MemberFactory, $scope, $state, cart, user) {
 
+    $scope.cart = cart;
+
     $scope.getTotal = function() {
         return cart.items.map(function(item) {
             return item.quantity * item.price;
