@@ -28,6 +28,7 @@ app.controller('AdminProductController', function($scope, product, AdminProductF
         });
     };
     $scope.editProduct = function() {
+        $scope.product.categories=$scope.product.categories.split(',');
         if($scope.newProduct){
             AdminProductFactory.createProduct($scope.product).then(function() {
                 $state.go('admin.products');
