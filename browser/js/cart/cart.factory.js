@@ -1,6 +1,6 @@
 'use strict';
 
-app.factory('CartFactory', function($http) {
+app.factory('CartFactory', function($http,AuthService,MemberFactory) {
 
     var addToCart = function (cart, user, product) {
 
@@ -54,8 +54,13 @@ app.factory('CartFactory', function($http) {
         }
     };
 
-    var convertLocalStorageToCart = function() {
+    var getCart = function() {
 
+        if(AuthService.isAuthenticated()){
+            return AuthService.getLoggedInUser().then(function (user){
+                return MemberFactory.getCart(user);
+            });
+        }
         var ls = localStorage.getItem('cart');
         if(!ls) return new Promise(function(resolve,reject){
             resolve({items:[]});
@@ -93,7 +98,7 @@ app.factory('CartFactory', function($http) {
 
     return {
         addToCart: addToCart,
-        convertLocalStorageToCart: convertLocalStorageToCart
+        getCart: getCart
     };
 
 });
