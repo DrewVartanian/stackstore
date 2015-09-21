@@ -6,7 +6,23 @@
 .pl-ziro { padding-left: 0px; }
 
 .final-payment {
-  background-color: blue;
-  border-radius: 5%;
-  
+  padding-left: 15px;
+  padding-right: 15px;
+  font-size: 18px;
+
+}
+
+.padding {
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-top: 15px;
+}
+
+.total-price {
+  padding-bottom: 0;
+  background-color: white;
+  height: 109px;
+  h1 {
+    padding-top: 15px;
+  }
 }
