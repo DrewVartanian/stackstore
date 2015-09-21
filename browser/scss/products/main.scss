@@ -46,6 +46,16 @@ Main Components
 
 -------------------------------- */
 
+
+.filterbar {
+	position: absolute;
+	width: 100px;
+	height: 150px;
+	background-color: $color-1;
+	float:left;
+	z-index: 99;
+}
+
 .cd-header {
 	position: relative;
 	height: 150px;

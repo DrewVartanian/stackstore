@@ -26,6 +26,9 @@ app.config(function($stateProvider) {
 
 app.controller('ProductListCtrl', function($scope, products, cart, user, CartFactory,$state) {
     $scope.products = products;
+    $scope.filteredProducts = products;
+    $scope.showFilter=false;
+    $scope.headFilt='';
 
     $scope.addToCart = function(product) {
         CartFactory.addToCart(cart, user, product)
@@ -38,5 +41,25 @@ app.controller('ProductListCtrl', function($scope, products, cart, user, CartFac
 
     $scope.goToProduct = function(productId) {
         $state.go('product',{id:productId});
+    };
+
+    $scope.toggleFilter = function(){
+        console.log('filter');
+        $scope.showFilter=!$scope.showFilter;
+    };
+
+    $scope.setHeadFilt = function(filt){
+        console.log('SET FILTER');
+        $scope.headFilt=filt;
+        if(filt===''){
+            $scope.filteredProducts = products;
+        }else{
+            console.log(filt);
+            $scope.filteredProducts = $scope.products.filter(function(prod){
+                console.log(prod.categories.indexOf(filt)!==-1);
+                return prod.categories.indexOf(filt)!==-1;
+            });
+            console.dir($scope.filteredProducts);
+        }
     };
 });

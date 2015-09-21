@@ -28,7 +28,12 @@ app.controller('AdminProductController', function($scope, product, AdminProductF
         });
     };
     $scope.editProduct = function() {
-        $scope.product.categories=$scope.product.categories.split(',');
+        if(typeof $scope.product.categories==='string'){
+            $scope.product.categories=$scope.product.categories.split(',');
+        }
+        $scope.product.categories=$scope.product.categories.map(function(cat){
+            return cat.replace(/^\s+|\s+$/g,'').toLowerCase();
+        });
         if($scope.newProduct){
             AdminProductFactory.createProduct($scope.product).then(function() {
                 $state.go('admin.products');
