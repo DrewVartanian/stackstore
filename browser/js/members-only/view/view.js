@@ -25,6 +25,16 @@ app.config(function ($stateProvider) {
 app.controller('MemberViewController',function ($scope, orders) {
     $scope.orders = orders;
 
+    $scope.orders.forEach(function(order){
+        order.total = 0;
+        order.items.forEach(function(item){
+            item.total = item.quantity*item.price;
+            order.total += item.total;
+        });
+    });
+
+
+
     // AuthService.getLoggedInUser().then(function (user){
     //     $scope.user = user;
     // });
