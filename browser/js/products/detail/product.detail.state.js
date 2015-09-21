@@ -62,4 +62,15 @@ app.controller('ProductDetailCtrl', function($scope, product, reviews, cart, use
         });
 
     };
+
+    $scope.isUser = function(){
+        if(user){
+            return true;
+        }
+        else return false;
+    };
+
+    $scope.submitReview = function(){
+        if($scope.reviewContents){}
+    };
 });
