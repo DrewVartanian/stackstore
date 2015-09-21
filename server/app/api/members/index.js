@@ -60,7 +60,10 @@ router.get('/',function (req,res,next){
 
 router.post('/', function(req, res, next) {
     console.log('Creating User');
-    User.create(req.body).then(function(user) {
+    var newUser = {}
+    if(typeof req.body.email!=='undefined') newUser.email = req.body.email;
+    if(typeof req.body.password!=='undefined') newUser.password = req.body.password;
+    User.create(newUser).then(function(user) {
         console.log('User created: ' + user);
         if (!user) throw new Error('user not created');
         res.status(201).json({
@@ -78,9 +81,9 @@ router.delete('/:userId', function(req, res, next) {
 
 router.put('/:userId', function(req, res, next) {
     //check req.body keys
-    for (var key in req.body) {
-        req.userParam[key] = req.body[key];
-    }
+    if(typeof req.body.email!=='undefined') req.userParam.email = req.body.email;
+    if(typeof req.body.password!=='undefined') req.userParam.password = req.body.password;
+    if(typeof req.body.isAdmin!=='undefined') req.userParam.isAdmin = req.body.isAdmin;
     req.userParam.save().then(function(user) {
         res.status(200).json({
             id: user._id
