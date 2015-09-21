@@ -5,16 +5,17 @@ app.config(function ($stateProvider) {
         templateUrl:  'js/cart/cart.html',
         controller: 'CartController',
         resolve: {
-            cart: function(MemberFactory, AuthService,CartFactory) {
+            cart: function(CartFactory) {
                 // If time permits find a way to do this with one query
-                return AuthService.getLoggedInUser().then(function (user){
-                    if (user) {
-                        return MemberFactory.getCart(user);
-                    }
-                    else{
-                        return CartFactory.convertLocalStorageToCart();
-                    }
-                });
+                return CartFactory.getCart();
+                // AuthService.getLoggedInUser().then(function (user){
+                //     if (user) {
+                //         return MemberFactory.getCart(user);
+                //     }
+                //     else{
+                //         return CartFactory.convertLocalStorageToCart();
+                //     }
+                // });
             }
         }
         // The following data.authenticate is read by an event listener
