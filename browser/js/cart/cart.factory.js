@@ -33,7 +33,7 @@ app.factory('CartFactory', function($http,AuthService,MemberFactory) {
                 item=item.split(':');
                 if(item[1]===product._id){
                     console.log(item[3]);
-                    item[3]=Number(item[3])+1;
+                    item[3]=Math.min(Number(item[3])+1,product.inventoryQuantity);
                     item=item.join(':');
                     localCart[index]=item;
                     return false;
@@ -103,9 +103,26 @@ app.factory('CartFactory', function($http,AuthService,MemberFactory) {
         });
     };
 
+    var cartLength = {length: 0};
+    var getCartItemNum = function() {
+                getCart().then(function(cart) {
+                    console.log('cart', cart);
+                    var sum = 0;
+                    if (cart.items) {
+                        cart.items.forEach(function(item) {
+                            console.log('qty', item.quantity);
+                            sum += Number(item.quantity);
+                        });
+                    }
+                    cartLength.length = sum;
+                });
+            };
+
     return {
         addToCart: addToCart,
-        getCart: getCart
+        getCart: getCart,
+        getCartItemNum: getCartItemNum,
+        cartLength: cartLength
     };
 
 });

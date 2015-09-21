@@ -75,18 +75,33 @@ router.post('/add/:itemId', function(req, res, next) {
 // This route is for adding a product to an existing cart
 router.put('/add/:itemId', function(req, res, next) {
 
+    var existingProduct = false;
+
     Product.findById(req.params.itemId).then(function(product) {
             Order.find({date:null,user:req.user._id}).then(function(cart) {
-                var productToBeAdded = {
-                    price: product.price,
-                    productId: product._id,
-                    quantity: 1
+
+                cart[0].items.forEach(function (item){
+
+                    if (item.productId.toString() === req.params.itemId) {
+                        if (item.quantity < product.inventoryQuantity) item.quantity++;
+                        existingProduct = true;
+                    }
+                });
+
+                if (!existingProduct) {
+                    var productToBeAdded = {
+                        price: product.price,
+                        productId: product._id,
+                        quantity: 1
+                    }
+                    cart[0].items.push(productToBeAdded);  
                 }
-                cart[0].items.push(productToBeAdded);
+
                 cart[0].save().then(function(newcart) {
                     //console.log("Does this get sent with response?: ", newcart);
                     res.status(200).json(newcart);
                 })
+
             });
         })
         .then(null, next);

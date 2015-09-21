@@ -11,11 +11,12 @@ app.config(function($stateProvider) {
                     return user;
                 });
             },
-            cart: function(MemberFactory, AuthService) {
+            cart: function(CartFactory) {
                 // If time permits find a way to do this with one query
-                return AuthService.getLoggedInUser().then(function(user) {
-                    return MemberFactory.getCart(user);
-                });
+                return CartFactory.getCart();
+                // return AuthService.getLoggedInUser().then(function(user) {
+                //     return MemberFactory.getCart(user);
+                // });
             }
         }
     });

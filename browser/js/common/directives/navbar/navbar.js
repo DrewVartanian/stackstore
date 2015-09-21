@@ -20,22 +20,11 @@ app.directive('navbar', function($rootScope, AuthService, AUTH_EVENTS, $state, C
 
             scope.user = null;
 
+            scope.cartLength = CartFactory.cartLength;
 
-            var getCartItemNum = function() {
-                CartFactory.getCart().then(function(cart) {
-                    console.log('cart', cart);
-                    scope.cartLength = 0;
-                    if (cart.items) {
-                        cart.items.forEach(function(item) {
-                            console.log('qty', item.quantity);
-                            scope.cartLength += item.quantity;
-                        });
-                    }
-                    
-                });
-            };
+            
 
-            getCartItemNum();
+            CartFactory.getCartItemNum();
             //add to cart event will trigger getCartItemNum()
 
             scope.isLoggedIn = function() {
