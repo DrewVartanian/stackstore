@@ -26,6 +26,8 @@ var Product = Promise.promisifyAll(mongoose.model('Product'));
 var Review = Promise.promisifyAll(mongoose.model('Review'));
 var Order = Promise.promisifyAll(mongoose.model('Order'));
 var Promo = Promise.promisifyAll(mongoose.model('Promo'));
+var Chance = require('chance'),
+    chance = new Chance();
 
 var seedUsers = function () {
 
@@ -139,7 +141,7 @@ var seedOrders= function(users,products) {
                     productId:products[i+(j+1)*3+1]._id,
                     quantity: i+j+3
                 }],
-                date: new Date()
+                date: chance.date()
             });
         }
     }
