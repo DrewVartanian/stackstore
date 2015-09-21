@@ -57,7 +57,9 @@ app.factory('CartFactory', function($http) {
     var convertLocalStorageToCart = function() {
 
         var ls = localStorage.getItem('cart');
-
+        if(!ls) return new Promise(function(resolve,reject){
+            resolve({items:[]});
+        });
         var cartItems = ls.split(',');
         cartItems.pop();
         var finalCart = [];
