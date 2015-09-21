@@ -4,3 +4,25 @@
 .panel-title {display: inline;font-weight: bold;}
 .checkbox.pull-right { margin: 0; }
 .pl-ziro { padding-left: 0px; }
+
+.final-payment {
+  padding-left: 15px;
+  padding-right: 15px;
+  font-size: 18px;
+
+}
+
+.padding {
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-top: 15px;
+}
+
+.total-price {
+  padding-bottom: 0;
+  background-color: white;
+  height: 109px;
+  h1 {
+    padding-top: 15px;
+  }
+}
