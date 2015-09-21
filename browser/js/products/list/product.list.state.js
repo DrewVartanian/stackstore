@@ -31,6 +31,7 @@ app.controller('ProductListCtrl', function($scope, products, cart, user, CartFac
         CartFactory.addToCart(cart, user, product)
         .then(function () {
             console.log("Item successfully added");
+            CartFactory.getCartItemNum();
             $state.go('cart');
         });
     };
