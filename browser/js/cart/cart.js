@@ -51,6 +51,7 @@ app.controller('CartController',function ($scope, cart, MemberFactory, $state, C
 	$scope.removeItemFromOrder = function (item){
         if(AuthService.isAuthenticated()){
     		MemberFactory.removeOrderItem(cart, item).then(function(){
+                CartFactory.getCartItemNum();
     			$state.reload();
     		});
         }else{
@@ -69,7 +70,10 @@ app.controller('CartController',function ($scope, cart, MemberFactory, $state, C
                 localCart=localCart.join(',');
             }
             localStorage.setItem('cart', localCart);
+            // $state.reload();
+            CartFactory.getCartItemNum();
             $state.reload();
+            
         }
 	};
 
@@ -79,7 +83,9 @@ app.controller('CartController',function ($scope, cart, MemberFactory, $state, C
         }
         if(AuthService.isAuthenticated()){
             MemberFactory.updateOrderItem(cart, item).then(function() {
+                CartFactory.getCartItemNum();
                 $state.reload();
+                
                 //do we want to say 'successfully updated' on the page?
             });
         }else{
@@ -100,7 +106,9 @@ app.controller('CartController',function ($scope, cart, MemberFactory, $state, C
             }
             console.log(localCart);
             localStorage.setItem('cart', localCart);
+            CartFactory.getCartItemNum();
             $state.reload();
+            
         }
     };
 

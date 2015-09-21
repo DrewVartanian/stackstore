@@ -96,9 +96,26 @@ app.factory('CartFactory', function($http,AuthService,MemberFactory) {
         // return {items: finalCart};
     };
 
+    var cartLength = {length: 0};
+    var getCartItemNum = function() {
+                getCart().then(function(cart) {
+                    console.log('cart', cart);
+                    var sum = 0;
+                    if (cart.items) {
+                        cart.items.forEach(function(item) {
+                            console.log('qty', item.quantity);
+                            sum += Number(item.quantity);
+                        });
+                    }
+                    cartLength.length = sum;
+                });
+            };
+
     return {
         addToCart: addToCart,
-        getCart: getCart
+        getCart: getCart,
+        getCartItemNum: getCartItemNum,
+        cartLength: cartLength
     };
 
 });
