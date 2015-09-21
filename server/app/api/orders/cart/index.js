@@ -14,8 +14,8 @@ router.put('/remove/:cartId/:itemId', function(req, res, next) {
         for (var i = 0; i < cart.items.length; i++) {
             if (cart.items[i]._id == req.params.itemId) {
                 cart.items.splice(i, 1);
-                cart.save().then(function() {
-                    res.status(204).end();
+                cart.save().then(function(newcart) {
+                    res.status(200).json(newcart);
 
                 });
 
@@ -29,9 +29,9 @@ router.put('/update/:cartId', function(req, res, next) {
     Order.findById(req.params.cartId).then(function(cart) {
         console.log("req.body.time", req.body.date);
         cart.date = req.body.date;
-        cart.save().then(function() {
+        cart.save().then(function(newcart) {
             console.log("time populated", cart.date);
-            res.status(204).end();
+            res.status(200).json(newcart);
         });
 
     })
@@ -43,8 +43,8 @@ router.put('/update/:cartId/:itemId', function(req, res, next) {
         for (var i = 0; i < cart.items.length; i++) {
             if (cart.items[i]._id == req.params.itemId) {
                 cart.items[i].quantity = req.body.quantity;
-                cart.save().then(function() {
-                    res.status(204).end();
+                cart.save().then(function(newcart) {
+                    res.status(200).json(newcart);
                 });
             }
         }
@@ -83,8 +83,9 @@ router.put('/add/:itemId', function(req, res, next) {
                     quantity: 1
                 }
                 cart[0].items.push(productToBeAdded);
-                cart[0].save().then(function() {
-                    res.status(204).end();
+                cart[0].save().then(function(newcart) {
+                    //console.log("Does this get sent with response?: ", newcart);
+                    res.status(200).json(newcart);
                 })
             });
         })
