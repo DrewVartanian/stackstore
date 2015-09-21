@@ -56,44 +56,51 @@ app.factory('CartFactory', function($http,AuthService,MemberFactory) {
 
     var getCart = function() {
 
-        if(AuthService.isAuthenticated()){
+        return AuthService.getLoggedInUser().then(function(user){
+            if(!user) throw new Error();
             return AuthService.getLoggedInUser().then(function (user){
                 return MemberFactory.getCart(user);
+            }).then(function(cart){
+                if(!cart) throw new Error();
+                return cart;
+            }).then(null, function(err){
+                return {items:[]};
             });
-        }
-        var ls = localStorage.getItem('cart');
-        if(!ls) return new Promise(function(resolve,reject){
-            resolve({items:[]});
-        });
-        var cartItems = ls.split(',');
-        cartItems.pop();
-        var finalCart = [];
-        var cartObj = {};
-        var promises = [];
+        }).then(null,function(err){
+            var ls = localStorage.getItem('cart');
+            if(!ls) return new Promise(function(resolve,reject){
+                resolve({items:[]});
+            });
+            var cartItems = ls.split(',');
+            cartItems.pop();
+            var finalCart = [];
+            var cartObj = {};
+            var promises = [];
 
-        for (var i=0; i<cartItems.length; i++) {
-            cartItems[i] = cartItems[i].split(":");
-            var title = cartItems[i][0];
-            var _id = cartItems[i][1];
-            var price = cartItems[i][2];
-            var quantity = cartItems[i][3];
-            promises.push($http.get('/api/products/'+_id));
-            cartObj = {};
-            cartObj.productId = {};
-            cartObj.productId.title = title;
-            cartObj.price = price;
-            cartObj.quantity = quantity;
-            finalCart.push(cartObj);
-        }
-        return Promise.all(promises).then(function(products){
-            // console.log(finalCart);
-            products.forEach(function(product,index){
-                finalCart[index].productId=product.data;
+            for (var i=0; i<cartItems.length; i++) {
+                cartItems[i] = cartItems[i].split(":");
+                var title = cartItems[i][0];
+                var _id = cartItems[i][1];
+                var price = cartItems[i][2];
+                var quantity = cartItems[i][3];
+                promises.push($http.get('/api/products/'+_id));
+                cartObj = {};
+                cartObj.productId = {};
+                cartObj.productId.title = title;
+                cartObj.price = price;
+                cartObj.quantity = quantity;
+                finalCart.push(cartObj);
+            }
+            return Promise.all(promises).then(function(products){
+                // console.log(finalCart);
+                products.forEach(function(product,index){
+                    finalCart[index].productId=product.data;
+                });
+                console.log('post',finalCart);
+                return {items: finalCart};
             });
-            console.log('post',finalCart);
-            return {items: finalCart};
+            // return {items: finalCart};
         });
-        // return {items: finalCart};
     };
 
     return {
