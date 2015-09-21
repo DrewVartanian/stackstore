@@ -13,8 +13,15 @@ router.get('/', function(req, res, next) { //next here
 });
 
 router.post('/', function(req, res, next) { //next here
-
-    Product.create(req.body).then(function(product) {
+    var newProduct={};
+    if(typeof req.body.title!=='undefined') newProduct.title = req.body.title;
+    if(typeof req.body.description!=='undefined') newProduct.description = req.body.description;
+    if(typeof req.body.price!=='undefined') newProduct.price = req.body.price;
+    if(typeof req.body.inventoryQuantity!=='undefined') newProduct.inventoryQuantity = req.body.inventoryQuantity;
+    if(typeof req.body.categories!=='undefined') newProduct.categories = req.body.categories;
+    if(typeof req.body.photo!=='undefined') newProduct.photo = req.body.photo;
+    if(typeof req.body.sqFootage!=='undefined') newProduct.sqFootage = req.body.sqFootage;
+    Product.create(newProduct).then(function(product) {
         res.json(product);
     })
     .then(null, next);
@@ -52,9 +59,13 @@ router.put('/:id', function(req, res, next) { //next here
       err.status = 403;
       return next(err);
     }
-    for(var key in req.body){
-      req.productParm[key]=req.body[key];
-    }
+    if(typeof req.body.title!=='undefined') req.productParm.title = req.body.title;
+    if(typeof req.body.description!=='undefined') req.productParm.description = req.body.description;
+    if(typeof req.body.price!=='undefined') req.productParm.price = req.body.price;
+    if(typeof req.body.inventoryQuantity!=='undefined') req.productParm.inventoryQuantity = req.body.inventoryQuantity;
+    if(typeof req.body.categories!=='undefined') req.productParm.categories = req.body.categories;
+    if(typeof req.body.photo!=='undefined') req.productParm.photo = req.body.photo;
+    if(typeof req.body.sqFootage!=='undefined') req.productParm.sqFootage = req.body.sqFootage;
     req.productParm.save().then(function(product) {
         //check status code
         res.status(product).json(product);
