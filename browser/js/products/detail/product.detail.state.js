@@ -27,9 +27,12 @@ app.config(function($stateProvider) {
     });
 });
 
-app.controller('ProductDetailCtrl', function($scope, product, reviews, cart, user, CartFactory,$state) {
+app.controller('ProductDetailCtrl', function($scope, product, reviews, cart, user, CartFactory,$state, ProductFactory) {
     $scope.product = product;
     $scope.reviews = reviews;
+
+    $scope.reviewError = false;
+    $scope.ratingError = false;
 
     var generateUsernames = function() {
         $scope.reviews.forEach(function(review) {
@@ -71,6 +74,19 @@ app.controller('ProductDetailCtrl', function($scope, product, reviews, cart, use
     };
 
     $scope.submitReview = function(){
-        if($scope.reviewContents){}
+        if($scope.reviewContents && $scope.rating){
+            $scope.reviewError = false;
+            $scope.ratingError = false;
+            ProductFactory.postReviews($scope.reviewContents, $scope.rating, user._id, product._id);
+            $state.reload();
+        }
+        else{
+            if(!$scope.reviewContents) $scope.reviewError = true; 
+            else $scope.reviewError = false;
+            if(!$scope.rating) $scope.ratingError = true;
+            else $scope.ratingError = false;
+
+        }
+
     };
 });

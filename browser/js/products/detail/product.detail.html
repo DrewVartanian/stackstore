@@ -19,17 +19,25 @@
             <strong>{{review.text}}</strong>
         </p>
     </div>
-    <div ng-show="isUser()" ng-submit="submitReview()">
-        <ul class="ratings">
-            <li class="placeholder"> 
-                    <a data-type="all" href="#0">All</a> <!-- selected option on mobile -->
-                </li> 
-                <li class="filter"><a class="selected" href="#0" data-type="all">All</a></li>
-                <li class="filter" data-filter=".color-1"><a href="#0" data-type="color-1">Color 1</a></li>
-                <li class="filter" data-filter=".color-2"><a href="#0" data-type="color-2">Color 2</a></li>
-        </ul>
-        <textarea rows="4" cols="50" type="text" ng-model="reviewContents"></textarea>
-        <button type="submit" class="btn btn-info">Submit Review</button>
+    <form ng-show="isUser()" ng-submit="submitReview()">
+        <div>
+            <p>Select your rating here:</p>
+            <select ng-model="rating">
+                <option value="5">5</option>
+                <option value="4">4</option>
+                <option value="3">3</option>
+                <option value="2">2</option>
+                <option value="1">1</option>
+            </select>
+        <p ng-show="ratingError">Please select a rating before submit</p>
+        </div>
 
-    </div>
+        <div>
+            <textarea rows="4" cols="50" type="text" ng-model="reviewContents"></textarea>
+        </div>
+        <div>
+            <button type="submit" class="btn btn-info">Submit Review</button>
+        </div>
+        <p ng-show="reviewError">Please put in some comments before submit</p>
+    </form>
 </div>
