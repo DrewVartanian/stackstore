@@ -22,9 +22,16 @@ app.config(function($stateProvider) {
 });
 
 app.controller('AdminPromoController', function($scope, promo, AdminPromoFactory, $stateParams, $state) {
-    console.log('promo', promo);
-    $scope.promo = promo;
     
+    $scope.promo = promo;
+    $scope.formatDateForHtml = function(date) {
+        var myDate = date.match(/^(.+)T/)[1];
+        return new Date(myDate);
+       
+    };
+
+    $scope.htmlExpire = $scope.formatDateForHtml(promo.expirationDate);
+
     $scope.newPromo = ($stateParams.promoId === 'new');
     $scope.deletePromo = function() {
         AdminPromoFactory.deletePromo($stateParams.promoId).then(function() {
@@ -37,6 +44,7 @@ app.controller('AdminPromoController', function($scope, promo, AdminPromoFactory
                 $state.go('admin.promos');
             });
         }else{
+            //$scope.promo.expirationDate = $scope.htmlExpire;
             AdminPromoFactory.editPromo($scope.promo).then(function() {
                 $state.go('admin.promos');
             });
