@@ -54,8 +54,13 @@ app.controller('ProductListCtrl', function($scope, products, cart, user, CartFac
     };
 
     $scope.filterHead=function(filt){
-        $scope.search='';
         $scope.showFilter=false;
+        $scope.search='';
+        $scope.minPrice='';
+        $scope.maxPrice='';
+        $scope.minFt='';
+        $scope.maxFt='';
+        $scope.stock=false;
         $scope.filter(filt);
     };
 
