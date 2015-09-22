@@ -58,8 +58,9 @@ router.put('/:id', function(req, res, next) {
         if (typeof req.body.valueOff !== 'undefined') promo.valueOff = req.body.valueOff;
         if (typeof req.body.type !== 'undefined') promo.type = req.body.type;
         if (typeof req.body.categories !== 'undefined') promo.categories = req.body.categories;
-        if (typeof req.body.products !== 'undefined') promo.code = req.body.products;
+        if (typeof req.body.products !== 'undefined') promo.products = req.body.products;
         promo.save().then(function(newPromo) {
+            console.log('success! new promo is', newPromo);
             //check status code
             res.status(201).json(newPromo);
         }).then(null, next);

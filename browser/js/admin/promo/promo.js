@@ -44,7 +44,7 @@ app.controller('AdminPromoController', function($scope, promo, AdminPromoFactory
                 $state.go('admin.promos');
             });
         }else{
-            //$scope.promo.expirationDate = $scope.htmlExpire;
+            $scope.promo.expirationDate = $scope.htmlExpire;
             AdminPromoFactory.editPromo($scope.promo).then(function() {
                 $state.go('admin.promos');
             });
