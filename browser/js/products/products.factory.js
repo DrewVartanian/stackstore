@@ -23,10 +23,26 @@ app.factory('ProductFactory', function($http) {
             });
     };
 
+    var postReviews = function(reviewContents, rating, userId, productId) {
+        return $http.post('/api/reviews/products/' + productId + '/user/' + userId + "/review/", {review: reviewContents, rating: rating})
+            .then(function(res) {
+                return res.data;
+            });
+    };
+
+    var deleteReviews = function(reviewId) {
+        return $http.delete('/api/reviews/' + reviewId)
+            .then(function(res) {
+                return res.data;
+            });
+    };
+
 
     return {
         fetchAll: fetchAll,
         fetch: fetch,
-        fetchReviews: fetchReviews
+        fetchReviews: fetchReviews,
+        postReviews: postReviews,
+        deleteReviews: deleteReviews
     };
 });

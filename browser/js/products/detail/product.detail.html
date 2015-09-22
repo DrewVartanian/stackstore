@@ -18,5 +18,27 @@
         <p>
             <strong>{{review.text}}</strong>
         </p>
+        <button type="buttom" ng-show="isAdmin" ng-click="removeReview(review)" class="btn btn-danger">Remove</button>
     </div>
+    <form ng-show="isUser()" ng-submit="submitReview()">
+        <div>
+            <p>Select your rating here:</p>
+            <select ng-model="rating">
+                <option value="5">5</option>
+                <option value="4">4</option>
+                <option value="3">3</option>
+                <option value="2">2</option>
+                <option value="1">1</option>
+            </select>
+        <p ng-show="ratingError">Please select a rating before submit</p>
+        </div>
+
+        <div>
+            <textarea rows="4" cols="50" type="text" ng-model="reviewContents"></textarea>
+        </div>
+        <div>
+            <button type="submit" class="btn btn-info">Submit Review</button>
+        </div>
+        <p ng-show="reviewError">Please put in some comments before submit</p>
+    </form>
 </div>

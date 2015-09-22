@@ -7,9 +7,7 @@ app.config(function($stateProvider) {
         resolve: {
             product: function(ProductFactory, $stateParams) {
                 if ($stateParams.productId === 'new') return {};
-                return ProductFactory.fetch($stateParams.productId).then(function(product){
-                    product.categories=product.categories.join(',');
-                });
+                return ProductFactory.fetch($stateParams.productId);
             }
         },
         // The following data.authenticate is read by an event listener
@@ -30,7 +28,12 @@ app.controller('AdminProductController', function($scope, product, AdminProductF
         });
     };
     $scope.editProduct = function() {
-        $scope.product.categories.split(',');
+        if(typeof $scope.product.categories==='string'){
+            $scope.product.categories=$scope.product.categories.split(',');
+        }
+        $scope.product.categories=$scope.product.categories.map(function(cat){
+            return cat.replace(/^\s+|\s+$/g,'').toLowerCase();
+        });
         if($scope.newProduct){
             AdminProductFactory.createProduct($scope.product).then(function() {
                 $state.go('admin.products');

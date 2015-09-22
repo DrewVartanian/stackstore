@@ -27,9 +27,17 @@ app.config(function($stateProvider) {
     });
 });
 
-app.controller('ProductDetailCtrl', function($scope, product, reviews, cart, user, CartFactory,$state) {
+app.controller('ProductDetailCtrl', function($scope, product, reviews, cart, user, CartFactory,$state, ProductFactory) {
     $scope.product = product;
     $scope.reviews = reviews;
+
+    $scope.isAdmin = user.isAdmin;
+
+    
+
+    $scope.reviewError = false;
+    $scope.ratingError = false;
+
 
     var generateUsernames = function() {
         $scope.reviews.forEach(function(review) {
@@ -60,6 +68,41 @@ app.controller('ProductDetailCtrl', function($scope, product, reviews, cart, use
             CartFactory.getCartItemNum();
             $state.go('cart');
         });
+
+    };
+
+    $scope.isUser = function(){
+        console.log("i am user", user);
+        console.log("i am cart", cart);
+        if(cart){
+            return true;
+        }
+        else {
+            return false;
+        }
+
+    };
+
+    $scope.removeReview = function(review){
+        console.log("i am review", review);
+        ProductFactory.deleteReviews(review._id);
+        $state.reload();
+    };
+
+    $scope.submitReview = function(){
+        if($scope.reviewContents && $scope.rating){
+            $scope.reviewError = false;
+            $scope.ratingError = false;
+            ProductFactory.postReviews($scope.reviewContents, $scope.rating, user._id, product._id);
+            $state.reload();
+        }
+        else{
+            if(!$scope.reviewContents) $scope.reviewError = true; 
+            else $scope.reviewError = false;
+            if(!$scope.rating) $scope.ratingError = true;
+            else $scope.ratingError = false;
+
+        }
 
     };
 });
