@@ -17,18 +17,22 @@ app.config(function($stateProvider) {
                 // return AuthService.getLoggedInUser().then(function(user) {
                 //     return MemberFactory.getCart(user);
                 // });
+            },
+            promos: function(PromosFactory) {
+                return PromosFactory.fetchAll();
             }
         }
     });
 
 });
 
-app.controller('CheckOutController', function(MemberFactory, $scope, $state, cart, user) {
+app.controller('CheckOutController', function(MemberFactory, $scope, $state, cart, user, PromosFactory) {
 
     $scope.cart = cart;
+    $scope.notPromo = false;
 
     $scope.getTotal = function() {
-        return cart.items.map(function(item) {
+        return $scope.cart.items.map(function(item) {
             return item.quantity * item.price;
         }).reduce(function(a, b) {
             return a + b;
@@ -36,11 +40,68 @@ app.controller('CheckOutController', function(MemberFactory, $scope, $state, car
     };
     $scope.amount = $scope.getTotal();
 
+    $scope.cart.items.forEach(function(item){
+        item.total=item.productId.price*item.quantity;
+    });
+
 
     $scope.paymentSubmit = function() {
 
-        MemberFactory.editOrder(user._id, cart, $scope.amount, $scope.customer).then(function(cart) {
+        MemberFactory.editOrder(user._id, $scope.cart, $scope.amount, $scope.customer, $scope.promo).then(function(cart) {
             $state.go("membersOnly.view");
+        });
+    };
+
+
+
+    $scope.applyCode = function() {
+        PromosFactory.fetchByCode($scope.promoCode).then(function(promo) {
+            console.log('promo', promo);
+            if (promo===null) $scope.notPromo = true;
+            else $scope.notPromo = false;
+
+            // var itemsToDiscount = $scope.cart.items;
+
+            // if (promo.categories.length>0) {
+            //     itemsToDiscount = itemsToDiscount.filter(function(item) {
+            //         item.categories.forEach(function(cat) {
+            //             return promo.categories.indexOf(cat) > 0;
+            //         });
+            //     });
+            // }
+            // if (promo.products.length>0) {
+
+            // }
+            // else {
+                $scope.cart.items.forEach(function(item) {
+                    if(promo.categories.length>0) {
+                        promo.categories.forEach(function(cat) {
+                            if(item.productId.categories.indexOf(cat) > -1) {
+                                item.price = PromosFactory.discount(item.price, promo);
+                            }
+                        });
+                    }
+                    else if(promo.products.length>0) {
+                        if(promo.products.indexOf(item.productId._id)> -1) {
+                            item.price = PromosFactory.discount(item.price, promo);
+                        }
+                    }
+                    else {
+                        item.price = PromosFactory.discount(item.price, promo);
+                    }
+                    
+                });
+                console.log($scope.cart);
+                $scope.amount = $scope.getTotal();
+                
+            
+
+            $scope.cart.items.forEach(function(item){
+                item.total=item.price*item.quantity;
+            });
+
+            $scope.promo = promo;
+
         });
     };
 

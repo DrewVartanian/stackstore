@@ -8,35 +8,35 @@
                 <h4>{{item.productId.title}}</h4> {{item.productId.description}}
             </div>
             <div class="col-xs-3" ng-click="$event.stopPropagation()">
-                <h5>Unit: {{item.productId.price | currency}} | Total: {{item.total | currency}}</h5>
+                <h5>Unit: {{item.price | currency}} | Total: {{item.total | currency}}</h5>
                 <div>Quantity: {{item.quantity}}</div>
                 <br>
             </div>
         </li>
     </ul>
     <div class='container row'>
-        <div class="col-md-4 col-md-offset-1">
+        <div class="col-md-5">
             <div class='panel panel-default'>
                 <div class="panel-heading">
                     <h3 class="panel-title">Add a Promo Code</h3>
                 </div>
                 <div class='row padding'>
-                    <div class='form-group col-md-9'>
+                    <button class='btn btn-default col-md-4'>See promo codes</button>
+                    <div class='form-group col-md-6'>
                         <input type='text' ng-model='promoCode' class='form-control' id='promoCode' placeholder='Enter Promo Code' autofocus/>
                     </div>
-                    <button class='btn btn-default'>Apply</button>
+                    <button class='btn btn-default' ng-click='applyCode()'>Apply</button>
                 </div>
+                <p ng-show='notPromo' class='invalid'>Not a valid Promo</p>
             </div>
         </div>
-
         <div class="total-price panel col-md-4 col-md-offset-2">
             <h1>Your Total: {{ amount | currency }}</h1>
         </div>
-
     </div>
-    <div class="row">
-        <form role="form" name="customerForm" ng-submit="customerForm.$valid && paymentSubmit()">
-            <!-- <div class="row"> -->
+    <form role="form" name="customerForm" ng-submit="customerForm.$valid && paymentSubmit()">
+        <!-- <div class="row"> -->
+        <div class="row">
             <div class="col-xs-12 col-md-6">
                 <div class="panel panel-default">
                     <div class="panel-heading">
@@ -201,17 +201,17 @@
                     <!-- </div> -->
                 </div>
             </div>
-        </form>
-    </div>
-    <div class='row'>
-        <ul class="nav nav-pills nav-stacked col-md-6 final-payment">
-            <li class="active"><a href="#"><span class="badge pull-right"><span class="glyphicon"></span>{{ amount | currency }}</span>Final Payment</a>
-            </li>
-        </ul>
-        <div class='col-md-6'>
-            <button type="submit" class="btn btn-success btn-lg btn-block " role="button">Pay</button>
         </div>
-    </div>
+        <div class='row'>
+            <ul class="nav nav-pills nav-stacked col-md-6 final-payment">
+                <li class="active"><a><span class="badge pull-right"><span class="glyphicon"></span>{{ amount | currency }}</span>Final Payment</a>
+                </li>
+            </ul>
+            <div class='col-md-6'>
+                <button type="submit" class="btn btn-success btn-lg btn-block" role="button">Pay</button>
+            </div>
+        </div>
+    </form>
     <br>
     <br>
 </div>

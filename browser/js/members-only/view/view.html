@@ -13,7 +13,8 @@
 	<li ng-repeat="order in orders | orderBy: '-date' ">
 		<ul class="list-group">
 	      	<li class="list-group-item" style="background-color:lightgrey">
-	     	Date: {{order.date | date:'mediumDate' }}
+	     	Date: {{order.date | date:'mediumDate' }}  
+	     	Promo: {{order.promoCode}}
 	     	</li>
 <!-- 			<li class="list-group-item" ng-repeat="item in order.items">
 				{{item.productId.title}} {{item.price}} {{item.quantity}}
