@@ -5,6 +5,7 @@ var _ = require('lodash');
 var mongoose = require('mongoose');
 var Order = mongoose.model('Order');
 var nodemailer = require('nodemailer');
+var Product = mongoose.model('Product');
  var fs = require('fs');
 var ejs = require('ejs');
 var emailTemplate = fs.readFileSync(__dirname +'/order_summary.ejs', 'utf8');
@@ -155,7 +156,7 @@ router.put('/checkout', function(req, res, next) {
             "totalPrice": req.body.total
         });
 
-        console.log("customizedTemplate type", typeof customizedTemplate);
+        //console.log("customizedTemplate type", typeof customizedTemplate);
        transporter.sendMail({
            from: 'tinyhomes.eco@gmail.com',
            to: req.body.email,
@@ -164,6 +165,14 @@ router.put('/checkout', function(req, res, next) {
        });
         //sendEmail(req.body.name, req.body.email, "Tiny Home", "tinyhome@eco.org", "Tiny Home Order Summary", customizedTemplate);
 
+        req.body.orders.items.forEach(function(item){
+
+            Product.findById(item.productId._id).then(function(product){
+                product.inventoryQuantity -= item.quantity;
+                product.save();
+
+            })
+        })
         res.status(200).json(order);
     }).then(null, next);
 
