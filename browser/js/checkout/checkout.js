@@ -23,9 +23,10 @@ app.config(function($stateProvider) {
 
 });
 
-app.controller('CheckOutController', function(MemberFactory, $scope, $state, cart, user) {
+app.controller('CheckOutController', function(MemberFactory, $scope, $state, cart, user, PromosFactory) {
 
     $scope.cart = cart;
+    $scope.notPromo = false;
 
     $scope.getTotal = function() {
         return cart.items.map(function(item) {
@@ -41,6 +42,15 @@ app.controller('CheckOutController', function(MemberFactory, $scope, $state, car
 
         MemberFactory.editOrder(user._id, cart, $scope.amount, $scope.customer).then(function(cart) {
             $state.go("membersOnly.view");
+        });
+    };
+
+    $scope.applyCode = function() {
+        PromosFactory.fetchByCode($scope.promoCode).then(function(promo) {
+            console.log('promo', promo);
+            if (promo===null) $scope.notPromo = true;
+            else $scope.notPromo = false;
+
         });
     };
 

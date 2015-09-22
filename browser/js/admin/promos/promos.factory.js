@@ -9,8 +9,15 @@ app.factory('PromosFactory', function($http) {
             });
     };
 
-    var fetch = function(id) {
+    var fetchById = function(id) {
         return $http.get('/api/promos/' + id)
+            .then(function(res) {
+                return res.data;
+            });
+    };
+
+    var fetchByCode = function(code) {
+        return $http.get('/api/promos/code/'+code)
             .then(function(res) {
                 return res.data;
             });
@@ -18,6 +25,7 @@ app.factory('PromosFactory', function($http) {
 
     return {
         fetchAll: fetchAll,
-        fetch: fetch
+        fetchById: fetchById,
+        fetchByCode: fetchByCode
     };
 });

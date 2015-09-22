@@ -21,6 +21,15 @@ router.get('/:id', function(req, res, next) { //next here
 
 });
 
+router.get('/code/:code', function(req, res, next) { //next here
+
+    Promo.findOne({code: req.params.code}).then(function(promo) {
+            res.json(promo);
+        })
+        .then(null, next);
+
+});
+
 router.post('/', function(req, res, next) {
     var newPromo = {};
     if (typeof req.body.code !== 'undefined') newPromo.code = req.body.code;

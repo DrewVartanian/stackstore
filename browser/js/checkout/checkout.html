@@ -24,8 +24,9 @@
                     <div class='form-group col-md-9'>
                         <input type='text' ng-model='promoCode' class='form-control' id='promoCode' placeholder='Enter Promo Code' autofocus/>
                     </div>
-                    <button class='btn btn-default'>Apply</button>
+                    <button class='btn btn-default' ng-click = 'applyCode()'>Apply</button>
                 </div>
+                <p ng-show='notPromo' class='invalid'>Not a valid Promo</p>
             </div>
         </div>
 
