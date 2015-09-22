@@ -79,17 +79,17 @@ app.factory('MemberFactory',function ($http){
         });
     };
 
-    var editOrder = function(userId, cart, amount, customer, promo){
+    var editOrder = function(cart, amount, customer, promo){
         console.log('promo', promo);
         var info = {
             name: customer.name,
             email: customer.email,
             total: amount,
-            orders: cart.items,
-            promoCode: promo._id
+            orders: cart,
+            promoCode: promo?promo._id:null
         };
 
-        return $http.put('/api/orders/members/' + userId + '/checkout', info)
+        return $http.put('/api/orders/members/checkout', info)
         .then(function(res){
             return res.data;
         });

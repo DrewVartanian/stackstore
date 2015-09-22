@@ -61,7 +61,7 @@ app.factory('CartFactory', function($http,AuthService,MemberFactory) {
             return AuthService.getLoggedInUser().then(function (user){
                 return MemberFactory.getCart(user);
             }).then(function(cart){
-                if(!cart) throw new Error();
+                if(!cart) return {items:[]};
                 return cart;
             }).then(null, function(err){
                 return {items:[]};
