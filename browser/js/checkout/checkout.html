@@ -8,7 +8,7 @@
                 <h4>{{item.productId.title}}</h4> {{item.productId.description}}
             </div>
             <div class="col-xs-3" ng-click="$event.stopPropagation()">
-                <h5>Unit: {{item.productId.price | currency}} | Total: {{item.total | currency}}</h5>
+                <h5>Unit: {{item.price | currency}} | Total: {{item.total | currency}}</h5>
                 <div>Quantity: {{item.quantity}}</div>
                 <br>
             </div>
@@ -206,7 +206,7 @@
     </div>
     <div class='row'>
         <ul class="nav nav-pills nav-stacked col-md-6 final-payment">
-            <li class="active"><a href="#"><span class="badge pull-right"><span class="glyphicon"></span>{{ amount | currency }}</span>Final Payment</a>
+            <li class="active"><a><span class="badge pull-right"><span class="glyphicon"></span>{{ amount | currency }}</span>Final Payment</a>
             </li>
         </ul>
         <div class='col-md-6'>

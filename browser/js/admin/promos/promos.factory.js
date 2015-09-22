@@ -23,9 +23,20 @@ app.factory('PromosFactory', function($http) {
             });
     };
 
+    var discount = function(itemPrice, promo) {
+        if (promo.type==='percent') {
+            return (itemPrice-itemPrice*(promo.valueOff/100)).toFixed(2);
+        }
+        if (promo.type==='dollar') {
+            var discounted = (itemPrice-promo.valueOff).toFixed(2);
+            return (discounted > 0) ? discounted : 0;
+        }
+    };
+
     return {
         fetchAll: fetchAll,
         fetchById: fetchById,
-        fetchByCode: fetchByCode
+        fetchByCode: fetchByCode,
+        discount: discount
     };
 });

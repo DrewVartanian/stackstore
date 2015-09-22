@@ -18,6 +18,9 @@ app.config(function($stateProvider) {
                 //     return MemberFactory.getCart(user);
                 // });
             }
+            promos: function(PromosFactory) {
+                return PromosFactory.fetchAll();
+            }
         }
     });
 
@@ -29,7 +32,7 @@ app.controller('CheckOutController', function(MemberFactory, $scope, $state, car
     $scope.notPromo = false;
 
     $scope.getTotal = function() {
-        return cart.items.map(function(item) {
+        return $scope.cart.items.map(function(item) {
             return item.quantity * item.price;
         }).reduce(function(a, b) {
             return a + b;
@@ -37,19 +40,43 @@ app.controller('CheckOutController', function(MemberFactory, $scope, $state, car
     };
     $scope.amount = $scope.getTotal();
 
+    $scope.cart.items.forEach(function(item){
+        item.total=item.productId.price*item.quantity;
+    });
+
 
     $scope.paymentSubmit = function() {
 
-        MemberFactory.editOrder(user._id, cart, $scope.amount, $scope.customer).then(function(cart) {
-            $state.go("membersOnly.view");
+        MemberFactory.editOrder(user._id, $scope.cart, $scope.amount, $scope.customer).then(function(cart) {
+            $state.go("home");
         });
     };
+
+
 
     $scope.applyCode = function() {
         PromosFactory.fetchByCode($scope.promoCode).then(function(promo) {
             console.log('promo', promo);
             if (promo===null) $scope.notPromo = true;
             else $scope.notPromo = false;
+
+
+
+            if (promo.categories.length>0) console.log('has categories!');
+            if (promo.products.length>0) console.log('has products!');
+            else {
+                console.log('for all products');
+                $scope.cart.items.forEach(function(item) {
+                    item.price = PromosFactory.discount(item.price, promo);
+                });
+                console.log($scope.cart);
+                $scope.amount = $scope.getTotal();
+                
+            }
+
+            $scope.cart.items.forEach(function(item){
+                item.total=item.price*item.quantity;
+            });
 
         });
     };
