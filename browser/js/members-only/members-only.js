@@ -80,7 +80,6 @@ app.factory('MemberFactory',function ($http){
     };
 
     var editOrder = function(cart, amount, customer, promo){
-        console.log('promo', promo);
         var info = {
             name: customer.name,
             email: customer.email,

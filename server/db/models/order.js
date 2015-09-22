@@ -56,7 +56,7 @@ orderSchema.pre('save', function(next) {
         // console.log('item', item);
         promises.push(Product.findById(item.productId).then(function(product) {
             // console.log('product', product);
-            item.price = product.price;
+            if(!item.price) item.price = product.price;
         }));
     });
     // console.log('AT THE PROMISE.ALL');

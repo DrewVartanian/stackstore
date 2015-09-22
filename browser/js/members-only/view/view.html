@@ -1,20 +1,22 @@
-<h1>View:</h1>
-<h2>Email: {{user.email}}</h2>
+<h2>View:</h2>
+<li class="list-group-item"><h3>Email: {{user.email}}</h3>
+<br>
 <div>
   <button class="btn" ui-sref='membersOnly.edit()'>Edit</button>
 </div>
-
+</li>
 
 <br>
 <br>
 
 <h1>Order History</h1>
+<hr style="width: 100%; color: black; height: 1px; background-color:black;" />
 <ul style="list-style-type: none">
 	<li ng-repeat="order in orders | orderBy: '-date' ">
 		<ul class="list-group">
 	      	<li class="list-group-item" style="background-color:lightgrey">
 	     	Date: {{order.date | date:'mediumDate' }}  
-	     	Promo: {{order.promoCode}}
+
 	     	</li>
 <!-- 			<li class="list-group-item" ng-repeat="item in order.items">
 				{{item.productId.title}} {{item.price}} {{item.quantity}}
@@ -29,7 +31,8 @@
 			      </div>
 			      <div class="col-xs-3" ng-click="$event.stopPropagation()">
 			        <h5>Unit: {{item.productId.price | currency}} | Total: {{item.total  | currency}}</h5>
-			        <div>Quantity: {{item.quantity}}</div>
+			        <h4>Quantity: {{item.quantity}}</h4>
+			        <h4 ng-show="order.promoCode">Promo Code: {{order.promoCode.code}}</h4>
 			        <br>
 			        <div>
 
