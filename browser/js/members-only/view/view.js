@@ -24,6 +24,7 @@ app.config(function ($stateProvider) {
 
 app.controller('MemberViewController',function ($scope, orders) {
     $scope.orders = orders;
+    console.log('orders', orders);
 
     $scope.orders.forEach(function(order){
         order.total = 0;
