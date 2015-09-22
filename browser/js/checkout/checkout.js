@@ -17,7 +17,7 @@ app.config(function($stateProvider) {
                 // return AuthService.getLoggedInUser().then(function(user) {
                 //     return MemberFactory.getCart(user);
                 // });
-            }
+            },
             promos: function(PromosFactory) {
                 return PromosFactory.fetchAll();
             }
@@ -47,8 +47,8 @@ app.controller('CheckOutController', function(MemberFactory, $scope, $state, car
 
     $scope.paymentSubmit = function() {
 
-        MemberFactory.editOrder(user._id, $scope.cart, $scope.amount, $scope.customer).then(function(cart) {
-            $state.go("home");
+        MemberFactory.editOrder(user._id, $scope.cart, $scope.amount, $scope.customer, $scope.promo).then(function(cart) {
+            $state.go("membersOnly.view");
         });
     };
 
@@ -77,6 +77,8 @@ app.controller('CheckOutController', function(MemberFactory, $scope, $state, car
             $scope.cart.items.forEach(function(item){
                 item.total=item.price*item.quantity;
             });
+
+            $scope.promo = promo;
 
         });
     };

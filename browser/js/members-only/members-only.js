@@ -79,12 +79,13 @@ app.factory('MemberFactory',function ($http){
         });
     };
 
-    var editOrder = function(userId, cart, amount, customer){
+    var editOrder = function(userId, cart, amount, customer, promo){
         var info = {
             name: customer.name,
             email: customer.email,
             total: amount,
-            orders: cart.items
+            orders: cart.items,
+            promo: promo
         };
 
         return $http.put('/api/orders/members/' + userId + '/checkout', info)
