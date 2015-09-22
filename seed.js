@@ -87,7 +87,7 @@ var seedReviews = function(users,products) {
 var seedPromos = function(products) {
     var promos = [];
     promos.push({
-        code: '15%OFF',
+        code: '15pOFF',
         creationDate: new Date(),
         expirationDate: new Date(2016, 11, 20),
         valueOff: 15,
@@ -101,7 +101,7 @@ var seedPromos = function(products) {
         type: 'dollar'
     });
     promos.push({
-        code: 'cat15%OFF',
+        code: 'cat15pOFF',
         creationDate: new Date(),
         expirationDate: new Date(2016, 11, 20),
         valueOff: 15,
@@ -109,7 +109,7 @@ var seedPromos = function(products) {
         categories: ['B', 'C']
     });
     promos.push({
-        code: 'Prod15%OFF',
+        code: 'Prod15pOFF',
         creationDate: new Date(),
         expirationDate: new Date(2016, 11, 20),
         valueOff: 15,
@@ -117,7 +117,7 @@ var seedPromos = function(products) {
         products: products[0]._id
     });
     promos.push({
-        code: 'Exp15%OFF',
+        code: 'Exp15pOFF',
         creationDate: new Date(2000, 3, 24),
         expirationDate: new Date(2013, 11, 20),
         valueOff: 15,
