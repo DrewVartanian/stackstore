@@ -31,7 +31,7 @@ app.controller('ProductDetailCtrl', function($scope, product, reviews, cart, use
     $scope.product = product;
     $scope.reviews = reviews;
 
-    $scope.isAdmin = user.isAdmin;
+    $scope.isAdmin = user?user.isAdmin:false;
 
     
 
