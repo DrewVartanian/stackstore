@@ -31,8 +31,13 @@ app.controller('ProductDetailCtrl', function($scope, product, reviews, cart, use
     $scope.product = product;
     $scope.reviews = reviews;
 
+    $scope.isAdmin = user.isAdmin;
+
+    
+
     $scope.reviewError = false;
     $scope.ratingError = false;
+
 
     var generateUsernames = function() {
         $scope.reviews.forEach(function(review) {
@@ -67,10 +72,21 @@ app.controller('ProductDetailCtrl', function($scope, product, reviews, cart, use
     };
 
     $scope.isUser = function(){
-        if(user){
+        console.log("i am user", user);
+        console.log("i am cart", cart);
+        if(cart){
             return true;
         }
-        else return false;
+        else {
+            return false;
+        }
+
+    };
+
+    $scope.removeReview = function(review){
+        console.log("i am review", review);
+        ProductFactory.deleteReviews(review._id);
+        $state.reload();
     };
 
     $scope.submitReview = function(){

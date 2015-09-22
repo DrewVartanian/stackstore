@@ -18,6 +18,7 @@
         <p>
             <strong>{{review.text}}</strong>
         </p>
+        <button type="buttom" ng-show="isAdmin" ng-click="removeReview(review)" class="btn btn-danger">Remove</button>
     </div>
     <form ng-show="isUser()" ng-submit="submitReview()">
         <div>

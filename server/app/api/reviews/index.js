@@ -5,6 +5,13 @@ var Review = require('mongoose').model('Review');
 //var User = require('mongoose').model('User');
 
 //
+router.delete('/:id', function(req, res, next){
+    Review.findById(req.params.id).then(function(review){
+        review.remove();
+        res.sendStatus(204);
+    }).then(null, next);
+});
+
 router.get('/products/:id', function(req, res, next) {
     Review.find({
             product: req.params.id

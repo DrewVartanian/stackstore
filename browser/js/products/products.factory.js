@@ -30,11 +30,19 @@ app.factory('ProductFactory', function($http) {
             });
     };
 
+    var deleteReviews = function(reviewId) {
+        return $http.delete('/api/reviews/' + reviewId)
+            .then(function(res) {
+                return res.data;
+            });
+    };
+
 
     return {
         fetchAll: fetchAll,
         fetch: fetch,
         fetchReviews: fetchReviews,
-        postReviews: postReviews
+        postReviews: postReviews,
+        deleteReviews: deleteReviews
     };
 });
