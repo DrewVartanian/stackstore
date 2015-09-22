@@ -26,7 +26,7 @@ app.config(function($stateProvider) {
 
 });
 
-app.controller('CheckOutController', function(MemberFactory, $scope, $state, cart, user, PromosFactory) {
+app.controller('CheckOutController', function(MemberFactory, $scope, $state, cart, user, PromosFactory,CartFactory) {
 
     $scope.cart = cart;
     $scope.notPromo = false;
@@ -48,7 +48,14 @@ app.controller('CheckOutController', function(MemberFactory, $scope, $state, car
     $scope.paymentSubmit = function() {
 
         MemberFactory.editOrder($scope.cart, $scope.amount, $scope.customer, $scope.promo).then(function(cart) {
-            $state.go("membersOnly.view");
+            if(!user) localStorage.clear();
+            CartFactory.getCartItemNum();
+            if(!user){
+                $state.go("home");
+            }
+            else{
+                $state.go("membersOnly.view");
+            }
         });
     };
 
