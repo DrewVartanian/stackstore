@@ -89,10 +89,7 @@ gulp.task('testBrowserJS', function (done) {
 
 gulp.task('buildCSS', function () {
     return gulp.src('./browser/scss/main.scss')
-        .pipe(sass({
-            errLogToConsole: true,
-            includePaths: require('node-bourbon').includePaths     //import bourbon here
-        }))
+        .pipe(sass())
         .pipe(rename('style.css'))
         .pipe(gulp.dest('./public'));
 });
