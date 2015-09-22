@@ -15,8 +15,15 @@ app.config(function ($stateProvider) {
 
 app.controller('MemberEditController',function ($scope,MemberFactory,$state,AuthService) {
     $scope.email=$scope.$parent.user.email;
+    $scope.password = '';
     $scope.editUser = function(){
-        MemberFactory.editUser($scope.$parent.user,{email:$scope.email})
+        var userInfo = {
+            email: $scope.email
+        };
+        if ($scope.password) {
+            userInfo.password = $scope.password;
+        }
+        MemberFactory.editUser($scope.$parent.user,userInfo)
         .then(function(){
             return AuthService.getLoggedInUser(true);
         }).then(function(user){

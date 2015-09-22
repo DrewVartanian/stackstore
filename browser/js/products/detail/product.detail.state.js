@@ -30,10 +30,33 @@ app.config(function($stateProvider) {
 app.controller('ProductDetailCtrl', function($scope, product, reviews, cart, user, CartFactory,$state, ProductFactory) {
     $scope.product = product;
     $scope.reviews = reviews;
+    $scope.ratingArr=[];
+    $scope.catString='';
+    product.categories.forEach(function(cat,index){
+        console.log('index: '+index);
+        cat=cat.replace(/\w\S*/g, function(txt) {
+            return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+        });
+        $scope.catString+=cat;
+        if(index!==product.categories.length-1){
+            $scope.catString+=' | ';
+        }
+    });
+    console.log($scope.reviews);
+    var avg = 0;
+    reviews.forEach(function(review){
+        avg+=review.rating;
+    });
+    if(avg!==0){
+        avg=Math.round(avg/reviews.length);
+    }
+    $scope.avgReview=[];
+    for(var i=0; i<avg; i++){
+        $scope.avgReview.push(i+1);
+    }
 
     $scope.isAdmin = user?user.isAdmin:false;
 
-    
 
     $scope.reviewError = false;
     $scope.ratingError = false;
@@ -74,7 +97,7 @@ app.controller('ProductDetailCtrl', function($scope, product, reviews, cart, use
     $scope.isUser = function(){
         console.log("i am user", user);
         console.log("i am cart", cart);
-        if(cart){
+        if(user){
             return true;
         }
         else {
@@ -104,5 +127,12 @@ app.controller('ProductDetailCtrl', function($scope, product, reviews, cart, use
 
         }
 
+    };
+
+    $scope.updateRating = function(){
+        $scope.ratingArr=[];
+        for(var i=0; i<$scope.rating; i++){
+            $scope.ratingArr.push(i+1);
+        }
     };
 });
