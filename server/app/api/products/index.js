@@ -13,6 +13,11 @@ router.get('/', function(req, res, next) { //next here
 });
 
 router.post('/', function(req, res, next) { //next here
+    if(!req.user.isAdmin){
+      var err = new Error('Admins Only');
+      err.status = 403;
+      return next(err);
+    }
     var newProduct={};
     if(typeof req.body.title!=='undefined') newProduct.title = req.body.title;
     if(typeof req.body.description!=='undefined') newProduct.description = req.body.description;
@@ -22,7 +27,7 @@ router.post('/', function(req, res, next) { //next here
     if(typeof req.body.photo!=='undefined') newProduct.photo = req.body.photo;
     if(typeof req.body.sqFootage!=='undefined') newProduct.sqFootage = req.body.sqFootage;
     Product.create(newProduct).then(function(product) {
-        res.json(product);
+        res.status(201).json(product);
     })
     .then(null, next);
 });
@@ -68,6 +73,6 @@ router.put('/:id', function(req, res, next) { //next here
     if(typeof req.body.sqFootage!=='undefined') req.productParm.sqFootage = req.body.sqFootage;
     req.productParm.save().then(function(product) {
         //check status code
-        res.status(product).json(product);
+        return res.status(200).json(product);
     }).then(null, next);
 });
