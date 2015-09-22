@@ -32,7 +32,7 @@
           <!-- <li class="list-group-item clickable crop" ng-repeat="product in products" ui-sref="admin.product({productId:product._id})"> -->
           <li class="list-group-item clickable crop" ng-repeat="product in filteredProducts" ng-click="goToProduct(product._id)">
             <div class="col-xs-1">
-              <img src="{{product.photo}}" alt="{{product.title}}"/>
+              <img src="{{product.photo}}" alt="{{product.title}}">
             </div>
             <div class="col-xs-9">
               <h4>{{product.title}}</h4> {{product.description}}
