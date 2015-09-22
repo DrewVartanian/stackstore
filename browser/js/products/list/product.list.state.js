@@ -50,12 +50,12 @@ app.controller('ProductListCtrl', function($scope, products, cart, user, CartFac
     };
 
     $scope.toggleFilter = function(){
-        console.log('filter');
         $scope.showFilter=!$scope.showFilter;
     };
 
     $scope.filterHead=function(filt){
         $scope.search='';
+        $scope.showFilter=false;
         $scope.filter(filt);
     };
 

@@ -52,6 +52,8 @@ Main Components
 	background-color: $color-1;
 	float:left;
 	z-index: 99;
+	opacity: 0.95;
+  filter: alpha(opacity=95);
 }
 
 .cd-header {
