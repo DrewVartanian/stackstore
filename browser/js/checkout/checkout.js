@@ -47,7 +47,7 @@ app.controller('CheckOutController', function(MemberFactory, $scope, $state, car
 
     $scope.paymentSubmit = function() {
 
-        MemberFactory.editOrder(user._id, $scope.cart, $scope.amount, $scope.customer, $scope.promo).then(function(cart) {
+        MemberFactory.editOrder($scope.cart, $scope.amount, $scope.customer, $scope.promo).then(function(cart) {
             $state.go("membersOnly.view");
         });
     };

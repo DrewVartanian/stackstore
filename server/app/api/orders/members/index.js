@@ -103,20 +103,55 @@ router.get('/:userId/cart', function(req, res, next) {
 /api/orders/members/:userId/checkout
 */
 
-router.put('/:userId/checkout', function(req, res, next) {
-    Order.findOne({
-        user: req.userId,
-        date: null
-    }).populate('items.productId').exec().then(function(cart) {
-        cart.date = new Date();
-        return cart.save();
-    }).then(function(order) {
+router.put('/checkout', function(req, res, next) {
+    var pOrder;
+    var orders = req.body.orders;
+    if(!orders._id){
+        console.log("guest");
+        var guestOrder = {
+            session:'123',
+            items: [],
+            date: new Date(),
+            promoCode: req.promoCode
+        };
+        var guestProduct;
+        orders.items.forEach(function(item){
+            guestProduct={
+                productId:item.productId._id,
+                price: item.price,
+                quantity: item.quantity
+            };
+            guestOrder.items.push(guestProduct);
+        });
+        pOrder = Order.create(guestOrder);
+    }else{
+        console.log("logged in user");
+        pOrder = Order.findOne({
+            user: req.user._id,
+            date: null
+        }).populate('items.productId').exec()
+        .then(function(cart) {
+            cart.date = new Date();
+            cart.items.forEach(function(item){
+                orders.items.forEach(function(clientItem){
+                    if(item.productId._id.toString()===clientItem.productId._id.toString()){
+                        item.price=clientItem.price;
+                        item.quantity=clientItem.quantity;
+                    }
+                });
+            });
+            return cart.save();
+        }).then(function(cart){
+            orders = cart;
+        });
+    }
+    pOrder.then(function(order) {
         //email logic
         var copy = emailTemplate;
         var customizedTemplate = ejs.render(copy, {
             "name": req.body.name,
             "email": req.body.email,
-            "orders": req.body.orders,
+            "orders": orders.items,
             "totalPrice": req.body.total
         });
 
