@@ -31,6 +31,17 @@ app.controller('ProductDetailCtrl', function($scope, product, reviews, cart, use
     $scope.product = product;
     $scope.reviews = reviews;
     $scope.ratingArr=[];
+    $scope.catString='';
+    product.categories.forEach(function(cat,index){
+        console.log('index: '+index);
+        cat=cat.replace(/\w\S*/g, function(txt) {
+            return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+        });
+        $scope.catString+=cat;
+        if(index!==product.categories.length-1){
+            $scope.catString+=' | ';
+        }
+    });
     console.log($scope.reviews);
     var avg = 0;
     reviews.forEach(function(review){
