@@ -82,7 +82,7 @@ router.get('/:userId/history', function(req, res, next) {
         date: {
             $ne: null
         }
-    }).populate('items.productId').exec().then(function(orders) {
+    }).populate('promoCode items.productId').exec().then(function(orders) {
         res.status(200).json(orders);
     }).then(null, next);
 });
@@ -107,12 +107,11 @@ router.put('/checkout', function(req, res, next) {
     var pOrder;
     var orders = req.body.orders;
     if(!orders._id){
-        console.log("guest");
         var guestOrder = {
             session:'123',
             items: [],
             date: new Date(),
-            promoCode: req.promoCode
+            promoCode: req.body.promoCode
         };
         var guestProduct;
         orders.items.forEach(function(item){
@@ -125,13 +124,13 @@ router.put('/checkout', function(req, res, next) {
         });
         pOrder = Order.create(guestOrder);
     }else{
-        console.log("logged in user");
         pOrder = Order.findOne({
             user: req.user._id,
             date: null
         }).populate('items.productId').exec()
         .then(function(cart) {
             cart.date = new Date();
+            cart.promoCode = req.body.promoCode;
             cart.items.forEach(function(item){
                 orders.items.forEach(function(clientItem){
                     if(item.productId._id.toString()===clientItem.productId._id.toString()){
@@ -141,11 +140,12 @@ router.put('/checkout', function(req, res, next) {
                 });
             });
             return cart.save();
-        }).then(function(cart){
-            orders = cart;
+        }).then(function(savedCart){
+            orders = savedCart;
         });
     }
     pOrder.then(function(order) {
+        //value here is undefined
         //email logic
         var copy = emailTemplate;
         var customizedTemplate = ejs.render(copy, {

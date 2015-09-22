@@ -47,7 +47,8 @@ app.controller('CheckOutController', function(MemberFactory, $scope, $state, car
 
     $scope.paymentSubmit = function() {
 
-        MemberFactory.editOrder($scope.cart, $scope.amount, $scope.customer, $scope.promo).then(function(cart) {
+        MemberFactory.editOrder($scope.cart, $scope.amount, $scope.customer, $scope.promo).then(function(newOrder) {
+
             if(!user) localStorage.clear();
             CartFactory.getCartItemNum();
             if(!user){
@@ -63,23 +64,9 @@ app.controller('CheckOutController', function(MemberFactory, $scope, $state, car
 
     $scope.applyCode = function() {
         PromosFactory.fetchByCode($scope.promoCode).then(function(promo) {
-            console.log('promo', promo);
             if (promo===null) $scope.notPromo = true;
             else $scope.notPromo = false;
 
-            // var itemsToDiscount = $scope.cart.items;
-
-            // if (promo.categories.length>0) {
-            //     itemsToDiscount = itemsToDiscount.filter(function(item) {
-            //         item.categories.forEach(function(cat) {
-            //             return promo.categories.indexOf(cat) > 0;
-            //         });
-            //     });
-            // }
-            // if (promo.products.length>0) {
-
-            // }
-            // else {
                 $scope.cart.items.forEach(function(item) {
                     if(promo.categories.length>0) {
                         promo.categories.forEach(function(cat) {
@@ -98,7 +85,7 @@ app.controller('CheckOutController', function(MemberFactory, $scope, $state, car
                     }
                     
                 });
-                console.log($scope.cart);
+                
                 $scope.amount = $scope.getTotal();
                 
             
