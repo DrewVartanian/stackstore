@@ -126,7 +126,10 @@ gulp.task('seedDB', function () {
 
 gulp.task('buildCSSProduction', function () {
     return gulp.src('./browser/scss/main.scss')
-        .pipe(sass())
+        .pipe(sass({
+            errLogToConsole: true,
+            includePaths: require('node-bourbon').includePaths     //import bourbon here
+        }))
         .pipe(rename('style.css'))
         .pipe(minifyCSS())
         .pipe(gulp.dest('./public'))
