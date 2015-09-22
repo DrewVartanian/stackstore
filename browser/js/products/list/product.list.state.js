@@ -71,10 +71,10 @@ app.controller('ProductListCtrl', function($scope, products, cart, user, CartFac
             var re=new RegExp($scope.search,"i");
             var match = (prod.categories.indexOf(filt)!==-1||all);
             match = match&&(re.test(prod.title)||re.test(prod.description));
-            if($scope.minPrice!=='') match=match&&$scope.minPrice<prod.price;
-            if($scope.maxPrice!=='') match=match&&$scope.maxPrice>prod.price;
-            if($scope.minFt!=='') match=match&&$scope.minFt<prod.sqFootage;
-            if($scope.maxFt!=='') match=match&&$scope.maxFt>prod.sqFootage;
+            if($scope.minPrice!=='') match=match&&$scope.minPrice<=prod.price;
+            if($scope.maxPrice!=='') match=match&&$scope.maxPrice>=prod.price;
+            if($scope.minFt!=='') match=match&&$scope.minFt<=prod.sqFootage;
+            if($scope.maxFt!=='') match=match&&$scope.maxFt>=prod.sqFootage;
             if($scope.stock) match=match&&prod.inventoryQuantity;
             return match;
         });
