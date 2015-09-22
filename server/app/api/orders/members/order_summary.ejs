@@ -10,10 +10,10 @@
   </p>
      <ul>
       <% for(var i=0; i<orders.length; i++) {%>
-         <li> Home <%= i+1 %> :  qty: <%= orders[i].quantity %>, subtotal: $ <%= Math.round(orders[i].quantity * orders[i].price) %></li>
+         <li> <%= orders[i].productId.title %> :  qty: <%= orders[i].quantity %>, subtotal: $ <%= Math.round(orders[i].quantity * orders[i].price*100)/100 %></li>
       <% } %>
     </ul>
-    <p>Total: $ <%= totalPrice %> </p>
+    <p>Total: $ <%= Math.round(totalPrice*100)/100 %> </p>
   <p>
     Thank you for shopping with us. 
     Enjoy your new home! (:
