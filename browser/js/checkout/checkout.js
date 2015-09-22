@@ -60,19 +60,41 @@ app.controller('CheckOutController', function(MemberFactory, $scope, $state, car
             if (promo===null) $scope.notPromo = true;
             else $scope.notPromo = false;
 
+            // var itemsToDiscount = $scope.cart.items;
 
+            // if (promo.categories.length>0) {
+            //     itemsToDiscount = itemsToDiscount.filter(function(item) {
+            //         item.categories.forEach(function(cat) {
+            //             return promo.categories.indexOf(cat) > 0;
+            //         });
+            //     });
+            // }
+            // if (promo.products.length>0) {
 
-            if (promo.categories.length>0) console.log('has categories!');
-            if (promo.products.length>0) console.log('has products!');
-            else {
-                console.log('for all products');
+            // }
+            // else {
                 $scope.cart.items.forEach(function(item) {
-                    item.price = PromosFactory.discount(item.price, promo);
+                    if(promo.categories.length>0) {
+                        promo.categories.forEach(function(cat) {
+                            if(item.productId.categories.indexOf(cat) > -1) {
+                                item.price = PromosFactory.discount(item.price, promo);
+                            }
+                        });
+                    }
+                    else if(promo.products.length>0) {
+                        if(promo.products.indexOf(item.productId._id)> -1) {
+                            item.price = PromosFactory.discount(item.price, promo);
+                        }
+                    }
+                    else {
+                        item.price = PromosFactory.discount(item.price, promo);
+                    }
+                    
                 });
                 console.log($scope.cart);
                 $scope.amount = $scope.getTotal();
                 
-            }
+            
 
             $scope.cart.items.forEach(function(item){
                 item.total=item.price*item.quantity;
