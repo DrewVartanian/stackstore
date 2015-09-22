@@ -8,7 +8,7 @@
                 <a ui-sref-active="active" ui-sref="{{ item.state }}">{{ item.label }}</a>
             </li>
             <li>
-                <a ui-sref-active="active" ng-show="isLoggedIn() && user.isAdmin"ui-sref="admin">Admin</a>
+                <a ui-sref-active="active" ng-show="isLoggedIn() && user.isAdmin"ui-sref="admin.products">Admin</a>
             </li>
         </ul>
         <i class="fa fa-shopping-cart fa-2x" ui-sref='cart'><p class="cartNum">{{cartLength.length}}</p></i>
