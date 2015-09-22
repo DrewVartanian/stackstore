@@ -21,7 +21,8 @@
                     <h3 class="panel-title">Add a Promo Code</h3>
                 </div>
                 <div class='row padding'>
-                    <button class='btn btn-default col-md-3'>See promo codes</button>
+                    <button class='btn btn-default col-md-3' ng-hide="showPromo" ng-click="showPromoCodes()">See Promo Codes</button>
+                    <button class='btn btn-default col-md-3' ng-show="showPromo" ng-click="hidePromoCodes()">Hide Promo Codes</button>
                     <div class='form-group col-md-6'>
                         <input type='text' ng-model='promoCode' class='form-control' id='promoCode' placeholder='Enter Promo Code' autofocus/>
                     </div>
@@ -34,6 +35,22 @@
             <h1>Your Total: {{ amount | currency }}</h1>
         </div>
     </div>
+    <ul class="list-group top-buff" ng-show="showPromo">
+      <li class="list-group-item clickable crop" ng-repeat="promo in promos" ng-click="clickCode(promo)">
+        <div class="col-xs-2">
+          <img src="http://freemilestraveler.com/wp-content/uploads/2014/12/free-promo-codes.jpg"/>
+        </div>
+        <div class="col-xs-6">
+          <h4>{{promo.code}}</h4> {{promo.description}}
+        </div>
+        <div class="col-xs-2">
+          <h5>Date created:</h5>
+          {{promo.creationDate | date}}
+          <h5>Expires: </h5>
+          {{promo.expirationDate | date}}
+        </div>
+      </li>
+    </ul>
     <form role="form" name="customerForm" ng-submit="customerForm.$valid && paymentSubmit()">
         <!-- <div class="row"> -->
         <div class="row">
