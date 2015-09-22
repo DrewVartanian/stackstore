@@ -82,7 +82,7 @@ router.get('/:userId/history', function(req, res, next) {
         date: {
             $ne: null
         }
-    }).populate('items.productId').exec().then(function(orders) {
+    }).populate('promoCode items.productId').exec().then(function(orders) {
         res.status(200).json(orders);
     }).then(null, next);
 });
