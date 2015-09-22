@@ -7,7 +7,9 @@ app.config(function($stateProvider) {
         resolve: {
             promo: function(PromosFactory, $stateParams) {
                 if ($stateParams.promoId === 'new') return {};
-                return PromosFactory.fetch($stateParams.promoId);
+                console.log('in promo factory');
+                console.log($stateParams.promoId);
+                return PromosFactory.fetchById($stateParams.promoId);
             }
         },
         // The following data.authenticate is read by an event listener
@@ -20,7 +22,9 @@ app.config(function($stateProvider) {
 });
 
 app.controller('AdminPromoController', function($scope, promo, AdminPromoFactory, $stateParams, $state) {
+    console.log('promo', promo);
     $scope.promo = promo;
+    
     $scope.newPromo = ($stateParams.promoId === 'new');
     $scope.deletePromo = function() {
         AdminPromoFactory.deletePromo($stateParams.promoId).then(function() {

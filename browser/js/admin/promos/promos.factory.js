@@ -5,6 +5,7 @@ app.factory('PromosFactory', function($http) {
     var fetchAll = function() {
         return $http.get('/api/promos/')
             .then(function(res) {
+                console.log(res.data);
                 return res.data;
             });
     };
