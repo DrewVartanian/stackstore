@@ -33,7 +33,6 @@ app.controller('ProductDetailCtrl', function($scope, product, reviews, cart, use
     $scope.ratingArr=[];
     $scope.catString='';
     product.categories.forEach(function(cat,index){
-        console.log('index: '+index);
         cat=cat.replace(/\w\S*/g, function(txt) {
             return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
         });
@@ -42,7 +41,6 @@ app.controller('ProductDetailCtrl', function($scope, product, reviews, cart, use
             $scope.catString+=' | ';
         }
     });
-    console.log($scope.reviews);
     var avg = 0;
     reviews.forEach(function(review){
         avg+=review.rating;
@@ -65,7 +63,13 @@ app.controller('ProductDetailCtrl', function($scope, product, reviews, cart, use
     var generateUsernames = function() {
         $scope.reviews.forEach(function(review) {
             var re = /^(.*)@/;
-            var name = review.user.email.match(re)[1];
+            var name;
+            if(review.user){
+                name = review.user.email.match(re)[1];
+            }else{
+                name = 'Anonymous';
+                review.user = {};
+            }
             review.user.email = name;
 
         });
@@ -79,7 +83,6 @@ app.controller('ProductDetailCtrl', function($scope, product, reviews, cart, use
         for (var i = 0; i < num; i++) {
             array.push(i);
         }
-        console.log("generatArray", array);
         return array;
     };
 
@@ -87,7 +90,6 @@ app.controller('ProductDetailCtrl', function($scope, product, reviews, cart, use
 
         return CartFactory.addToCart(cart, user, product)
         .then(function () {
-            console.log("Item successfully added");
             CartFactory.getCartItemNum();
             $state.go('cart');
         });
@@ -95,8 +97,6 @@ app.controller('ProductDetailCtrl', function($scope, product, reviews, cart, use
     };
 
     $scope.isUser = function(){
-        console.log("i am user", user);
-        console.log("i am cart", cart);
         if(user){
             return true;
         }
@@ -107,7 +107,6 @@ app.controller('ProductDetailCtrl', function($scope, product, reviews, cart, use
     };
 
     $scope.removeReview = function(review){
-        console.log("i am review", review);
         ProductFactory.deleteReviews(review._id);
         $state.reload();
     };
