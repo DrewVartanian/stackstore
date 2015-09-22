@@ -6,6 +6,7 @@ var Review = require('mongoose').model('Review');
 
 //
 router.delete('/:id', function(req, res, next){
+    if(!req.user|| !req.user.isAdmin) res.sendStatus(403);
     Review.findById(req.params.id).then(function(review){
         review.remove();
         res.sendStatus(204);
