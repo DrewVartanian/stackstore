@@ -29,6 +29,12 @@ app.controller('ProductListCtrl', function($scope, products, cart, user, CartFac
     $scope.filteredProducts = products;
     $scope.showFilter=false;
     $scope.headFilt='';
+    $scope.search='';
+    $scope.minPrice='';
+    $scope.maxPrice='';
+    $scope.minFt='';
+    $scope.maxFt='';
+    $scope.stock=false;
 
     $scope.addToCart = function(product) {
         CartFactory.addToCart(cart, user, product)
@@ -48,18 +54,24 @@ app.controller('ProductListCtrl', function($scope, products, cart, user, CartFac
         $scope.showFilter=!$scope.showFilter;
     };
 
-    $scope.setHeadFilt = function(filt){
-        console.log('SET FILTER');
+    $scope.filterHead=function(filt){
+        $scope.search='';
+        $scope.filter(filt);
+    };
+
+    $scope.filter = function(filt){
         $scope.headFilt=filt;
-        if(filt===''){
-            $scope.filteredProducts = products;
-        }else{
-            console.log(filt);
-            $scope.filteredProducts = $scope.products.filter(function(prod){
-                console.log(prod.categories.indexOf(filt)!==-1);
-                return prod.categories.indexOf(filt)!==-1;
-            });
-            console.dir($scope.filteredProducts);
-        }
+        var all = filt===''?true:false;
+        $scope.filteredProducts = $scope.products.filter(function(prod){
+            var re=new RegExp($scope.search,"i");
+            var match = (prod.categories.indexOf(filt)!==-1||all);
+            match = match&&(re.test(prod.title)||re.test(prod.description));
+            if($scope.minPrice!=='') match=match&&$scope.minPrice<prod.price;
+            if($scope.maxPrice!=='') match=match&&$scope.maxPrice>prod.price;
+            if($scope.minFt!=='') match=match&&$scope.minFt<prod.sqFootage;
+            if($scope.maxFt!=='') match=match&&$scope.maxFt>prod.sqFootage;
+            if($scope.stock) match=match&&prod.inventoryQuantity;
+            return match;
+        });
     };
 });

@@ -2,9 +2,9 @@
     <div class="cd-tab-filter-wrapper">
         <div class="cd-tab-filter">
             <ul class="cd-filters">
-                <a ng-class="{selected: headFilt===''}" data-type="all" ng-click="setHeadFilt('')">All</a>
-                <a ng-class="{selected: headFilt==='featured'}" data-type="color-1" ng-click="setHeadFilt('featured')">Featured</a>
-                <a ng-class="{selected: headFilt==='sale'}" data-type="color-2" ng-click="setHeadFilt('sale')">On Sale</a>
+                <a ng-class="{selected: headFilt===''}" data-type="all" ng-click="filterHead('')">All</a>
+                <a ng-class="{selected: headFilt==='featured'}" data-type="color-1" ng-click="filterHead('featured')">Featured</a>
+                <a ng-class="{selected: headFilt==='sale'}" data-type="color-2" ng-click="filterHead('sale')">On Sale</a>
             </ul>
             <!-- cd-filters -->
         </div>
@@ -13,8 +13,21 @@
     <!-- cd-tab-filter-wrapper -->
 
     <section>
-        <div class="filterbar" ng-show="showFilter">
-        </div>
+        <ul class="list-group no-margin">
+            <li class="list-group-item filterbar" ng-show="showFilter">
+                <h4 class="white-text">In Stock: <input type="checkbox" ng-model="stock" ng-change="filter('{{headFilt}}')"></h4>
+                <h4 class="white-text">Search:</h4>
+                <input type="text" ng-model="search" ng-change="filter('{{headFilt}}')">
+                <h4 class="white-text">Min Price:</h4>
+                <input type="text" ng-model="minPrice" ng-change="filter('{{headFilt}}')">
+                <h4 class="white-text">Max Price:</h4>
+                <input type="text" ng-model="maxPrice" ng-change="filter('{{headFilt}}')">
+                <h4 class="white-text">Min Sq Ft:</h4>
+                <input type="text" ng-model="minFt" ng-change="filter('{{headFilt}}')">
+                <h4 class="white-text">Max Sq Ft:</h4>
+                <input type="text" ng-model="maxFt" ng-change="filter('{{headFilt}}')">
+            </li>
+        </ul>
         <ul class="list-group no-margin">
           <!-- <li class="list-group-item clickable crop" ng-repeat="product in products" ui-sref="admin.product({productId:product._id})"> -->
           <li class="list-group-item clickable crop" ng-repeat="product in filteredProducts" ng-click="goToProduct(product._id)">
