@@ -67,7 +67,7 @@ var transporter = nodemailer.createTransport({
 
 
 router.param('userId', function(req, res, next, userId) {
-    if (!req.user || userId !== req.user._id.toString()) {
+    if (!req.user || (userId !== req.user._id.toString() && !req.user.isAdmin)) {
         var err = new Error('Wrong user');
         err.status = 403;
         next(err);
