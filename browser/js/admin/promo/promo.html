@@ -1,32 +1,56 @@
 <h2>Edit Promo Codes:</h2>
+<br>
 <form name='editPromoForm' ng-submit="editPromoForm.$valid && editPromo()">
-<div>
-    <button class="btn" type='submit'>Save</button>
-    <button class="btn" type='button' ui-sref='admin.promos'>Cancel</button>
-    <button class="btn btn-danger" type='button' ng-click='deletePromo()' ng-hide='newPromo'>Delete</button>
-</div>
-<div class="col-xs-3">
-  <br>
-  <img src="http://s1.bmdstatic.com/images/promo/HP-Z400-Workstation-Icon-Promo.gif"/>
-</div>
-<div class="col-xs-8">
-  <div class="col-xs-12">
-    <h3>Code: <input type="text" ng-model="promo.code"></h3>
-  </div>
-  <div class="col-xs-6">
-    <h3>Type: <input class="witdth50" type="text" ng-model="promo.type"></h3>
-  </div>
-  <div class="col-xs-6">
-    <h3>Value Off: <input class="witdth50" type="text" ng-model="promo.valueOff"></h3>
-  </div>
-  <div class="col-xs-6">
-    <h3>Products: <input class="witdth50" type="text" ng-model="promo.products"></h3>
-  </div>
-  <div class="col-xs-12">
-    <h3>Categories: <input type="text" ng-model="promo.categories"></h3>
-    <h3>Expiration:</h3> <input type="date"  ng-model='htmlExpire'/> 
-    <br>
-    <br>
-  </div>
-</div>
+    <div>
+        <button class="btn" type='submit'>Save</button>
+        <button class="btn" type='button' ui-sref='admin.promos'>Cancel</button>
+        <button class="btn btn-danger" type='button' ng-click='deletePromo()' ng-hide='newPromo'>Delete</button>
+    </div>
+    <ul class='list-group top-buff'>
+        <li class='list-group-item'>
+            <div class='row'>
+                <div class="col-xs-3">
+                    <br>
+                    <img src="http://s1.bmdstatic.com/images/promo/HP-Z400-Workstation-Icon-Promo.gif" />
+                </div>
+                <div class="col-xs-8">
+                    <div class="col-xs-12">
+                      <div class='form-group'>
+                        <label>Code: </label>
+                        <input type="text" class='form-control' ng-model="promo.code">
+                    </div>
+                  </div>
+                    <div class="col-xs-6">
+                      <div class='form-group'>
+                        <label>Type: </label>
+                        <input class="width50 form-control" type="text" ng-model="promo.type">
+                      </div>
+                    </div>
+                    <div class="col-xs-6">
+                      <div class='form-group'>
+                        <label>Value Off: </label>
+                        <input class="width50 form-control" type="text" ng-model="promo.valueOff">
+                      </div>
+                    </div>
+                    <div class="col-xs-6">
+                      <div class='form-group'>
+                        <label>Products: </label>
+                        <input class="width50 form-control" type="text" ng-model="promo.products"></div>
+                    </div>
+                    <div class="col-xs-12">
+                      <div class='form-group'>
+                        <label>Categories: </label>
+                        <input type="text" class="form-control" ng-model="promo.categories">
+                      </div>
+                      <div class='form-group'>
+                        <label>Expiration:</label>
+                        <input type="date" class='form-control width50' ng-model='htmlExpire' />
+                      </div>
+                        <br>
+                        <br>
+                    </div>
+                </div>
+            </div>
+        </li>
+    </ul>
 </form>
