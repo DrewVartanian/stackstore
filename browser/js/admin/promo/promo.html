@@ -15,21 +15,37 @@
                 </div>
                 <div class="col-xs-8">
                     <div class="col-xs-12">
-                        <h3>Code: <input type="text" ng-model="promo.code"></h3>
+                      <div class='form-group'>
+                        <label>Code: </label>
+                        <input type="text" class='form-control' ng-model="promo.code">
+                    </div>
+                  </div>
+                    <div class="col-xs-6">
+                      <div class='form-group'>
+                        <label>Type: </label>
+                        <input class="width50 form-control" type="text" ng-model="promo.type">
+                      </div>
                     </div>
                     <div class="col-xs-6">
-                        <h3>Type: <input class="width50" type="text" ng-model="promo.type"></h3>
+                      <div class='form-group'>
+                        <label>Value Off: </label>
+                        <input class="width50 form-control" type="text" ng-model="promo.valueOff">
+                      </div>
                     </div>
                     <div class="col-xs-6">
-                        <h3>Value Off: <input class="width50" type="text" ng-model="promo.valueOff"></h3>
-                    </div>
-                    <div class="col-xs-6">
-                        <h3>Products: <input class="width50" type="text" ng-model="promo.products"></h3>
+                      <div class='form-group'>
+                        <label>Products: </label>
+                        <input class="width50 form-control" type="text" ng-model="promo.products"></div>
                     </div>
                     <div class="col-xs-12">
-                        <h3>Categories: <input type="text" ng-model="promo.categories"></h3>
-                        <h3>Expiration:</h3>
-                        <input type="date" ng-model='htmlExpire' />
+                      <div class='form-group'>
+                        <label>Categories: </label>
+                        <input type="text" class="form-control" ng-model="promo.categories">
+                      </div>
+                      <div class='form-group'>
+                        <label>Expiration:</label>
+                        <input type="date" class='form-control width50' ng-model='htmlExpire' />
+                      </div>
                         <br>
                         <br>
                     </div>
