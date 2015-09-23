@@ -22,17 +22,16 @@ app.config(function($stateProvider) {
 });
 
 app.controller('AdminPromoController', function($scope, promo, AdminPromoFactory, $stateParams, $state) {
-    
+
     $scope.promo = promo;
     $scope.formatDateForHtml = function(date) {
         var myDate = date.match(/^(.+)T/)[1];
         return new Date(myDate);
-       
+
     };
 
-
     $scope.newPromo = ($stateParams.promoId === 'new');
-    if(!$scope.newPromo) {
+    if (!$scope.newPromo) {
         $scope.htmlExpire = $scope.formatDateForHtml(promo.expirationDate);
     }
     $scope.deletePromo = function() {
@@ -42,11 +41,11 @@ app.controller('AdminPromoController', function($scope, promo, AdminPromoFactory
     };
     $scope.editPromo = function() {
         $scope.promo.expirationDate = $scope.htmlExpire;
-        if($scope.newPromo){
+        if ($scope.newPromo) {
             AdminPromoFactory.createPromo($scope.promo).then(function() {
                 $state.go('admin.promos');
             });
-        }else{
+        } else {
             AdminPromoFactory.editPromo($scope.promo).then(function() {
                 $state.go('admin.promos');
             });
@@ -55,17 +54,17 @@ app.controller('AdminPromoController', function($scope, promo, AdminPromoFactory
 });
 
 app.factory('AdminPromoFactory', function($http) {
-   var editPromo = function(promo) {
+    var editPromo = function(promo) {
         return $http.put('/api/promos/' + promo._id, promo)
             .then(function(res) {
                 return res.data;
             });
     };
 
-    var createPromo = function(promo){
+    var createPromo = function(promo) {
         promo.creationDate = new Date();
         return $http.post('/api/promos', promo)
-            .then(function(res){
+            .then(function(res) {
                 return res.data;
             });
     };
@@ -83,4 +82,3 @@ app.factory('AdminPromoFactory', function($http) {
         deletePromo: deletePromo
     };
 });
-

@@ -38,7 +38,7 @@ router.post('/', function(req, res, next) {
     if (typeof req.body.valueOff !== 'undefined') newPromo.valueOff = req.body.valueOff;
     if (typeof req.body.type !== 'undefined') newPromo.type = req.body.type;
     if (typeof req.body.categories !== 'undefined') newPromo.categories = req.body.categories;
-    if (typeof req.body.products !== 'undefined') newPromo.code = req.body.products;
+    if (typeof req.body.products !== 'undefined') newPromo.products = req.body.products;
     Promo.create(newPromo).then(function(promo) {
             res.json(promo);
         })
