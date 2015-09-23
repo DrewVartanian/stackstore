@@ -5,8 +5,16 @@ app.config(function($stateProvider) {
         templateUrl: 'js/admin/member/member.html',
         controller: 'AdminMemberController',
         resolve: {
-            user: function(AdminMemberFactory, $stateParams) {
-                return AdminMemberFactory.getUser($stateParams.memberId);
+            user: function(AdminMemberFactory, $stateParams,MemberFactory) {
+                var retUser;
+                return AdminMemberFactory.getUser($stateParams.memberId).then(function(user){
+                    retUser=user;
+                    retUser._id=$stateParams.memberId;
+                    return MemberFactory.getOrders(user);
+                }).then(function(orders){
+                    retUser.orders=orders;
+                    return retUser;
+                });
             }
         },
         // The following data.authenticate is read by an event listener
@@ -22,6 +30,15 @@ app.controller('AdminMemberController', function($scope, user, MemberFactory, $s
     $scope.email = user.email;
     $scope.isAdmin = user.isAdmin;
     $scope.password = '';
+    $scope.orders=user.orders;
+
+    $scope.orders.forEach(function(order){
+        order.total = 0;
+        order.items.forEach(function(item){
+            item.total = item.quantity*item.price;
+            order.total += item.total;
+        });
+    });
 
     $scope.deleteUser = function() {
         AdminMemberFactory.deleteUser($stateParams.memberId).then(function() {

@@ -5,6 +5,7 @@ var _ = require('lodash');
 var mongoose = require('mongoose');
 var Order = mongoose.model('Order');
 var nodemailer = require('nodemailer');
+var Product = mongoose.model('Product');
  var fs = require('fs');
 var ejs = require('ejs');
 var emailTemplate = fs.readFileSync(__dirname +'/order_summary.ejs', 'utf8');
@@ -66,7 +67,7 @@ var transporter = nodemailer.createTransport({
 
 
 router.param('userId', function(req, res, next, userId) {
-    if (!req.user || userId !== req.user._id.toString()) {
+    if (!req.user || (userId !== req.user._id.toString() && !req.user.isAdmin)) {
         var err = new Error('Wrong user');
         err.status = 403;
         next(err);
@@ -108,7 +109,7 @@ router.put('/checkout', function(req, res, next) {
     var orders = req.body.orders;
     if(!orders._id){
         var guestOrder = {
-            session:'123',
+            session:'guest',
             items: [],
             date: new Date(),
             promoCode: req.body.promoCode
@@ -155,15 +156,30 @@ router.put('/checkout', function(req, res, next) {
             "totalPrice": req.body.total
         });
 
-        console.log("customizedTemplate type", typeof customizedTemplate);
+        //console.log("customizedTemplate type", typeof customizedTemplate);
        transporter.sendMail({
            from: 'tinyhomes.eco@gmail.com',
            to: req.body.email,
            subject: 'Tiny Home Order Summary',
            html: customizedTemplate
        });
+
+       transporter.sendMail({
+           from: 'tinyhomes.eco@gmail.com',
+           to: 'tinyhomes.eco@gmail.com',
+           subject: 'Tiny Home Order Summary',
+           html: customizedTemplate
+       });
         //sendEmail(req.body.name, req.body.email, "Tiny Home", "tinyhome@eco.org", "Tiny Home Order Summary", customizedTemplate);
 
+        req.body.orders.items.forEach(function(item){
+
+            Product.findById(item.productId._id).then(function(product){
+                product.inventoryQuantity -= item.quantity;
+                product.save();
+
+            });
+        });
         res.status(200).json(order);
     }).then(null, next);
 
