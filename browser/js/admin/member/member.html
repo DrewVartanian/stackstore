@@ -13,3 +13,43 @@
     </form>
   </li>
 </ul>
+
+<br>
+<br>
+
+<h1>Order History</h1>
+<hr style="width: 100%; color: black; height: 1px; background-color:black;" />
+<ul style="list-style-type: none">
+  <li ng-repeat="order in orders | orderBy: '-date' ">
+    <ul class="list-group">
+          <li class="list-group-item" style="background-color:lightgrey">
+        Date: {{order.date | date:'mediumDate' }}  
+
+        </li>
+<!--      <li class="list-group-item" ng-repeat="item in order.items">
+        {{item.productId.title}} {{item.price}} {{item.quantity}}
+      </li> -->
+          <li class="list-group-item clickable crop" ng-repeat="item in order.items" ui-sref="product({id:item.productId._id})">
+
+            <div class="col-xs-1">
+              <img src="{{item.productId.photo}}" alt="{{item.productId.title}}"/>
+            </div>
+            <div class="col-xs-8">
+              <h4>{{item.productId.title}}</h4> {{item.productId.description}}
+            </div>
+            <div class="col-xs-3" ng-click="$event.stopPropagation()">
+              <h5>Unit: {{item.productId.price | currency}} | Total: {{item.total  | currency}}</h5>
+              <h4>Quantity: {{item.quantity}}</h4>
+              <h4 ng-show="order.promoCode">Promo Code: {{order.promoCode.code}}</h4>
+              <br>
+              <div>
+
+              </div>
+            </div>
+          </li>
+          <li class="list-group-item" style="background-color:lightgrey">
+          Total Price: {{order.total | currency}}
+          </li>
+    </ul>
+  </li>
+</ul>
