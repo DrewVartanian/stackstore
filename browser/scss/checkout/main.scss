@@ -11,6 +11,10 @@
   font-size: 18px;
 
 }
+.center {
+  text-align: center;
+}
+
 
 .promo {
   padding: 0;
@@ -33,6 +37,7 @@
 
 .total-price {
   padding-bottom: 0;
+  padding-left: 0;
   background-color: white;
   height: 109px;
   h1 {
