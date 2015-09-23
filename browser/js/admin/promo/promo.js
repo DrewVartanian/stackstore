@@ -30,21 +30,23 @@ app.controller('AdminPromoController', function($scope, promo, AdminPromoFactory
        
     };
 
-    $scope.htmlExpire = $scope.formatDateForHtml(promo.expirationDate);
 
     $scope.newPromo = ($stateParams.promoId === 'new');
+    if(!$scope.newPromo) {
+        $scope.htmlExpire = $scope.formatDateForHtml(promo.expirationDate);
+    }
     $scope.deletePromo = function() {
         AdminPromoFactory.deletePromo($stateParams.promoId).then(function() {
             $state.go('admin.promos');
         });
     };
     $scope.editPromo = function() {
+        $scope.promo.expirationDate = $scope.htmlExpire;
         if($scope.newPromo){
             AdminPromoFactory.createPromo($scope.promo).then(function() {
                 $state.go('admin.promos');
             });
         }else{
-            $scope.promo.expirationDate = $scope.htmlExpire;
             AdminPromoFactory.editPromo($scope.promo).then(function() {
                 $state.go('admin.promos');
             });
