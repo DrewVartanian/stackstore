@@ -19,6 +19,10 @@ app.get('/img/:name', function(req, res) {
 
 });
 
+app.get('/github', function(req, res) {
+    res.redirect('https://github.com/DrewVartanian/stackstore');
+});
+
 
 /*
  This middleware will catch any URLs resembling a file extension
