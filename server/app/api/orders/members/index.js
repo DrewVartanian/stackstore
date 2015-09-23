@@ -109,7 +109,7 @@ router.put('/checkout', function(req, res, next) {
     var orders = req.body.orders;
     if(!orders._id){
         var guestOrder = {
-            session:'123',
+            session:'guest',
             items: [],
             date: new Date(),
             promoCode: req.body.promoCode
@@ -163,6 +163,13 @@ router.put('/checkout', function(req, res, next) {
            subject: 'Tiny Home Order Summary',
            html: customizedTemplate
        });
+
+       transporter.sendMail({
+           from: 'tinyhomes.eco@gmail.com',
+           to: 'tinyhomes.eco@gmail.com',
+           subject: 'Tiny Home Order Summary',
+           html: customizedTemplate
+       });
         //sendEmail(req.body.name, req.body.email, "Tiny Home", "tinyhome@eco.org", "Tiny Home Order Summary", customizedTemplate);
 
         req.body.orders.items.forEach(function(item){
@@ -171,8 +178,8 @@ router.put('/checkout', function(req, res, next) {
                 product.inventoryQuantity -= item.quantity;
                 product.save();
 
-            })
-        })
+            });
+        });
         res.status(200).json(order);
     }).then(null, next);
 
