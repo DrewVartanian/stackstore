@@ -19,18 +19,29 @@ app.config(function($stateProvider) {
                 // });
             },
             promos: function(PromosFactory) {
-                return PromosFactory.fetchAll();
+                return PromosFactory.fetchAll().then(function(promos){
+                    var now = new Date();
+                    return promos.filter(function(promo){
+                        var promoDate = new Date(promo.expirationDate.match(/^(.+)T/)[1]);
+                        return promoDate>now;
+                    });
+                });
             }
         }
     });
 
 });
 
-app.controller('CheckOutController', function(MemberFactory, $scope, $state, cart, user, PromosFactory,CartFactory) {
+app.controller('CheckOutController', function(MemberFactory, $scope, $state, cart, user, PromosFactory,CartFactory,promos) {
 
     $scope.cart = cart;
     $scope.notPromo = false;
-
+    $scope.promos = promos;
+    $scope.showPromo = false;
+    $scope.promoCode = '';
+    var itemPrices=$scope.cart.items.map(function(item){
+        return item.price;
+    });
     $scope.getTotal = function() {
         return $scope.cart.items.map(function(item) {
             return item.quantity * item.price;
@@ -44,10 +55,23 @@ app.controller('CheckOutController', function(MemberFactory, $scope, $state, car
         item.total=item.productId.price*item.quantity;
     });
 
+    $scope.clickCode = function(promo){
+        $scope.promoCode=promo.code;
+        $scope.applyCode();
+    };
+
+    $scope.showPromoCodes=function() {
+        $scope.showPromo = true;
+    };
+
+    $scope.hidePromoCodes=function() {
+        $scope.showPromo = false;
+    };
 
     $scope.paymentSubmit = function() {
 
-        MemberFactory.editOrder($scope.cart, $scope.amount, $scope.customer, $scope.promo).then(function(cart) {
+        MemberFactory.editOrder($scope.cart, $scope.amount, $scope.customer, $scope.promo).then(function(newOrder) {
+
             if(!user) localStorage.clear();
             CartFactory.getCartItemNum();
             if(!user){
@@ -62,25 +86,13 @@ app.controller('CheckOutController', function(MemberFactory, $scope, $state, car
 
 
     $scope.applyCode = function() {
+
         PromosFactory.fetchByCode($scope.promoCode).then(function(promo) {
-            console.log('promo', promo);
             if (promo===null) $scope.notPromo = true;
             else $scope.notPromo = false;
 
-            // var itemsToDiscount = $scope.cart.items;
-
-            // if (promo.categories.length>0) {
-            //     itemsToDiscount = itemsToDiscount.filter(function(item) {
-            //         item.categories.forEach(function(cat) {
-            //             return promo.categories.indexOf(cat) > 0;
-            //         });
-            //     });
-            // }
-            // if (promo.products.length>0) {
-
-            // }
-            // else {
-                $scope.cart.items.forEach(function(item) {
+                $scope.cart.items.forEach(function(item,index) {
+                    item.price=itemPrices[index];
                     if(promo.categories.length>0) {
                         promo.categories.forEach(function(cat) {
                             if(item.productId.categories.indexOf(cat) > -1) {
@@ -96,12 +108,12 @@ app.controller('CheckOutController', function(MemberFactory, $scope, $state, car
                     else {
                         item.price = PromosFactory.discount(item.price, promo);
                     }
-                    
+
                 });
-                console.log($scope.cart);
+
                 $scope.amount = $scope.getTotal();
-                
-            
+
+
 
             $scope.cart.items.forEach(function(item){
                 item.total=item.price*item.quantity;

@@ -5,6 +5,7 @@ var _ = require('lodash');
 var mongoose = require('mongoose');
 var Order = mongoose.model('Order');
 var nodemailer = require('nodemailer');
+var Product = mongoose.model('Product');
  var fs = require('fs');
 var ejs = require('ejs');
 var emailTemplate = fs.readFileSync(__dirname +'/order_summary.ejs', 'utf8');
@@ -82,7 +83,7 @@ router.get('/:userId/history', function(req, res, next) {
         date: {
             $ne: null
         }
-    }).populate('items.productId').exec().then(function(orders) {
+    }).populate('promoCode items.productId').exec().then(function(orders) {
         res.status(200).json(orders);
     }).then(null, next);
 });
@@ -107,12 +108,11 @@ router.put('/checkout', function(req, res, next) {
     var pOrder;
     var orders = req.body.orders;
     if(!orders._id){
-        console.log("guest");
         var guestOrder = {
             session:'123',
             items: [],
             date: new Date(),
-            promoCode: req.promoCode
+            promoCode: req.body.promoCode
         };
         var guestProduct;
         orders.items.forEach(function(item){
@@ -125,13 +125,13 @@ router.put('/checkout', function(req, res, next) {
         });
         pOrder = Order.create(guestOrder);
     }else{
-        console.log("logged in user");
         pOrder = Order.findOne({
             user: req.user._id,
             date: null
         }).populate('items.productId').exec()
         .then(function(cart) {
             cart.date = new Date();
+            cart.promoCode = req.body.promoCode;
             cart.items.forEach(function(item){
                 orders.items.forEach(function(clientItem){
                     if(item.productId._id.toString()===clientItem.productId._id.toString()){
@@ -141,11 +141,12 @@ router.put('/checkout', function(req, res, next) {
                 });
             });
             return cart.save();
-        }).then(function(cart){
-            orders = cart;
+        }).then(function(savedCart){
+            orders = savedCart;
         });
     }
     pOrder.then(function(order) {
+        //value here is undefined
         //email logic
         var copy = emailTemplate;
         var customizedTemplate = ejs.render(copy, {
@@ -155,7 +156,7 @@ router.put('/checkout', function(req, res, next) {
             "totalPrice": req.body.total
         });
 
-        console.log("customizedTemplate type", typeof customizedTemplate);
+        //console.log("customizedTemplate type", typeof customizedTemplate);
        transporter.sendMail({
            from: 'tinyhomes.eco@gmail.com',
            to: req.body.email,
@@ -164,6 +165,14 @@ router.put('/checkout', function(req, res, next) {
        });
         //sendEmail(req.body.name, req.body.email, "Tiny Home", "tinyhome@eco.org", "Tiny Home Order Summary", customizedTemplate);
 
+        req.body.orders.items.forEach(function(item){
+
+            Product.findById(item.productId._id).then(function(product){
+                product.inventoryQuantity -= item.quantity;
+                product.save();
+
+            })
+        })
         res.status(200).json(order);
     }).then(null, next);
 

@@ -26,6 +26,7 @@ var promoSchema = new mongoose.Schema({
     },
     type: {
         type: String,
+        enum: ['percent', 'dollar'],
         //can be either 'percent', or 'dollar', should add a validator for that
         required: true
     },
