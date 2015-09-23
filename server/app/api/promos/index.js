@@ -5,10 +5,18 @@ var Promo = require('mongoose').model('Promo');
 
 router.get('/', function(req, res, next) { //next here
 
-    Promo.find().then(function(promos) {
+    if(req.query.code) {
+        Promo.findOne({code: req.query.code}).then(function(promo) {
+            res.json(promo);
+        })
+        .then(null, next);
+    }
+    else {
+        Promo.find().then(function(promos) {
             res.json(promos);
         })
         .then(null, next);
+    }
 
 });
 
@@ -21,14 +29,15 @@ router.get('/:id', function(req, res, next) { //next here
 
 });
 
-router.get('/code/:code', function(req, res, next) { //next here
+// router.get('/code', function(req, res, next) { //next here
+//     console.log('CCCCCOOOOOOOODDDDDEEEE', req.query.code);
 
-    Promo.findOne({code: req.params.code}).then(function(promo) {
-            res.json(promo);
-        })
-        .then(null, next);
+//     Promo.findOne({code: req.query.code}).then(function(promo) {
+//             res.json(promo);
+//         })
+//         .then(null, next);
 
-});
+// });
 
 router.post('/', function(req, res, next) {
     var newPromo = {};

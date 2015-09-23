@@ -18,7 +18,7 @@ app.factory('PromosFactory', function($http) {
     };
 
     var fetchByCode = function(code) {
-        return $http.get('/api/promos/code/'+code)
+        return $http.get('/api/promos/', {params: {code: code}})
             .then(function(res) {
                 return res.data;
             });
